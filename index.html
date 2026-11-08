@@ -610,13 +610,14 @@
     <div class="card">
       <div class="card-header">
         <h2>1.2. Constructor Interactivo del Mapa de Fuentes (Entregable 1B)</h2>
-        <div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="resetSourceMap()" title="Mezclar aleatoriamente el orden de las opciones en los menús desplegables">🔀 Mezclar / Reordenar</button>
           <button class="btn btn-primary" onclick="verifySourceMap()">🔍 Verificar Mapa de Fuentes</button>
           <button id="btn-ref-solution" class="btn btn-success disabled-btn" onclick="autofillSourceMap()" disabled>🔒 Cargar Solución de Referencia (Disponible tras 3 intentos fallidos)</button>
         </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        Selecciona para cada fuente su área custodia, formato/latencia, fricción principal detectada, nivel de sensibilidad y el patrón de integración Data Fabric adecuado. Al pulsar <strong>"Verificar Mapa de Fuentes"</strong> sabrás cuáles campos son correctos (en verde) y cuáles requieren revisión (en rojo).
+        Selecciona para cada fuente su área custodia, formato/latencia, fricción principal detectada, nivel de sensibilidad y el patrón de integración Data Fabric adecuado. Las opciones de cada menú se presentan en <strong>orden aleatorio</strong> para poner a prueba tu criterio técnico. Al pulsar <strong>"Verificar Mapa de Fuentes"</strong> sabrás cuáles campos son correctos (en verde) y cuáles requieren revisión (en rojo).
       </p>
       <div class="table-wrap">
         <table>
@@ -1568,49 +1569,85 @@ const SOURCE_MAP_DATA = [
   }
 ];
 
+// Función para barajar aleatoriamente un array (Fisher-Yates)
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 let sourceMapAttempts = 0;
 
 function initSourceMap() {
   const tbody = document.getElementById('source-map-tbody');
+  if (!tbody) return;
   let html = '';
 
   SOURCE_MAP_DATA.forEach((r, idx) => {
+    const shuffledOwners = shuffleArray(r.ownerOptions);
+    const shuffledFormats = shuffleArray(r.formatOptions);
+    const shuffledProblems = shuffleArray(r.problemOptions);
+    const shuffledSens = shuffleArray(r.sensOptions);
+    const shuffledPatterns = shuffleArray(r.patternOptions);
+
     html += `<tr>
       <td><strong>${r.name}</strong></td>
       <td>
         <select id="sm-owner-${idx}">
           <option value="">-- Seleccionar Área --</option>
-          ${r.ownerOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          ${shuffledOwners.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
         </select>
       </td>
       <td>
         <select id="sm-fmt-${idx}">
           <option value="">-- Seleccionar Formato --</option>
-          ${r.formatOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          ${shuffledFormats.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
         </select>
       </td>
       <td>
         <select id="sm-prob-${idx}">
           <option value="">-- Seleccionar Fricción --</option>
-          ${r.problemOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          ${shuffledProblems.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
         </select>
       </td>
       <td>
         <select id="sm-sens-${idx}">
           <option value="">-- Seleccionar Sensibilidad --</option>
-          ${r.sensOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          ${shuffledSens.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
         </select>
       </td>
       <td>
         <select id="sm-pat-${idx}">
           <option value="">-- Seleccionar Patrón --</option>
-          ${r.patternOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+          ${shuffledPatterns.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
         </select>
       </td>
     </tr>`;
   });
 
   tbody.innerHTML = html;
+}
+
+function resetSourceMap() {
+  sourceMapAttempts = 0;
+  const refBtn = document.getElementById('btn-ref-solution');
+  if (refBtn) {
+    refBtn.disabled = true;
+    refBtn.classList.add('disabled-btn');
+    refBtn.innerText = "🔒 Cargar Solución de Referencia (Disponible tras 3 intentos fallidos)";
+  }
+  initSourceMap();
+  const feedbackEl = document.getElementById('source-map-feedback');
+  if (feedbackEl) {
+    feedbackEl.innerHTML = `
+      <div class="banner-info" style="font-size:0.85rem;">
+        🔀 <strong>Opciones mezcladas aleatoriamente:</strong> Se ha renovado el orden de las opciones en todos los menús desplegables del Mapa de Fuentes.
+      </div>
+    `;
+  }
 }
 
 function verifySourceMap() {
