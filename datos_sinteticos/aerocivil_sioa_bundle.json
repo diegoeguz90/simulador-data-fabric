@@ -1,0 +1,465 @@
+{
+  "maestro_aerodromos": [
+    {
+      "codigo_oaci": "SKBO",
+      "codigo_iata": "BOG",
+      "alias_comunes": "BOG|EL DORADO|BOGOTA|SKBO",
+      "nombre_oficial": "Aeropuerto Internacional El Dorado",
+      "ciudad": "Bogotá D.C.",
+      "regional_aerocivil": "Regional Cundinamarca",
+      "categoria_oaci": "4F"
+    },
+    {
+      "codigo_oaci": "SKRG",
+      "codigo_iata": "MDE",
+      "alias_comunes": "MDE|RIONEGRO|JOSE MARIA CORDOVA|SKRG",
+      "nombre_oficial": "Aeropuerto Internacional José María Córdova",
+      "ciudad": "Rionegro / Medellín",
+      "regional_aerocivil": "Regional Antioquia",
+      "categoria_oaci": "4E"
+    },
+    {
+      "codigo_oaci": "SKCG",
+      "codigo_iata": "CTG",
+      "alias_comunes": "CTG|CRESPO|RAFAEL NUNEZ|CARTAGENA|SKCG",
+      "nombre_oficial": "Aeropuerto Internacional Rafael Núñez",
+      "ciudad": "Cartagena",
+      "regional_aerocivil": "Regional Atlántico / Bolívar",
+      "categoria_oaci": "4D"
+    },
+    {
+      "codigo_oaci": "SKCL",
+      "codigo_iata": "CLO",
+      "alias_comunes": "CLO|PALMASECA|ALFONSO BONILLA|CALI|SKCL",
+      "nombre_oficial": "Aeropuerto Internacional Alfonso Bonilla Aragón",
+      "ciudad": "Palmira / Cali",
+      "regional_aerocivil": "Regional Valle",
+      "categoria_oaci": "4E"
+    },
+    {
+      "codigo_oaci": "SKBQ",
+      "codigo_iata": "BAQ",
+      "alias_comunes": "BAQ|SOLEDAD|ERNESTO CORTISSOZ|BARRANQUILLA|SKBQ",
+      "nombre_oficial": "Aeropuerto Internacional Ernesto Cortissoz",
+      "ciudad": "Soledad / Barranquilla",
+      "regional_aerocivil": "Regional Atlántico",
+      "categoria_oaci": "4E"
+    }
+  ],
+  "f1_operaciones": [
+    {
+      "id_registro": "OPS-101",
+      "id_vuelo": "VUELO-5001",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "06:15",
+      "aerodromo_origen": "SKBO",
+      "aerodromo_destino": "SKRG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 148,
+      "minutos_demora": 12,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-44821",
+      "nombre_piloto": "Cap. Carlos Andrés Mejía"
+    },
+    {
+      "id_registro": "OPS-102",
+      "id_vuelo": "VUELO-5002",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "07:30",
+      "aerodromo_origen": "SKBO",
+      "aerodromo_destino": "SKCG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 172,
+      "minutos_demora": 55,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-39104",
+      "nombre_piloto": "Cap. Laura Sofía Restrepo"
+    },
+    {
+      "id_registro": "OPS-103",
+      "id_vuelo": "VUELO-5002",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "07:30",
+      "aerodromo_origen": "SKBO",
+      "aerodromo_destino": "SKCG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 172,
+      "minutos_demora": 55,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-39104",
+      "nombre_piloto": "Cap. Laura Sofía Restrepo"
+    },
+    {
+      "id_registro": "OPS-104",
+      "id_vuelo": "VUELO-5003",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "08:45",
+      "aerodromo_origen": "SKRG",
+      "aerodromo_destino": "SKBO",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 135,
+      "minutos_demora": 48,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-51209",
+      "nombre_piloto": "Cap. Jorge Eliécer Pineda"
+    },
+    {
+      "id_registro": "OPS-105",
+      "id_vuelo": "VUELO-5004",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "09:20",
+      "aerodromo_origen": "SKCL",
+      "aerodromo_destino": "SKBO",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": -15,
+      "minutos_demora": 5,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-28910",
+      "nombre_piloto": "Cap. Diana Marcela Gómez"
+    },
+    {
+      "id_registro": "OPS-106",
+      "id_vuelo": "VUELO-5005",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "10:10",
+      "aerodromo_origen": "SKBQ",
+      "aerodromo_destino": "SKBO",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 160,
+      "minutos_demora": 75,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-60112",
+      "nombre_piloto": "Cap. Mauricio Valderrama"
+    },
+    {
+      "id_registro": "OPS-107",
+      "id_vuelo": "VUELO-5005",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "10:10",
+      "aerodromo_origen": "SKBQ",
+      "aerodromo_destino": "SKBO",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 160,
+      "minutos_demora": 75,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-60112",
+      "nombre_piloto": "Cap. Mauricio Valderrama"
+    },
+    {
+      "id_registro": "OPS-108",
+      "id_vuelo": "VUELO-5006",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "11:00",
+      "aerodromo_origen": "SKCG",
+      "aerodromo_destino": "SKRG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 140,
+      "minutos_demora": "",
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-33490",
+      "nombre_piloto": "Cap. Andrés Felipe Mora"
+    },
+    {
+      "id_registro": "OPS-109",
+      "id_vuelo": "VUELO-5007",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "13:15",
+      "aerodromo_origen": "SKBO",
+      "aerodromo_destino": "SKCL",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 180,
+      "minutos_demora": 95,
+      "estado_vuelo": "Desviado",
+      "licencia_piloto": "PCA-44821",
+      "nombre_piloto": "Cap. Carlos Andrés Mejía"
+    },
+    {
+      "id_registro": "OPS-110",
+      "id_vuelo": "VUELO-5008",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "14:40",
+      "aerodromo_origen": "SKRG",
+      "aerodromo_destino": "SKBQ",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 128,
+      "minutos_demora": 18,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-71902",
+      "nombre_piloto": "Cap. Natalia Echeverri"
+    },
+    {
+      "id_registro": "OPS-111",
+      "id_vuelo": "VUELO-5009",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "16:05",
+      "aerodromo_origen": "SKBO",
+      "aerodromo_destino": "SKBQ",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 165,
+      "minutos_demora": 62,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-51209",
+      "nombre_piloto": "Cap. Jorge Eliécer Pineda"
+    },
+    {
+      "id_registro": "OPS-112",
+      "id_vuelo": "VUELO-5010",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "17:50",
+      "aerodromo_origen": "SKCL",
+      "aerodromo_destino": "SKCG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 144,
+      "minutos_demora": 8,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-28910",
+      "nombre_piloto": "Cap. Diana Marcela Gómez"
+    },
+    {
+      "id_registro": "OPS-113",
+      "id_vuelo": "VUELO-5010",
+      "fecha_local": "2026-10-15",
+      "hora_salida_local": "17:50",
+      "aerodromo_origen": "SKCL",
+      "aerodromo_destino": "SKCG",
+      "tipo_vuelo": "Comercial Regular",
+      "pasajeros_declarados": 144,
+      "minutos_demora": 8,
+      "estado_vuelo": "Aterrizado",
+      "licencia_piloto": "PCA-28910",
+      "nombre_piloto": "Cap. Diana Marcela Gómez"
+    }
+  ],
+  "f2_meteorologia": [
+    {
+      "id_reporte_met": "MET-01",
+      "codigo_estacion": "SKBO",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "11:00Z",
+      "visibilidad_metros": 8000,
+      "viento_nudos": 8,
+      "fenomeno_adverso": "Ninguno",
+      "alerta_meteo": "VERDE"
+    },
+    {
+      "id_reporte_met": "MET-02",
+      "codigo_estacion": "SKBO",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "12:30Z",
+      "visibilidad_metros": 1200,
+      "viento_nudos": 22,
+      "fenomeno_adverso": "Niebla Densa / Cizalladura",
+      "alerta_meteo": "ROJA"
+    },
+    {
+      "id_reporte_met": "MET-03",
+      "codigo_estacion": "SKRG",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "13:45Z",
+      "visibilidad_metros": 2500,
+      "viento_nudos": 18,
+      "fenomeno_adverso": "Tormenta Eléctrica (TSRA)",
+      "alerta_meteo": "AMARILLA"
+    },
+    {
+      "id_reporte_met": "MET-04",
+      "codigo_estacion": "SKCL",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "14:20Z",
+      "visibilidad_metros": 999999,
+      "viento_nudos": 6,
+      "fenomeno_adverso": "Despejado",
+      "alerta_meteo": "VERDE"
+    },
+    {
+      "id_reporte_met": "MET-05",
+      "codigo_estacion": "SKBQ",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "15:10Z",
+      "visibilidad_metros": 1800,
+      "viento_nudos": 28,
+      "fenomeno_adverso": "Ráfagas Fuertes / Lluvia",
+      "alerta_meteo": "ROJA"
+    },
+    {
+      "id_reporte_met": "MET-06",
+      "codigo_estacion": "SKCG",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "16:00Z",
+      "visibilidad_metros": 9000,
+      "viento_nudos": 12,
+      "fenomeno_adverso": "Ninguno",
+      "alerta_meteo": "VERDE"
+    },
+    {
+      "id_reporte_met": "MET-07",
+      "codigo_estacion": "SKBO",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "18:15Z",
+      "visibilidad_metros": 900,
+      "viento_nudos": 30,
+      "fenomeno_adverso": "Granizo / CB en aproximación",
+      "alerta_meteo": "ROJA"
+    },
+    {
+      "id_reporte_met": "MET-08",
+      "codigo_estacion": "SKBO",
+      "fecha_utc": "2026-10-15",
+      "hora_utc": "21:05Z",
+      "visibilidad_metros": 3200,
+      "viento_nudos": 19,
+      "fenomeno_adverso": "Lluvia Moderada",
+      "alerta_meteo": "AMARILLA"
+    }
+  ],
+  "f3_seguridad": [
+    {
+      "id_suceso": "MOR-2026-01",
+      "id_vuelo_asociado": "VUELO-5002",
+      "aerodromo_reportado": "BOG",
+      "categoria_suceso": "MET - Cizalladura en Despegue",
+      "severidad_sms": "ALTA",
+      "descripcion_evento": "Alerta windshear a 400 ft tras salida por pista 13L.",
+      "cedula_reportante": "79.845.120",
+      "nombre_reportante": "Ing. Ricardo Gómez (Controlador TWR)"
+    },
+    {
+      "id_suceso": "MOR-2026-02",
+      "id_vuelo_asociado": "VUELO-5003",
+      "aerodromo_reportado": "RIONEGRO",
+      "categoria_suceso": "ATM - Espera en Holding por Clima",
+      "severidad_sms": "MEDIA",
+      "descripcion_evento": "Demora en secuencia de salida por celda convectiva.",
+      "cedula_reportante": "43.512.890",
+      "nombre_reportante": "Catalina Vélez (Despachadora)"
+    },
+    {
+      "id_suceso": "MOR-2026-03",
+      "id_vuelo_asociado": "VUELO-5005",
+      "aerodromo_reportado": "BAQ",
+      "categoria_suceso": "RWY - Pista Húmeda con Ráfagas",
+      "severidad_sms": "",
+      "descripcion_evento": "Frenado exigente y demora en liberación de calle de rodaje.",
+      "cedula_reportante": "72.190.443",
+      "nombre_reportante": "Hernán Darío Cotes (Inspector Ramp)"
+    },
+    {
+      "id_suceso": "MOR-2026-04",
+      "id_vuelo_asociado": "VUELO-5007",
+      "aerodromo_reportado": "EL DORADO",
+      "categoria_suceso": "MET - Aproximación Frustrada y Desvío",
+      "severidad_sms": "CRITICA",
+      "descripcion_evento": "Go-around por tormenta severa y desvío a alterno.",
+      "cedula_reportante": "1.020.445.910",
+      "nombre_reportante": "Luisa Fernanda Ariza (Oficial SMS)"
+    },
+    {
+      "id_suceso": "MOR-2026-05",
+      "id_vuelo_asociado": "VUELO-5009",
+      "aerodromo_reportado": "SKBO",
+      "categoria_suceso": "FOD - Inspección de Pista Post-Lluvia",
+      "severidad_sms": "BAJA",
+      "descripcion_evento": "Retraso preventivo mientras vehículo SEI revisaba pista.",
+      "cedula_reportante": "80.112.334",
+      "nombre_reportante": "Camilo Pinzón (Supervisor SEI)"
+    }
+  ],
+  "f4_recaudo": [
+    {
+      "id_liquidacion": "LIQ-8001",
+      "id_vuelo": "VUELO-5001",
+      "aerodromo_cobro": "BOG",
+      "pasajeros_facturados": 144,
+      "valor_tasa_cop": 7200000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8002",
+      "id_vuelo": "VUELO-5002",
+      "aerodromo_cobro": "BOG",
+      "pasajeros_facturados": 168,
+      "valor_tasa_cop": 8400000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8003",
+      "id_vuelo": "VUELO-5003",
+      "aerodromo_cobro": "MDE",
+      "pasajeros_facturados": 130,
+      "valor_tasa_cop": 6500000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8004",
+      "id_vuelo": "VUELO-5004",
+      "aerodromo_cobro": "CLO",
+      "pasajeros_facturados": 146,
+      "valor_tasa_cop": 7300000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8005",
+      "id_vuelo": "VUELO-5005",
+      "aerodromo_cobro": "BAQ",
+      "pasajeros_facturados": 155,
+      "valor_tasa_cop": 7750000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8006",
+      "id_vuelo": "VUELO-5006",
+      "aerodromo_cobro": "CTG",
+      "pasajeros_facturados": 136,
+      "valor_tasa_cop": 6800000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8007",
+      "id_vuelo": "VUELO-5007",
+      "aerodromo_cobro": "BOG",
+      "pasajeros_facturados": 175,
+      "valor_tasa_cop": 8750000,
+      "estado_recaudo": "En Disputa por Desvío"
+    },
+    {
+      "id_liquidacion": "LIQ-8008",
+      "id_vuelo": "VUELO-5008",
+      "aerodromo_cobro": "MDE",
+      "pasajeros_facturados": 125,
+      "valor_tasa_cop": 6250000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8009",
+      "id_vuelo": "VUELO-5009",
+      "aerodromo_cobro": "BOG",
+      "pasajeros_facturados": 160,
+      "valor_tasa_cop": 8000000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8010",
+      "id_vuelo": "VUELO-5010",
+      "aerodromo_cobro": "CLO",
+      "pasajeros_facturados": 140,
+      "valor_tasa_cop": 7000000,
+      "estado_recaudo": "Conciliado"
+    },
+    {
+      "id_liquidacion": "LIQ-8011",
+      "id_vuelo": "VUELO-9991",
+      "aerodromo_cobro": "BOG",
+      "pasajeros_facturados": 150,
+      "valor_tasa_cop": 7500000,
+      "estado_recaudo": "Cobro Preliminar Vuelo Cancelado"
+    },
+    {
+      "id_liquidacion": "LIQ-8012",
+      "id_vuelo": "VUELO-9992",
+      "aerodromo_cobro": "CTG",
+      "pasajeros_facturados": 120,
+      "valor_tasa_cop": 6000000,
+      "estado_recaudo": "Cobro Preliminar Vuelo Cancelado"
+    }
+  ]
+}

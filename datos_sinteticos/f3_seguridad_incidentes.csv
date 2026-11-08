@@ -1,0 +1,6 @@
+﻿id_suceso,id_vuelo_asociado,aerodromo_reportado,categoria_suceso,severidad_sms,descripcion_evento,cedula_reportante,nombre_reportante
+MOR-2026-01,VUELO-5002,BOG,MET - Cizalladura en Despegue,ALTA,Alerta windshear a 400 ft tras salida por pista 13L.,79.845.120,Ing. Ricardo Gómez (Controlador TWR)
+MOR-2026-02,VUELO-5003,RIONEGRO,ATM - Espera en Holding por Clima,MEDIA,Demora en secuencia de salida por celda convectiva.,43.512.890,Catalina Vélez (Despachadora)
+MOR-2026-03,VUELO-5005,BAQ,RWY - Pista Húmeda con Ráfagas,,Frenado exigente y demora en liberación de calle de rodaje.,72.190.443,Hernán Darío Cotes (Inspector Ramp)
+MOR-2026-04,VUELO-5007,EL DORADO,MET - Aproximación Frustrada y Desvío,CRITICA,Go-around por tormenta severa y desvío a alterno.,1.020.445.910,Luisa Fernanda Ariza (Oficial SMS)
+MOR-2026-05,VUELO-5009,SKBO,FOD - Inspección de Pista Post-Lluvia,BAJA,Retraso preventivo mientras vehículo SEI revisaba pista.,80.112.334,Camilo Pinzón (Supervisor SEI)

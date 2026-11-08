@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AeroFabric Lab — Simulador Data Fabric (Aerocivil - USTA)</title>
+  <style>
+    :root {
+      --navy: #002060;
+      --slate: #1F4E79;
+      --cyan: #0070C0;
+      --cyan-light: #E6F2FF;
+      --gold: #D4A017;
+      --bg: #F4F7FB;
+      --card: #FFFFFF;
+      --text: #1E293B;
+      --muted: #64748B;
+      --border: #CBD5E1;
+      --danger: #DC2626;
+      --danger-bg: #FEF2F2;
+      --success: #15803D;
+      --success-bg: #F0FDF4;
+      --warn: #B45309;
+      --warn-bg: #FFFBEB;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* Top Header */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 65%, var(--cyan) 100%);
+      color: #fff;
+      padding: 1rem 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 3px 12px rgba(0,32,96,0.22);
+    }
+    .brand-block h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-block p {
+      margin: 0.2rem 0 0;
+      font-size: 0.86rem;
+      color: #DBEAFE;
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 0.95rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-primary { background: var(--cyan); color: #fff; }
+    .btn-primary:hover { background: #025aa5; }
+    .btn-gold { background: #F59E0B; color: #111827; }
+    .btn-gold:hover { background: #D97706; color: #fff; }
+    .btn-outline {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.24); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #166534; }
+
+    /* Session Navigation Tabs */
+    .session-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      padding: 0 1.8rem;
+      gap: 0.4rem;
+      overflow-x: auto;
+    }
+    .session-tab {
+      padding: 0.9rem 1.3rem;
+      border: none;
+      background: transparent;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 4px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .session-tab:hover { color: var(--navy); background: #F8FAFC; }
+    .session-tab.active {
+      color: var(--navy);
+      border-bottom-color: var(--cyan);
+      background: var(--cyan-light);
+    }
+    .tab-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 99px;
+      margin-left: 0.35rem;
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1400px;
+      margin: 1.4rem auto;
+      padding: 0 1.4rem 3rem;
+    }
+    .session-panel { display: none; }
+    .session-panel.active { display: block; }
+
+    /* Cards & Grids */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 0.65rem;
+      margin-bottom: 1rem;
+    }
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--navy);
+    }
+    .card-header h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      color: var(--slate);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.1rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 0.9rem;
+    }
+
+    /* Callouts & Alerts */
+    .banner-info {
+      background: var(--cyan-light);
+      border-left: 5px solid var(--cyan);
+      padding: 0.85rem 1.1rem;
+      border-radius: 6px;
+      margin-bottom: 1.1rem;
+      font-size: 0.92rem;
+    }
+    .banner-warn {
+      background: var(--warn-bg);
+      border-left: 5px solid var(--warn);
+      padding: 0.85rem 1.1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+    .banner-danger {
+      background: var(--danger-bg);
+      border-left: 5px solid var(--danger);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #991B1B;
+    }
+    .banner-success {
+      background: var(--success-bg);
+      border-left: 5px solid var(--success);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #166534;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    th {
+      background: var(--navy);
+      color: #fff;
+      text-align: left;
+      padding: 0.55rem 0.7rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.5rem 0.7rem;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: middle;
+    }
+    tr:nth-child(even) td { background: #F8FAFC; }
+    tr.row-error td { background: #FEE2E2 !important; color: #991B1B; font-weight: 600; }
+    tr.row-fixed td { background: #DCFCE7 !important; color: #166534; }
+    tr.row-quarantine td { background: #FEF3C7 !important; color: #92400E; }
+
+    /* Pills & Badges */
+    .pill {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .pill-red { background: #FEE2E2; color: #991B1B; }
+    .pill-green { background: #DCFCE7; color: #166534; }
+    .pill-amber { background: #FEF3C7; color: #92400E; }
+    .pill-blue { background: #DBEAFE; color: #1E40AF; }
+    .pill-masked { background: #1E293B; color: #F8FAFC; font-family: monospace; letter-spacing: 0.5px; }
+
+    /* Silo Selector Buttons */
+    .silo-btn-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .silo-btn {
+      padding: 0.6rem 1rem;
+      border: 2px solid var(--border);
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      color: var(--slate);
+      transition: all 0.15s;
+    }
+    .silo-btn.active {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #fff;
+    }
+
+    /* Interactive Switches (DQ Rules & Fabric Layers) */
+    .rule-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0.95rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      background: #F8FAFC;
+      transition: all 0.2s;
+    }
+    .rule-item.enabled {
+      border-color: var(--success);
+      background: var(--success-bg);
+    }
+    .rule-info strong { display: block; font-size: 0.92rem; color: var(--navy); }
+    .rule-info span { font-size: 0.82rem; color: var(--muted); }
+
+    /* KPI Stat Boxes */
+    .kpi-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      background: #fff;
+    }
+    .kpi-card .kpi-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .kpi-card .kpi-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin: 0.25rem 0;
+      color: var(--navy);
+    }
+    .kpi-card .kpi-sub { font-size: 0.78rem; }
+
+    /* Form Controls */
+    select, input[type="text"], textarea {
+      width: 100%;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #94A3B8;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      font-family: inherit;
+      background: #fff;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+
+    /* AI Prompt Box */
+    .ai-console {
+      background: #0F172A;
+      color: #E2E8F0;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.83rem;
+      white-space: pre-wrap;
+      border-left: 5px solid #38BDF8;
+      margin-top: 0.6rem;
+    }
+
+    /* Lineage Interactive Nodes */
+    .lineage-stage-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+    .lineage-col {
+      background: #F8FAFC;
+      border: 1px dashed #94A3B8;
+      border-radius: 8px;
+      padding: 0.65rem;
+    }
+    .lineage-col h4 {
+      margin: 0 0 0.6rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--navy);
+      background: #E2E8F0;
+      padding: 0.3rem;
+      border-radius: 4px;
+    }
+    .lineage-node {
+      background: #fff;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.6rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .lineage-node:hover { border-color: var(--cyan); }
+    .lineage-node.highlighted {
+      border-color: var(--navy);
+      background: #DBEAFE;
+      box-shadow: 0 0 0 3px rgba(0,112,192,0.22);
+      font-weight: 700;
+    }
+
+    @media (max-width: 960px) {
+      .lineage-stage-grid { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  
+    /* Estilos añadidos para Auditoría de Silos y Validación Interactiva */
+    .audit-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .audit-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .audit-option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      background: #fff;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 0.55rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.86rem;
+      transition: all 0.15s ease-in-out;
+      user-select: none;
+    }
+    .audit-option-label:hover {
+      background: #F1F5F9;
+      border-color: var(--cyan);
+    }
+    .audit-option-label input[type="checkbox"] {
+      margin-top: 0.15rem;
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+      accent-color: var(--navy);
+    }
+    .audit-option-label.checked-correct {
+      border-color: #16A34A !important;
+      background: #F0FDF4 !important;
+    }
+    .audit-option-label.checked-wrong {
+      border-color: #DC2626 !important;
+      background: #FEF2F2 !important;
+    }
+    .select-valid {
+      border: 2px solid #16A34A !important;
+      background-color: #DCFCE7 !important;
+      color: #14532D !important;
+      font-weight: 600;
+    }
+    .select-invalid {
+      border: 2px solid #DC2626 !important;
+      background-color: #FEE2E2 !important;
+      color: #7F1D1D !important;
+      font-weight: 600;
+    }
+    .disabled-btn {
+      opacity: 0.45;
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
+    .layer-log-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+    .layer-log-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.65rem 0.85rem;
+    }
+    .layer-log-item label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.84rem;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+    .layer-log-item textarea {
+      min-height: 48px;
+      font-size: 0.82rem;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-block">
+    <h1>✈️ AeroFabric Lab — Simulador Interactivo de Data Fabric</h1>
+    <p>Curso Oficial <strong>Data Fabric para la Aerocivil</strong> | Universidad Santo Tomás – Facultad de Ingenierías TIC | Caso: <em>Proyecto Cielo Integrado (SIOA)</em></p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-gold" onclick="downloadAllCSVs()">📥 Descargar 5 CSVs Sintéticos (Excel)</button>
+    <button class="btn btn-outline" onclick="exportStudentDeliverable()">📄 Exportar Resumen para Plenaria (.md)</button>
+  </div>
+</header>
+
+<nav class="session-nav">
+  <button class="session-tab active" onclick="switchSession(1)" id="tab-btn-1">
+    Sesión 1: Arquitectura Data Fabric y Fuentes <span class="tab-badge">Taller 1 + Plenaria</span>
+  </button>
+  <button class="session-tab" onclick="switchSession(2)" id="tab-btn-2">
+    Sesión 2: Metadatos, Catálogo, Calidad y Flujo <span class="tab-badge">Taller 2 + Plenaria</span>
+  </button>
+  <button class="session-tab" onclick="switchSession(3)" id="tab-btn-3">
+    Sesión 3: Linaje, Gobierno por Roles y Hoja de Ruta <span class="tab-badge">Taller 3 + Plenaria</span>
+  </button>
+</nav>
+
+<main>
+
+  <!-- ===================================================================== -->
+  <!-- SESIÓN 1: ARQUITECTURA DATA FABRIC Y FUENTES                          -->
+  <!-- ===================================================================== -->
+  <section class="session-panel active" id="session-1">
+    <div class="banner-info">
+      <strong>🎯 Misión de la Sesión 1 (4 Horas — 1h Conceptual / 3h Taller):</strong>
+      La Dirección General de la Aerocivil necesita responder en minutos —y no en 8 días hábiles— cómo se relacionan las <strong>demoras de vuelos</strong>, el <strong>clima adverso</strong>, los <strong>incidentes de seguridad operacional (MOR)</strong> y el <strong>recaudo de tasas aeroportuarias</strong>. Tu objetivo hoy es auditar los 4 silos distribuidos, construir el <strong>Mapa de Fuentes</strong> y diseñar la <strong>Arquitectura Conceptual Data Fabric</strong>.
+    </div>
+
+    <!-- Paso 1.1: Inspector y Auditoría Activa de Silos Distribuidos -->
+    <div class="card">
+      <div class="card-header">
+        <h2>1.1. Explorador y Auditoría Activa de Silos Distribuidos</h2>
+        <span id="audit-global-badge" class="pill pill-blue">Auditoría: 0 / 4 Silos Superados</span>
+      </div>
+      <p style="margin-top:0; font-size:0.9rem;">
+        Haz clic en cada fuente para inspeccionar su estructura técnica, custodio institucional y sus registros de datos en crudo.
+        <strong>Desafío de Auditoría:</strong> Los datos no revelan sus defectos automáticamente. Debes inspeccionar las filas y marcar en el panel de auditoría cuáles fricciones están <em>realmente presentes</em> en la fuente activa (¡cuidado con las opciones distractoras!). Los intentos son ilimitados hasta que identifiques todas las que corresponden.
+      </p>
+
+      <div class="silo-btn-group">
+        <button class="silo-btn active" id="btn-silo-F1_OPS" onclick="renderSiloInspector('F1_OPS', this)">✈️ F1_OPS: SIIV Operaciones de Vuelo</button>
+        <button class="silo-btn" id="btn-silo-F2_MET" onclick="renderSiloInspector('F2_MET', this)">🌦️ F2_MET: METEO-AERO (METAR UTC)</button>
+        <button class="silo-btn" id="btn-silo-F3_SMS" onclick="renderSiloInspector('F3_SMS', this)">🛡️ F3_SMS: SIGSO Incidentes MOR</button>
+        <button class="silo-btn" id="btn-silo-F4_FIN" onclick="renderSiloInspector('F4_FIN', this)">💰 F4_FIN: RECAUDO-AERO (Financiera)</button>
+        <button class="silo-btn" id="btn-silo-M_REF" onclick="renderSiloInspector('M_REF', this)">🏛️ M_REF: Maestro Oficial Aeródromos (MDM)</button>
+      </div>
+
+      <div id="silo-inspector-meta" style="margin-bottom:0.75rem;"></div>
+
+      <!-- Panel de Auditoría Interactiva con Selección Múltiple -->
+      <div id="silo-inspector-audit" class="audit-box"></div>
+
+      <!-- Tabla de Datos (limpia inicialmente, con diagnóstico activable al superar o solicitarlo) -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+        <span style="font-size:0.83rem; font-weight:700; color:var(--navy);">Registros Crudos de la Fuente:</span>
+        <button id="btn-toggle-diagnostico" class="btn btn-secondary" style="font-size:0.78rem; padding:0.3rem 0.7rem;" onclick="toggleRowDiagnostics()">👁️ Mostrar / Ocultar Diagnóstico Fila por Fila</button>
+      </div>
+      <div class="table-wrap" id="silo-inspector-table"></div>
+    </div>
+
+    <!-- Entregable 1A: Plantilla de Informe de Hallazgos y Auditoría Técnica -->
+    <div class="card" style="border-left: 5px solid var(--gold);">
+      <div class="card-header">
+        <h2>Entregable 1A: Informe de Hallazgos y Metodología de Auditoría (Para Socialización Grupal)</h2>
+        <span class="pill pill-amber">Trabajo Grupal - Plenaria</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Para la socialización en plenaria, tu equipo debe documentar los hallazgos críticos detectados en los 4 silos y el método técnico que utilizaron para descubrirlos. Pueden apoyarse en cualquiera de estos tres caminos:
+      </p>
+
+      <div class="grid-3" style="margin-bottom:0.9rem;">
+        <div style="background:#fff; border:1px solid var(--border); border-radius:6px; padding:0.75rem;">
+          <strong style="color:var(--navy); font-size:0.85rem; display:block; margin-bottom:0.3rem;">🤖 Opción A: Asistente de IA</strong>
+          <span style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:0.5rem;">Carga las muestras crudas en ChatGPT / Claude / Gemini y pídele auditar inconsistencias. <em>Reporta el prompt exacto utilizado</em>.</span>
+          <button class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="loadPromptAuditoriaTemplate()">📋 Ver Prompt Sugerido de Auditoría</button>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border); border-radius:6px; padding:0.75rem;">
+          <strong style="color:var(--navy); font-size:0.85rem; display:block; margin-bottom:0.3rem;">🐍 Opción B: Script en Python</strong>
+          <span style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:0.5rem;">Usa Pandas para inspeccionar duplicados, nulos, outliers y valores negativos.</span>
+          <button class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="loadPythonAuditSnippet()">📋 Ver Snippet Python (Pandas)</button>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border); border-radius:6px; padding:0.75rem;">
+          <strong style="color:var(--navy); font-size:0.85rem; display:block; margin-bottom:0.3rem;">🗄️ Opción C: Consultas SQL</strong>
+          <span style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:0.5rem;">Escribe consultas con GROUP BY, HAVING COUNT(*) > 1 y filtros de integridad referencial.</span>
+          <button class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.5rem;" onclick="loadSQLAuditSnippet()">📋 Ver Consultas SQL</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label style="font-weight:700; font-size:0.83rem; color:var(--navy);">1. Síntesis de Hallazgos por Silo (F1, F2, F3, F4) e Impacto en la Aerocivil:</label>
+          <textarea id="s1-findings-notes" style="min-height:95px;" placeholder="Escribe aquí con tus propias palabras los hallazgos identificados por tu equipo en los 4 silos (F1_OPS, F2_MET, F3_SMS, F4_FIN) y su impacto operacional o financiero si se cruzaran a ciegas..."></textarea>
+        </div>
+        <div>
+          <label style="font-weight:700; font-size:0.83rem; color:var(--navy);">2. Método Empleado y Prompt de IA / Código Reportado:</label>
+          <textarea id="s1-methodology-notes" style="min-height:95px;" placeholder="Describe aquí el método que eligió tu equipo (IA, Python o SQL) y pega el prompt exacto utilizado o el bloque de código reportado..."></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top:0.75rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+        <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleExpectedFindings()">💡 Ver Prompt y Hallazgos Esperados (Referencia Docente)</button>
+        <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="copyText('s1-findings-notes')">📋 Copiar Síntesis de Hallazgos</button>
+      </div>
+
+      <div id="box-expected-findings" class="banner-warn" style="display:none; margin-top:0.8rem;">
+        <h4 style="margin:0 0 0.5rem; color:var(--navy); font-size:0.88rem;">📌 Solución de Referencia y Hallazgos Esperados (Para Contrastar en Equipo):</h4>
+        <div style="font-size:0.83rem; line-height:1.5;">
+          <strong>• Hallazgos Clave por Silo:</strong><br/>
+          - <em>F1_OPS:</em> 3 vuelos duplicados por retransmisión (OPS-103, 107, 113), -15 pasajeros en VUELO-5004, demora vacía en OPS-108 y exposición de nombres/licencias de pilotos.<br/>
+          - <em>F2_MET:</em> Desfase de +5 horas por reloj UTC y lectura errónea de sensor en visibilidad (999999 m en MET-04).<br/>
+          - <em>F3_SMS:</em> Códigos IATA y alias mezclados (BOG, RIONEGRO, EL DORADO) y cédulas expuestas violando Cultura Justa OACI (Anexo 19).<br/>
+          - <em>F4_FIN:</em> Códigos comerciales IATA y $13.5M COP en facturas huérfanas de vuelos cancelados (VUELO-9991/9992).<br/><br/>
+          <strong>• Prompt de Auditoría Sugerido:</strong><br/>
+          <code>"Actúa como auditor sénior de calidad de datos aeronáuticos. Analiza estos 4 conjuntos de datos sintéticos de la Aerocivil (Operaciones, Clima, SMS y Financiera). Identifica duplicados, valores negativos, diferencias horarias UTC vs Local, nombres no estándar de aeropuertos y riesgos de privacidad bajo Ley 1581."</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1.2: Constructor del Mapa de Fuentes -->
+    <div class="card">
+      <div class="card-header">
+        <h2>1.2. Constructor Interactivo del Mapa de Fuentes (Entregable 1B)</h2>
+        <div>
+          <button class="btn btn-primary" onclick="verifySourceMap()">🔍 Verificar Mapa de Fuentes</button>
+          <button id="btn-ref-solution" class="btn btn-success disabled-btn" onclick="autofillSourceMap()" disabled>🔒 Cargar Solución de Referencia (Disponible tras 3 intentos fallidos)</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Selecciona para cada fuente su área custodia, formato/latencia, fricción principal detectada, nivel de sensibilidad y el patrón de integración Data Fabric adecuado. Al pulsar <strong>"Verificar Mapa de Fuentes"</strong> sabrás cuáles campos son correctos (en verde) y cuáles requieren revisión (en rojo).
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:14%;">Fuente / Silo</th>
+              <th style="width:20%;">Custodio / Área Dueña</th>
+              <th style="width:20%;">Formato y Latencia</th>
+              <th style="width:26%;">Fricción / Problema Detectado al Explorar</th>
+              <th style="width:20%;">Nivel de Sensibilidad</th>
+              <th style="width:20%;">Patrón de Conexión en Data Fabric</th>
+            </tr>
+          </thead>
+          <tbody id="source-map-tbody"></tbody>
+        </table>
+      </div>
+      <div id="source-map-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 1.3: Laboratorio de Capas de Arquitectura Data Fabric -->
+    <div class="card">
+      <div class="card-header">
+        <h2>1.3. Laboratorio de Arquitectura Conceptual Data Fabric (Entregable 1C)</h2>
+        <span class="pill pill-amber">Simulador de Capas IBM Data Fabric</span>
+      </div>
+      <p style="margin-top:0; font-size:0.9rem;">
+        Un <strong>Data Fabric</strong> no consiste en "reemplazar todos los sistemas de la Aerocivil por uno nuevo", sino en tejer una <strong>capa inteligente sobre los silos existentes</strong>. Activa o desactiva cada componente arquitectónico para observar qué ocurre en el caso <em>Cielo Integrado (SIOA)</em>.
+      </p>
+
+      <div class="grid-2">
+        <div id="fabric-layers-controls"></div>
+        <div>
+          <div class="card" style="background:#F8FAFC; margin-bottom:0;">
+            <h3 style="margin-top:0; color:var(--navy);">🧭 Diagnóstico de tu Arquitectura en Vivo</h3>
+            <div id="fabric-architecture-status"></div>
+            <hr style="border:none; border-top:1px solid var(--border); margin:0.9rem 0;" />
+            <label style="font-weight:700; font-size:0.85rem; color:var(--navy);">Justificación Arquitectónica de tu Equipo (Para el Entregable 1):</label>
+            <textarea id="s1-arch-notes" placeholder="Escribe aquí en 3-4 líneas por qué la Aerocivil necesita una capa de Data Fabric en lugar de seguir cruzando archivos Excel manualmente...">La arquitectura Data Fabric propuesta para el caso SIOA conecta los 4 silos institucionales (Operaciones, Meteorología, Seguridad Operacional y Financiera) sin destruir sus sistemas origen, incorporando un catálogo activo con estándar OACI, controles automatizados de calidad y políticas de enmascaramiento para proteger la Cultura Justa del SMS.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bitácora de Impacto por Capa de Data Fabric -->
+      <div style="margin-top:1.1rem; background:#fff; border:1px solid var(--border); border-radius:8px; padding:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+          <h4 style="margin:0; color:var(--navy); font-size:0.92rem;">📝 Bitácora de Impacto por Capa de Data Fabric (Para tu Informe y Plenaria)</h4>
+          <button class="btn btn-secondary" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="copyLayerNotes()">📋 Copiar Bitácora de Capas</button>
+        </div>
+        <p style="margin:0 0 0.7rem; font-size:0.83rem; color:var(--text);">
+          <strong>Instrucción para el Equipo:</strong> Escribe con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar cada una de las 5 capas de Data Fabric. Una vez redactadas, haz clic en <strong>"💡 Ver Impacto de Referencia por Capa"</strong> para contrastar tu análisis con el diseño de referencia del simulador y reportar en tu informe si identificaste diferencias o aspectos complementarios.
+        </p>
+        <div class="layer-log-grid">
+          <div class="layer-log-item">
+            <label>Capa 1: Conectores Híbridos de Ingesta y Virtualización</label>
+            <textarea id="layer-log-1" placeholder="Escribe aquí con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar esta capa..."></textarea>
+          </div>
+          <div class="layer-log-item">
+            <label>Capa 2: Catálogo Activo, Glosario y Datos Maestros (MDM)</label>
+            <textarea id="layer-log-2" placeholder="Escribe aquí con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar esta capa..."></textarea>
+          </div>
+          <div class="layer-log-item">
+            <label>Capa 3: Motor Automatizado de Calidad de Datos (Data Quality)</label>
+            <textarea id="layer-log-3" placeholder="Escribe aquí con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar esta capa..."></textarea>
+          </div>
+          <div class="layer-log-item">
+            <label>Capa 4: Gobierno, Control de Acceso (RBAC) y Enmascaramiento Dinámico</label>
+            <textarea id="layer-log-4" placeholder="Escribe aquí con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar esta capa..."></textarea>
+          </div>
+          <div class="layer-log-item">
+            <label>Capa 5: Capa de Consumo y Productos de Datos (SIOA-360)</label>
+            <textarea id="layer-log-5" placeholder="Escribe aquí con tus propias palabras qué ocurre o qué mejora en la Aerocivil al habilitar esta capa..."></textarea>
+          </div>
+        </div>
+
+        <div style="margin-top:0.8rem;">
+          <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="toggleReferenceLayers()">💡 Ver Impacto de Referencia por Capa (Comparación)</button>
+        </div>
+
+        <div id="box-reference-layers" class="banner-info" style="display:none; margin-top:0.8rem;">
+          <h4 style="margin:0 0 0.5rem; color:var(--navy); font-size:0.88rem;">🎯 Impacto de Referencia de las 5 Capas (Caso SIOA):</h4>
+          <ul style="margin:0; padding-left:1.2rem; font-size:0.83rem; line-height:1.5;">
+            <li><strong>Capa 1 (Conectores Híbridos):</strong> Permite consultar y federar los 4 silos distribuidos (PostgreSQL, API horaria, Excel y ERP) en su lugar de origen sin migraciones forzadas ni duplicar datos innecesariamente.</li>
+            <li><strong>Capa 2 (Catálogo Activo y MDM):</strong> Homologa automáticamente los códigos comerciales IATA y alias informales al estándar único OACI de 4 letras mediante la tabla M_REF, unificando el glosario entre Pasajeros Declarados y Facturados.</li>
+            <li><strong>Capa 3 (Motor de Calidad de Datos):</strong> Ejecuta reglas reproducibles antes del consumo: elimina los 3 vuelos duplicados, corrige los -15 pasajeros de VUELO-5004, normaliza el outlier de visibilidad y aísla en cuarentena las facturas huérfanas de $13.5M COP.</li>
+            <li><strong>Capa 4 (Gobierno y Enmascaramiento):</strong> Protege la identidad de quienes reportan incidentes MOR bajo el principio de Cultura Justa (Anexo 19 OACI y Ley 1581), enmascarando cédulas y licencias de vuelo según el perfil del usuario.</li>
+            <li><strong>Capa 5 (Consumo y Productos de Datos):</strong> Entrega un producto de datos certificado, con trazabilidad de linaje y acuerdos de nivel de servicio (SLA), permitiendo a la Dirección General responder en minutos sobre demoras, clima y recaudo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1.4: Simulación de la Arquitectura Data Fabric con IA -->
+    <div class="card" style="border-left: 5px solid var(--cyan);">
+      <div class="card-header">
+        <h2>1.4. Simulación Interactiva de la Arquitectura Data Fabric de 5 Capas con IA</h2>
+        <button class="btn btn-primary" onclick="copyText('prompt-s1-sim')">📋 Copiar Metaprompt de Simulación</button>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        <strong>Tu Desafío Arquitectónico con IA:</strong> Como Arquitecto Líder de Datos de la Aerocivil, debes instruir a un chatbot de IA (ChatGPT, Gemini o Claude) para que <em>simule</em> de extremo a extremo la arquitectura Data Fabric de 5 capas sobre el caso SIOA.
+        Tu trabajo es pensar y describirle a la IA qué debe ocurrir en cada capa (utiliza como pista la especificación que probaste en la sección 1.3). La IA simulará el viaje de los datos desde las 4 fuentes crudas y te devolverá un <strong>diagrama visual interactivo (en ASCII Art o Mermaid)</strong> junto con una evaluación de robustez.
+      </p>
+
+      <div class="ai-console" id="prompt-s1-sim">Actúa como el Motor de Simulación Arquitectónica de IBM Data Fabric y Especialista en OACI SWIM para la Aeronáutica Civil de Colombia (Aerocivil).
+
+Te proporciono el contexto de los 4 silos distribuidos del caso "Cielo Integrado (SIOA)" y la tabla maestra:
+- F1_OPS: Operaciones de vuelo (PostgreSQL diario en hora local, códigos OACI, contiene duplicados por retransmisión, -15 pax y datos de pilotos).
+- F2_MET: Meteorología METAR (API horaria en hora UTC/Zulu con +5h de desfase, códigos OACI, outlier en visibilidad 999999).
+- F3_SMS: Incidentes MOR (Excel semanal, mezcla códigos IATA/alias y expone cédulas de reportantes protegidas por Cultura Justa OACI).
+- F4_FIN: Tasas aeroportuarias (ERP mensual, usa códigos IATA y tiene $13.5M COP en facturas huérfanas de vuelos cancelados).
+- M_REF: Catálogo Maestro MDM de aeródromos (SKBO=BOG, SKRG=MDE, SKCL=CLO, SKBQ=BAQ, SKCG=CTG).
+
+Quiero que SIMULES el flujo de datos a través de una Arquitectura Data Fabric de 5 Capas estructurada así:
+1. Capa 1 (Conectores Híbridos y Virtualización): Describe cómo conectas F1, F2, F3 y F4 sin reescribir los sistemas origen.
+2. Capa 2 (Catálogo Activo y MDM): Describe cómo homologas BOG/EL DORADO a SKBO usando M_REF y unificas el glosario de pasajeros.
+3. Capa 3 (Motor Automatizado de Calidad de Datos): Simula la depuración de duplicados, corrección de rango (-15 a 150) y cuarentena de facturas huérfanas.
+4. Capa 4 (Gobierno y Enmascaramiento Dinámico): Simula el enmascaramiento dinámico de cédulas de reportantes MOR (Cultura Justa - Anexo 19 OACI / Ley 1581).
+5. Capa 5 (Consumo y Producto de Datos SIOA-360): Entrega la vista unificada y conciliada para la Dirección General.
+
+ENTREGABLES REQUERIDOS:
+A) Un DIAGRAMA VISUAL DE ARQUITECTURA en formato ASCII Art o Mermaid que ilustre con claridad cómo fluyen los datos desde los 4 silos hasta el producto de datos final cruzando las 5 capas.
+B) Una traza de ejecución mostrando qué ocurre con un registro específico (por ejemplo, VUELO-5002 cruzando con MET-02, MOR-2026-01 y LIQ-8002).
+C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de latencia y cómo mitigarlos.</div>
+
+      <div class="banner-info" style="margin-top:0.9rem;">
+        <strong>💡 Tip de Visualización Interactiva (Mermaid.live) para la Plenaria:</strong><br/>
+        Si tu asistente de IA genera el diagrama en código <strong>Mermaid</strong> (bloque <code>```mermaid ... ```</code>), copia ese bloque de código y pégalo directamente en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">Mermaid.live</a>. Podrás visualizar y explorar la arquitectura en pantalla completa, hacer zoom y exportar la imagen en PNG/SVG para proyectarla y explicarla en la socialización de tu reporte durante la plenaria grupal de cierre.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SESIÓN 2:<!-- SESIÓN 2: METADATOS, CATÁLOGO, CALIDAD Y FLUJO DEMOSTRATIVO           -->
+  <!-- ===================================================================== -->
+  <section class="session-panel" id="session-2">
+    <div class="banner-info">
+      <strong>🎯 Misión de la Sesión 2 (4 Horas — 1h Conceptual / 3h Taller):</strong>
+      Sin metadatos claros ni reglas de calidad, integrar datos solo produce <em>"basura unificada a mayor velocidad"</em>. Hoy construirás el <strong>Catálogo Mínimo y Glosario de Negocio</strong>, activarás las <strong>5 Reglas de Calidad Reproducibles</strong> sobre los datos sintéticos y demostrarás el <strong>Cuadre y Reconciliación de Registros y Totales</strong>.
+    </div>
+
+    <!-- Paso 2.1: Catálogo Mínimo y Glosario de Negocio -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2.1. Catálogo Mínimo, Glosario de Negocio y Responsables (Entregable 2A)</h2>
+        <span class="pill pill-blue">Metadatos Técnicos vs. Metadatos de Negocio</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Observa cómo el <strong>Glosario de Negocio</strong> resuelve las disputas entre áreas (por ejemplo, por qué <em>Pasajeros Declarados</em> en Operaciones nunca es igual a <em>Pasajeros Facturados</em> en Financiera) y asigna un responsable formal (<em>Data Owner</em> y <em>Data Steward</em>):
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Término de Negocio (Glosario)</th>
+              <th>Metadato Técnico (Campo / Tipo / Fuente)</th>
+              <th>Definición Oficial Acordada (Metadato de Negocio)</th>
+              <th>Dueño del Dato (Data Owner)</th>
+              <th>Custodio de Calidad (Data Steward)</th>
+              <th>Clasificación de Seguridad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Código Oficial de Aeródromo</strong></td>
+              <td><code>codigo_oaci</code> (VARCHAR(4))<br/>Maestro: <code>M_REF</code></td>
+              <td>Identificador único de 4 letras asignado por la OACI a cada aeródromo colombiano (ej. <code>SKBO</code>). Todo código IATA (<code>BOG</code>) o nombre comercial debe homologarse a OACI antes de cualquier cruce.</td>
+              <td>Dirección de Información Aeronáutica (AIM)</td>
+              <td>Líder de Datos Maestros – Oficina de Analítica</td>
+              <td><span class="pill pill-green">Público Oficial</span></td>
+            </tr>
+            <tr>
+              <td><strong>Pasajeros Declarados en Vuelo</strong></td>
+              <td><code>pasajeros_declarados</code> (INT)<br/>Fuente: <code>F1_OPS</code></td>
+              <td>Total de personas a bordo reportadas en el manifiesto operativo de salida. <strong>Incluye infantes de brazos (&lt;2 años) y tripulación en comisión</strong>.</td>
+              <td>Dirección de Servicios a la Navegación Aérea</td>
+              <td>Coordinador Estadísticas de Tráfico Aéreo</td>
+              <td><span class="pill pill-blue">Interno Institucional</span></td>
+            </tr>
+            <tr>
+              <td><strong>Pasajeros Facturables por Tasa</strong></td>
+              <td><code>pasajeros_facturados</code> (INT)<br/>Fuente: <code>F4_FIN</code></td>
+              <td>Total de pasajeros sujetos al cobro de tasa aeroportuaria. <strong>Excluye infantes, tránsitos directos y tripulantes en comisión</strong>. Por regla de negocio siempre es menor o igual a <code>pasajeros_declarados</code>.</td>
+              <td>Dirección Financiera</td>
+              <td>Analista Senior de Liquidación y Recaudo</td>
+              <td><span class="pill pill-amber">Restringido Financiero</span></td>
+            </tr>
+            <tr>
+              <td><strong>Estampa Horaria Operacional</strong></td>
+              <td><code>hora_utc</code> / <code>hora_salida_local</code><br/>Fuentes: <code>F2_MET</code> / <code>F1_OPS</code></td>
+              <td>Meteorología reporta en tiempo universal coordinado (<strong>UTC / Zulu</strong>). Operaciones reporta en <strong>Hora Oficial de Colombia (UTC-5)</strong>. Para cruzarlos debe aplicarse conversión explícita <code>UTC = Local + 5h</code>.</td>
+              <td>Grupo de Meteorología Aeronáutica</td>
+              <td>Ingeniero de Integración – Oficina de Analítica</td>
+              <td><span class="pill pill-green">Público Oficial</span></td>
+            </tr>
+            <tr>
+              <td><strong>Identidad de Reportante SMS (MOR)</strong></td>
+              <td><code>cedula_reportante</code>, <code>nombre_reportante</code><br/>Fuente: <code>F3_SMS</code></td>
+              <td>Datos personales de quien reporta voluntaria u obligatoriamente un suceso de seguridad operacional. Protegido por <strong>Cultura Justa (Anexo 19 OACI)</strong> y Ley 1581/2012. Nunca debe exponerse en tableros analíticos.</td>
+              <td>Secretaría de Seguridad Operacional</td>
+              <td>Oficial de Protección de Datos y SMS</td>
+              <td><span class="pill pill-red">Confidencial / PII Sensible</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paso 2.2: Motor Interactivo de Reglas de Calidad -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2.2. Motor Interactivo de Reglas de Calidad y Reconciliación (Entregable 2B y 3A)</h2>
+        <div>
+          <button class="btn btn-success" onclick="toggleAllRules(true)">⚡ Activar las 5 Reglas del Data Fabric</button>
+          <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy);" onclick="toggleAllRules(false)">🔄 Ver Datos Crudos (Sin Reglas)</button>
+        </div>
+      </div>
+
+      <p style="margin-top:0; font-size:0.9rem;">
+        Activa una por una las <strong>5 Reglas de Calidad Reproducibles</strong> y observa en tiempo real cómo cambian los indicadores de control, cuántos registros se recuperan o entran en cuarentena, y cómo cuadran las cifras entre Operaciones, Seguridad Operacional y Financiera:
+      </p>
+
+      <div class="grid-2">
+        <!-- Columna Izquierda: Interruptores de Reglas -->
+        <div id="dq-rules-container"></div>
+
+        <!-- Columna Derecha: Tablero Comparativo Antes vs Después -->
+        <div>
+          <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 0.75rem;" id="reconciliation-kpi-grid"></div>
+          <div id="reconciliation-explanation" style="margin-top:0.85rem;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 2.3: Vista del Flujo Combinado y Reconciliado -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2.3. Vista en Vivo del Flujo Demostrativo de Combinación (Tabla Integrada SIOA)</h2>
+        <span class="pill pill-green" id="integrated-status-badge">Mostrando resultado del flujo en vivo</span>
+      </div>
+      <div class="table-wrap" id="integrated-flow-table"></div>
+    </div>
+
+    <!-- Paso 2.4: Copiloto de IA Socrático Sesión 2 -->
+    <div class="card" style="border-left: 5px solid var(--cyan);">
+      <div class="card-header">
+        <h2>2.4. Copiloto de IA Socrático — Sesión 2: Reconciliación y Diagrama de Flujo</h2>
+        <button class="btn btn-primary" onclick="copyText('prompt-s2')">📋 Copiar Metaprompt de Reconciliación</button>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        <strong>Tu Desafío de Auditoría con IA:</strong> Como Auditor Principal de Calidad de Datos Aeronáuticos, interactúa con un chatbot de IA (ChatGPT, Gemini o Claude) para generar el <strong>Acta Ejecutiva de Reconciliación</strong> y el <strong>Diagrama de Flujo en sintaxis Mermaid</strong>. Explica con rigor técnico por qué $13.5M COP deben ir a cuarentena sin borrado físico y cómo se justifica la brecha de 53 pasajeros exentos.
+      </p>
+
+      <div class="ai-console" id="prompt-s2">Actúa como un Auditor Principal de Calidad y Gobierno de Datos Aeronáuticos de la Aerocivil.
+Acabamos de ejecutar el motor Data Fabric con las 5 reglas de calidad (DQ-01 a DQ-05) sobre los silos sintéticos del caso "Cielo Integrado (SIOA)" y obtuvimos los siguientes hallazgos:
+1. Unicidad: 3 vuelos duplicados eliminados en F1_OPS (VUELO-5002, 5005, 5010), reduciendo de 13 a 10 vuelos reales.
+2. Consistencia MDM: F3_SMS y F4_FIN usaban códigos IATA ("BOG", "MDE", "BAQ") o nombres como "EL DORADO" y "RIONEGRO"; la tabla M_REF los homologó al 100% al estándar OACI (SKBO, SKRG, SKBQ).
+3. Validez de Rango: Se corrigió el error tipográfico de -15 a 150 pasajeros en VUELO-5004 y se aisló la visibilidad 999999 m de MET-04 como sensor fuera de rango.
+4. Completitud: Se imputó demora=0 (puntual) en VUELO-5006 y se asignó severidad "MEDIA" a MOR-2026-03 por protocolo.
+5. Integridad Referencial: 2 facturas en F4_FIN por $13.500.000 COP (FAC-2026-009 por $7.5M y FAC-2026-010 por $6.0M) corresponden a vuelos cancelados (VUELO-9991 y 9992). Se trasladaron a Bandeja de Cuarentena (NO se borraron con DELETE).
+6. Glosario Canónico: Pasajeros Declarados suma 1.532 y Pasajeros Facturados suma 1.479 (brecha legítima de 53 pasajeros exentos por normativa RAC: infantes &lt;2 años y tripulantes en servicio).
+
+ENTREGABLES REQUERIDOS:
+A) ACTA EJECUTIVA DE RECONCILIACIÓN para el Comité de Analítica y la Dirección General, con tabla comparativa de cifras (Total Bruto $87.450.000 vs. Total Con Reglas $73.950.000 COP), justificación del no borrado físico (valor probatorio ante Contraloría) y explicación de los 53 exentos.
+B) DIAGRAMA DE FLUJO en sintaxis Mermaid (código en bloque ```mermaid flowchart TD ... ```) que ilustre: Silos Crudos ➔ Reglas DQ-01 a DQ-05 ➔ Bifurcación entre Flujo SIOA-360 ($73.95M / 10 vuelos) y Bandeja de Cuarentena ($13.5M aislados).
+C) EVALUACIÓN CRÍTICA: Formula 2 recomendaciones de gobernanza para evitar que el ERP siga facturando vuelos cancelados sin validar con la torre de control.</div>
+
+      <div class="banner-info" style="margin-top:0.9rem;">
+        <strong>💡 Tip de Visualización Interactiva (Mermaid.live) para la Plenaria:</strong><br/>
+        Copia el bloque de código Mermaid generado por la IA (<code>```mermaid ... ```</code>) y pégalo directamente en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">Mermaid.live</a>. Podrás proyectar el flujo de reconciliación en pantalla completa, explorar el camino que tomaron los $13.5M hacia la cuarentena y sustentar tu reporte con soporte visual durante la plenaria grupal de cierre.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- SESIÓN 3: LINAJE, GOBIERNO POR ROLES Y HOJA DE RUTA                   -->
+  <!-- ===================================================================== -->
+  <section class="session-panel" id="session-3">
+    <div class="banner-info">
+      <strong>🎯 Misión de la Sesión 3 (4 Horas — 1h Conceptual / 3h Taller):</strong>
+      En esta sesión final cerrarás el ciclo del Data Fabric: trazarás el <strong>Linaje Extremo a Extremo</strong>, decidirás qué fuentes integrar físicamente vs. virtualmente, probarás el <strong>Control de Acceso por Roles (RBAC) con Enmascaramiento Dinámico</strong> y formularás la <strong>Hoja de Ruta Gradual</strong> para sustentar tu propuesta.
+    </div>
+
+    <!-- Paso 3.1: Grafo Interactivo de Linaje -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.1. Explorador Interactivo de Linaje Extremo a Extremo (Entregable 3B)</h2>
+        <span class="pill pill-blue">Haz clic en cualquier indicador final para rastrear su linaje</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        El <strong>linaje de datos</strong> permite responder ante una auditoría: <em>"¿De dónde salió exactamente este número, qué transformaciones sufrió y quién lo autorizó?"</em>. Selecciona un campo del Producto de Datos final (Columna 5) para iluminar toda su ruta desde la fuente origen:
+      </p>
+
+      <div class="lineage-stage-grid" id="lineage-graph-container"></div>
+      <div id="lineage-detail-box" class="banner-info" style="margin-top:1rem; margin-bottom:0;"></div>
+    </div>
+
+    <!-- Paso 3.2: Integración Física (ETL) vs. Acceso Virtual (Virtualización) -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual</h2>
+        <button class="btn btn-success" onclick="recommendVirtualization()">💡 Ver Recomendación Arquitectónica</button>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Una ventaja clave de <strong>Data Fabric</strong> es que <strong>no obliga a copiar todos los datos a un único almacén físico</strong>. Combina <strong>Integración Física (ETL/ELT)</strong> para históricos pesados con <strong>Virtualización de Datos / APIs</strong> para datos en tiempo real o altamente sensibles:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fuente</th>
+              <th>Naturaleza y Latencia</th>
+              <th>Mecanismo Seleccionado</th>
+              <th>Justificación Técnica y de Gobierno</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>F1_OPS (SIIV Operaciones)</strong></td>
+              <td>Alto volumen histórico de vuelos diarios</td>
+              <td>
+                <select id="virt-f1" onchange="evaluateVirtualization()">
+                  <option value="FISICA">Integración Física (ETL/ELT hacia Capa Analítica)</option>
+                  <option value="VIRTUAL">Acceso Virtual (Consulta en vivo al sistema transaccional)</option>
+                </select>
+              </td>
+              <td id="virt-just-f1">Ideal consolidar físicamente en lote diario con deduplicación (<code>DQ-01</code>) para no sobrecargar la base de datos operativa de planes de vuelo.</td>
+            </tr>
+            <tr>
+              <td><strong>F2_MET (METEO-AERO)</strong></td>
+              <td>Flujo horario cambiante (Alertas METAR en vivo)</td>
+              <td>
+                <select id="virt-f2" onchange="evaluateVirtualization()">
+                  <option value="VIRTUAL">Acceso Virtual / API Federada en Tiempo Real</option>
+                  <option value="FISICA">Integración Física (Lote mensual)</option>
+                </select>
+              </td>
+              <td id="virt-just-f2">El estado meteorológico cambia cada hora; el acceso virtual vía conector API permite consultar la alerta vigente sin esperar procesos batch nocturnos.</td>
+            </tr>
+            <tr>
+              <td><strong>F3_SMS (SIGSO Incidentes MOR)</strong></td>
+              <td>Alta reserva legal (Anexo 19 OACI / Cultura Justa)</td>
+              <td>
+                <select id="virt-f3" onchange="evaluateVirtualization()">
+                  <option value="VIRTUAL">Acceso Virtual Gobernado con Enmascaramiento en Vuelo</option>
+                  <option value="FISICA">Copia Física Cruda sin filtro a todos los analistas</option>
+                </select>
+              </td>
+              <td id="virt-just-f3">La virtualización gobernada permite exponer el conteo y severidad del incidente aplicando enmascaramiento dinámico sobre la cédula del reportante sin duplicar datos sensibles fuera de la Secretaría SMS.</td>
+            </tr>
+            <tr>
+              <td><strong>F4_FIN (RECAUDO-AERO)</strong></td>
+              <td>Cierres contables auditables y conciliación</td>
+              <td>
+                <select id="virt-f4" onchange="evaluateVirtualization()">
+                  <option value="FISICA">Integración Física Certificada (Snapshot Conciliado)</option>
+                  <option value="VIRTUAL">Lectura directa de borradores sin conciliar</option>
+                </select>
+              </td>
+              <td id="virt-just-f4">Para reportes oficiales de recaudo se requiere una foto física certificada (tras aplicar <code>DQ-05</code> para excluir vuelos cancelados) que garantice reproducibilidad ante Contraloría.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paso 3.3: Simulador de Consumo por Roles (RBAC + Enmascaramiento Dinámico) -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.3. Simulador de Gobierno en el Consumo: Acceso por Roles y Enmascaramiento Dinámico</h2>
+        <span class="pill pill-red">Protección Ley 1581/2012 + Cultura Justa OACI</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        En un <strong>Data Fabric</strong>, todos los usuarios consultan el <strong>mismo Producto de Datos certificado (SIOA-360)</strong>, pero las políticas de gobierno ocultan o enmascaran automáticamente columnas y filas según el rol conectado. Cambia de rol para verificar el producto de datos:
+      </p>
+
+      <div class="silo-btn-group">
+        <button class="silo-btn active" onclick="renderRoleView('ANALISTA', this)">📊 Rol 1: Analista Oficina de Analítica</button>
+        <button class="silo-btn" onclick="renderRoleView('INSPECTOR_SMS', this)">🛡️ Rol 2: Inspector Seguridad Operacional (SMS)</button>
+        <button class="silo-btn" onclick="renderRoleView('AUDITOR_FIN', this)">💼 Rol 3: Auditor Dirección Financiera</button>
+        <button class="silo-btn" onclick="renderRoleView('PUBLICO', this)">🌐 Rol 4: Portal Datos Abiertos (Ciudadanía)</button>
+      </div>
+
+      <div id="role-policy-banner" style="margin-bottom:0.85rem;"></div>
+      <div class="table-wrap" id="role-product-table"></div>
+    </div>
+
+    <!-- Paso 3.4: Constructor de Hoja de Ruta Gradual -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.4. Constructor de Hoja de Ruta Gradual (Roadmap 30-60-90-180 Días)</h2>
+        <span class="pill pill-blue">Síntesis para Plenaria Final</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Revisa y personaliza la hoja de ruta incremental para implementar el Data Fabric en la Aerocivil sin depender de compras "Big Bang" riesgosas:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fase / Horizonte</th>
+              <th>Objetivo Prioritario (Quick Win)</th>
+              <th>Entregables Concretos</th>
+              <th>Responsable (A / R)</th>
+              <th>Riesgo Principal y Mitigación</th>
+              <th>Criterio de Aceptación Medible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Fase 1 (Días 1–30)</strong><br/>Cimientos y Semántica</td>
+              <td>Acordar el idioma común y el catálogo inicial del caso SIOA.</td>
+              <td>Tabla maestra oficial de aeródromos OACI-IATA (<code>M_REF</code>), Glosario de 15 términos críticos y Matriz RACI.</td>
+              <td><strong>A:</strong> Jefe Oficina Analítica<br/><strong>R:</strong> Comité de Datos (AIM, Ops, Fin, SMS)</td>
+              <td><em>Riesgo:</em> Resistencia de las áreas a ceder propiedad.<br/><em>Mitigación:</em> El dueño sigue siendo el área misional; Analítica solo articula.</td>
+              <td>100% de los aeródromos y términos del caso documentados y firmados por los 4 Data Owners.</td>
+            </tr>
+            <tr>
+              <td><strong>Fase 2 (Días 31–90)</strong><br/>Calidad y Piloto de Reconciliación</td>
+              <td>Automatizar las 5 reglas de calidad y eliminar el retrabajo manual de 8 días.</td>
+              <td>Flujo automatizado de validación (<code>DQ-01</code> a <code>DQ-05</code>) y bandeja de cuarentena de vuelos huérfanos/duplicados.</td>
+              <td><strong>A:</strong> Dirección TIC / Analítica<br/><strong>R:</strong> Data Stewards de Operaciones y Financiera</td>
+              <td><em>Riesgo:</em> Descuadres históricos no documentados.<br/><em>Mitigación:</em> Reporte dual (Crudo vs. Conciliado) durante 2 cierres mensuales.</td>
+              <td>Reducción del tiempo de cruce de 8 días a &lt; 2 horas y 0 vuelos cancelados cobrados en el reporte consolidado.</td>
+            </tr>
+            <tr>
+              <td><strong>Fase 3 (Días 91–180)</strong><br/>Consumo Gobernado y Acceso Virtual</td>
+              <td>Habilitar el Producto de Datos <code>SIOA-360</code> con control por roles y observabilidad.</td>
+              <td>Vistas gobernadas con enmascaramiento dinámico de PII (Ley 1581 / Anexo 19 OACI) y linaje documentado.</td>
+              <td><strong>A:</strong> Comité Directivo de Datos<br/><strong>R:</strong> Seguridad de la Información + SMS</td>
+              <td><em>Riesgo:</em> Exposición accidental de reportantes MOR.<br/><em>Mitigación:</em> Pruebas de penetración por rol antes de salir a producción.</td>
+              <td>4 perfiles de acceso validados en auditoría con 0 fugas de datos personales o confidenciales.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:0.9rem;">
+        <label style="font-weight:700; font-size:0.85rem; color:var(--navy);">Recomendación Ejecutiva Final de tu Equipo para la Sustentación:</label>
+        <textarea id="s3-roadmap-notes">Recomendamos iniciar la implementación del Data Fabric en la Aerocivil con un piloto acotado de 90 días sobre el caso SIOA, priorizando primero la homologación semántica (estándar OACI y huso horario UTC) y las 5 reglas de calidad automatizadas antes de adquirir cualquier plataforma comercial costosa.</textarea>
+      </div>
+    </div>
+
+    <!-- Paso 3.5: Copiloto de IA Socrático Sesión 3 -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.5. Copiloto de IA Socrático — Sesión 3 (Simulacro de Sustentación Directiva)</h2>
+        <button class="btn btn-primary" onclick="copyText('prompt-s3')">📋 Copiar Prompt para Simulacro de Sustentación</button>
+      </div>
+      <div class="ai-console" id="prompt-s3">Actúa como el Comité Directivo de la Aerocivil (integrado por el Director General, el Director Financiero y el Secretario de Seguridad Operacional).
+Vamos a sustentarte nuestra propuesta de Data Fabric para el caso "Cielo Integrado (SIOA)" con nuestra Hoja de Ruta a 30-90-180 días.
+Haznos 3 preguntas de sustentación ejecutiva:
+1. Como Secretario de Seguridad Operacional: cuestiona cómo garantizaremos que la integración de F3_SMS no viole el principio de Cultura Justa ni revele la cédula de los controladores o pilotos que reportan incidentes.
+2. Como Director Financiero: pregunta cómo aseguraremos que la diferencia entre Pasajeros Declarados (1.532) y Pasajeros Facturados (1.479) y los $13.500.000 COP en cuarentena queden auditables con linaje claro.
+3. Como Director General: pide justificar por qué una hoja de ruta gradual en 3 fases es más segura y viable que comprar una macro-plataforma en un proyecto de 2 años.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ============================================================================
+// DATOS SINTÉTICOS EMBEBIDOS DEL CASO AEROCIVIL "CIELO INTEGRADO (SIOA)"
+// ============================================================================
+const AEROCIVIL_DATA = {
+  maestro_aerodromos: [
+    { codigo_oaci: "SKBO", codigo_iata: "BOG", alias_comunes: "BOG | EL DORADO | BOGOTA | SKBO", nombre_oficial: "Aeropuerto Internacional El Dorado", ciudad: "Bogotá D.C.", regional_aerocivil: "Regional Cundinamarca", categoria_oaci: "4F" },
+    { codigo_oaci: "SKRG", codigo_iata: "MDE", alias_comunes: "MDE | RIONEGRO | JOSE MARIA CORDOVA | SKRG", nombre_oficial: "Aeropuerto Internacional José María Córdova", ciudad: "Rionegro / Medellín", regional_aerocivil: "Regional Antioquia", categoria_oaci: "4E" },
+    { codigo_oaci: "SKCG", codigo_iata: "CTG", alias_comunes: "CTG | CRESPO | RAFAEL NUNEZ | CARTAGENA | SKCG", nombre_oficial: "Aeropuerto Internacional Rafael Núñez", ciudad: "Cartagena", regional_aerocivil: "Regional Atlántico / Bolívar", categoria_oaci: "4D" },
+    { codigo_oaci: "SKCL", codigo_iata: "CLO", alias_comunes: "CLO | PALMASECA | ALFONSO BONILLA | CALI | SKCL", nombre_oficial: "Aeropuerto Internacional Alfonso Bonilla Aragón", ciudad: "Palmira / Cali", regional_aerocivil: "Regional Valle", categoria_oaci: "4E" },
+    { codigo_oaci: "SKBQ", codigo_iata: "BAQ", alias_comunes: "BAQ | SOLEDAD | ERNESTO CORTISSOZ | BARRANQUILLA | SKBQ", nombre_oficial: "Aeropuerto Internacional Ernesto Cortissoz", ciudad: "Soledad / Barranquilla", regional_aerocivil: "Regional Atlántico", categoria_oaci: "4E" }
+  ],
+  f1_operaciones: [
+    { id_registro: "OPS-101", id_vuelo: "VUELO-5001", fecha_local: "2026-10-15", hora_salida_local: "06:15", aerodromo_origen: "SKBO", aerodromo_destino: "SKRG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 148, minutos_demora: 12, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-44821", nombre_piloto: "Cap. Carlos Andrés Mejía", error_tag: "" },
+    { id_registro: "OPS-102", id_vuelo: "VUELO-5002", fecha_local: "2026-10-15", hora_salida_local: "07:30", aerodromo_origen: "SKBO", aerodromo_destino: "SKCG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 172, minutos_demora: 55, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-39104", nombre_piloto: "Cap. Laura Sofía Restrepo", error_tag: "" },
+    { id_registro: "OPS-103", id_vuelo: "VUELO-5002", fecha_local: "2026-10-15", hora_salida_local: "07:30", aerodromo_origen: "SKBO", aerodromo_destino: "SKCG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 172, minutos_demora: 55, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-39104", nombre_piloto: "Cap. Laura Sofía Restrepo", error_tag: "DUPLICADO (DQ-01)" },
+    { id_registro: "OPS-104", id_vuelo: "VUELO-5003", fecha_local: "2026-10-15", hora_salida_local: "08:45", aerodromo_origen: "SKRG", aerodromo_destino: "SKBO", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 135, minutos_demora: 48, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-51209", nombre_piloto: "Cap. Jorge Eliécer Pineda", error_tag: "" },
+    { id_registro: "OPS-105", id_vuelo: "VUELO-5004", fecha_local: "2026-10-15", hora_salida_local: "09:20", aerodromo_origen: "SKCL", aerodromo_destino: "SKBO", tipo_vuelo: "Comercial Regular", pasajeros_declarados: -15, minutos_demora: 5, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-28910", nombre_piloto: "Cap. Diana Marcela Gómez", error_tag: "VALOR NEGATIVO -15 (DQ-03)" },
+    { id_registro: "OPS-106", id_vuelo: "VUELO-5005", fecha_local: "2026-10-15", hora_salida_local: "10:10", aerodromo_origen: "SKBQ", aerodromo_destino: "SKBO", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 160, minutos_demora: 75, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-60112", nombre_piloto: "Cap. Mauricio Valderrama", error_tag: "" },
+    { id_registro: "OPS-107", id_vuelo: "VUELO-5005", fecha_local: "2026-10-15", hora_salida_local: "10:10", aerodromo_origen: "SKBQ", aerodromo_destino: "SKBO", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 160, minutos_demora: 75, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-60112", nombre_piloto: "Cap. Mauricio Valderrama", error_tag: "DUPLICADO (DQ-01)" },
+    { id_registro: "OPS-108", id_vuelo: "VUELO-5006", fecha_local: "2026-10-15", hora_salida_local: "11:00", aerodromo_origen: "SKCG", aerodromo_destino: "SKRG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 140, minutos_demora: "", estado_vuelo: "Aterrizado", licencia_piloto: "PCA-33490", nombre_piloto: "Cap. Andrés Felipe Mora", error_tag: "DEMORA NULA (DQ-04)" },
+    { id_registro: "OPS-109", id_vuelo: "VUELO-5007", fecha_local: "2026-10-15", hora_salida_local: "13:15", aerodromo_origen: "SKBO", aerodromo_destino: "SKCL", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 180, minutos_demora: 95, estado_vuelo: "Desviado", licencia_piloto: "PCA-44821", nombre_piloto: "Cap. Carlos Andrés Mejía", error_tag: "" },
+    { id_registro: "OPS-110", id_vuelo: "VUELO-5008", fecha_local: "2026-10-15", hora_salida_local: "14:40", aerodromo_origen: "SKRG", aerodromo_destino: "SKBQ", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 128, minutos_demora: 18, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-71902", nombre_piloto: "Cap. Natalia Echeverri", error_tag: "" },
+    { id_registro: "OPS-111", id_vuelo: "VUELO-5009", fecha_local: "2026-10-15", hora_salida_local: "16:05", aerodromo_origen: "SKBO", aerodromo_destino: "SKBQ", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 165, minutos_demora: 62, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-51209", nombre_piloto: "Cap. Jorge Eliécer Pineda", error_tag: "" },
+    { id_registro: "OPS-112", id_vuelo: "VUELO-5010", fecha_local: "2026-10-15", hora_salida_local: "17:50", aerodromo_origen: "SKCL", aerodromo_destino: "SKCG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 144, minutos_demora: 8, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-28910", nombre_piloto: "Cap. Diana Marcela Gómez", error_tag: "" },
+    { id_registro: "OPS-113", id_vuelo: "VUELO-5010", fecha_local: "2026-10-15", hora_salida_local: "17:50", aerodromo_origen: "SKCL", aerodromo_destino: "SKCG", tipo_vuelo: "Comercial Regular", pasajeros_declarados: 144, minutos_demora: 8, estado_vuelo: "Aterrizado", licencia_piloto: "PCA-28910", nombre_piloto: "Cap. Diana Marcela Gómez", error_tag: "DUPLICADO (DQ-01)" }
+  ],
+  f2_meteorologia: [
+    { id_reporte_met: "MET-01", codigo_estacion: "SKBO", fecha_utc: "2026-10-15", hora_utc: "11:00Z (06:00 Local)", visibilidad_metros: 8000, viento_nudos: 8, fenomeno_adverso: "Ninguno", alerta_meteo: "VERDE", error_tag: "" },
+    { id_reporte_met: "MET-02", codigo_estacion: "SKBO", fecha_utc: "2026-10-15", hora_utc: "12:30Z (07:30 Local)", visibilidad_metros: 1200, viento_nudos: 22, fenomeno_adverso: "Niebla Densa / Cizalladura", alerta_meteo: "ROJA", error_tag: "" },
+    { id_reporte_met: "MET-03", codigo_estacion: "SKRG", fecha_utc: "2026-10-15", hora_utc: "13:45Z (08:45 Local)", visibilidad_metros: 2500, viento_nudos: 18, fenomeno_adverso: "Tormenta Eléctrica (TSRA)", alerta_meteo: "AMARILLA", error_tag: "" },
+    { id_reporte_met: "MET-04", codigo_estacion: "SKCL", fecha_utc: "2026-10-15", hora_utc: "14:20Z (09:20 Local)", visibilidad_metros: 999999, viento_nudos: 6, fenomeno_adverso: "Despejado", alerta_meteo: "VERDE", error_tag: "FUERA DE RANGO 999999 (DQ-03)" },
+    { id_reporte_met: "MET-05", codigo_estacion: "SKBQ", fecha_utc: "2026-10-15", hora_utc: "15:10Z (10:10 Local)", visibilidad_metros: 1800, viento_nudos: 28, fenomeno_adverso: "Ráfagas Fuertes / Lluvia", alerta_meteo: "ROJA", error_tag: "" },
+    { id_reporte_met: "MET-06", codigo_estacion: "SKCG", fecha_utc: "2026-10-15", hora_utc: "16:00Z (11:00 Local)", visibilidad_metros: 9000, viento_nudos: 12, fenomeno_adverso: "Ninguno", alerta_meteo: "VERDE", error_tag: "" },
+    { id_reporte_met: "MET-07", codigo_estacion: "SKBO", fecha_utc: "2026-10-15", hora_utc: "18:15Z (13:15 Local)", visibilidad_metros: 900, viento_nudos: 30, fenomeno_adverso: "Granizo / CB en aproximación", alerta_meteo: "ROJA", error_tag: "" },
+    { id_reporte_met: "MET-08", codigo_estacion: "SKBO", fecha_utc: "2026-10-15", hora_utc: "21:05Z (16:05 Local)", visibilidad_metros: 3200, viento_nudos: 19, fenomeno_adverso: "Lluvia Moderada", alerta_meteo: "AMARILLA", error_tag: "" }
+  ],
+  f3_seguridad: [
+    { id_suceso: "MOR-2026-01", id_vuelo_asociado: "VUELO-5002", aerodromo_reportado: "BOG", categoria_suceso: "MET - Cizalladura en Despegue", severidad_sms: "ALTA", descripcion_evento: "Alerta windshear a 400 ft tras salida por pista 13L.", cedula_reportante: "79.845.120", nombre_reportante: "Ing. Ricardo Gómez (Controlador TWR)", error_tag: "CÓDIGO IATA 'BOG' (DQ-02)" },
+    { id_suceso: "MOR-2026-02", id_vuelo_asociado: "VUELO-5003", aerodromo_reportado: "RIONEGRO", categoria_suceso: "ATM - Espera en Holding por Clima", severidad_sms: "MEDIA", descripcion_evento: "Demora en secuencia de salida por celda convectiva.", cedula_reportante: "43.512.890", nombre_reportante: "Catalina Vélez (Despachadora)", error_tag: "ALIAS 'RIONEGRO' (DQ-02)" },
+    { id_suceso: "MOR-2026-03", id_vuelo_asociado: "VUELO-5005", aerodromo_reportado: "BAQ", categoria_suceso: "RWY - Pista Húmeda con Ráfagas", severidad_sms: "", descripcion_evento: "Frenado exigente y demora en liberación de calle de rodaje.", cedula_reportante: "72.190.443", nombre_reportante: "Hernán Darío Cotes (Inspector Ramp)", error_tag: "IATA 'BAQ' + SEVERIDAD VACÍA (DQ-02/04)" },
+    { id_suceso: "MOR-2026-04", id_vuelo_asociado: "VUELO-5007", aerodromo_reportado: "EL DORADO", categoria_suceso: "MET - Aproximación Frustrada y Desvío", severidad_sms: "CRITICA", descripcion_evento: "Go-around por tormenta severa y desvío a alterno.", cedula_reportante: "1.020.445.910", nombre_reportante: "Luisa Fernanda Ariza (Oficial SMS)", error_tag: "ALIAS 'EL DORADO' (DQ-02)" },
+    { id_suceso: "MOR-2026-05", id_vuelo_asociado: "VUELO-5009", aerodromo_reportado: "SKBO", categoria_suceso: "FOD - Inspección de Pista Post-Lluvia", severidad_sms: "BAJA", descripcion_evento: "Retraso preventivo mientras vehículo SEI revisaba pista.", cedula_reportante: "80.112.334", nombre_reportante: "Camilo Pinzón (Supervisor SEI)", error_tag: "" }
+  ],
+  f4_recaudo: [
+    { id_liquidacion: "LIQ-8001", id_vuelo: "VUELO-5001", aerodromo_cobro: "BOG", pasajeros_facturados: 144, valor_tasa_cop: 7200000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8002", id_vuelo: "VUELO-5002", aerodromo_cobro: "BOG", pasajeros_facturados: 168, valor_tasa_cop: 8400000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8003", id_vuelo: "VUELO-5003", aerodromo_cobro: "MDE", pasajeros_facturados: 130, valor_tasa_cop: 6500000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8004", id_vuelo: "VUELO-5004", aerodromo_cobro: "CLO", pasajeros_facturados: 146, valor_tasa_cop: 7300000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8005", id_vuelo: "VUELO-5005", aerodromo_cobro: "BAQ", pasajeros_facturados: 155, valor_tasa_cop: 7750000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8006", id_vuelo: "VUELO-5006", aerodromo_cobro: "CTG", pasajeros_facturados: 136, valor_tasa_cop: 6800000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8007", id_vuelo: "VUELO-5007", aerodromo_cobro: "BOG", pasajeros_facturados: 175, valor_tasa_cop: 8750000, estado_recaudo: "En Disputa por Desvío", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8008", id_vuelo: "VUELO-5008", aerodromo_cobro: "MDE", pasajeros_facturados: 125, valor_tasa_cop: 6250000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8009", id_vuelo: "VUELO-5009", aerodromo_cobro: "BOG", pasajeros_facturados: 160, valor_tasa_cop: 8000000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8010", id_vuelo: "VUELO-5010", aerodromo_cobro: "CLO", pasajeros_facturados: 140, valor_tasa_cop: 7000000, estado_recaudo: "Conciliado", error_tag: "CÓDIGO IATA (DQ-02)" },
+    { id_liquidacion: "LIQ-8011", id_vuelo: "VUELO-9991", aerodromo_cobro: "BOG", pasajeros_facturados: 150, valor_tasa_cop: 7500000, estado_recaudo: "Cobro Preliminar Vuelo Cancelado", error_tag: "HUÉRFANO SIN VUELO (DQ-05)" },
+    { id_liquidacion: "LIQ-8012", id_vuelo: "VUELO-9992", aerodromo_cobro: "CTG", pasajeros_facturados: 120, valor_tasa_cop: 6000000, estado_recaudo: "Cobro Preliminar Vuelo Cancelado", error_tag: "HUÉRFANO SIN VUELO (DQ-05)" }
+  ]
+};
+
+// ============================================================================
+// NAVEGACIÓN ENTRE SESIONES
+// ============================================================================
+function switchSession(num) {
+  document.querySelectorAll('.session-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.session-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('session-' + num).classList.add('active');
+  document.getElementById('tab-btn-' + num).classList.add('active');
+}
+
+// ============================================================================
+// SESIÓN 1: INSPECTOR Y AUDITORÍA DE SILOS, MAPA DE FUENTES Y CAPAS DATA FABRIC
+// ============================================================================
+const SILO_META = {
+  F1_OPS: {
+    name: "F1_OPS — SIIV Operaciones y Planes de Vuelo (f1_operaciones_vuelos.csv)",
+    owner: "Dirección de Servicios a la Navegación Aérea",
+    tech: "PostgreSQL Transaccional (Exportación CSV diaria)",
+    desc: "Registra los vuelos regulares operados en aeródromos colombianos. Contiene horas locales, pasajeros declarados por aerolínea y datos de tripulación técnica.",
+    frictions: [
+      { id: "f1_dup", text: "Registros de vuelo duplicados por retransmisión (id_vuelo repetido con desfase de ID)", correct: true },
+      { id: "f1_neg", text: "Valores negativos de pasajeros (-15 en OPS-105) por error de digitación o cálculo", correct: true },
+      { id: "f1_null", text: "Campos críticos de demora vacíos/nulos sin justificación operativa (OPS-108)", correct: true },
+      { id: "f1_pii", text: "Exposición directa de datos personales sensibles (nombre y licencia de pilotos)", correct: true },
+      { id: "f1_dis1", text: "Estampas de tiempo en huso horario internacional UTC (+5 horas de desfase)", correct: false, reason: "F1_OPS registra en Hora Local colombiana UTC-5. El huso horario UTC ocurre en F2_MET." },
+      { id: "f1_dis2", text: "Identificadores de aeródromo en formato comercial IATA de 3 letras (BOG, MDE)", correct: false, reason: "F1_OPS ya utiliza el estándar técnico OACI de 4 letras (SKBO, SKRG, SKCL, SKBQ, SKCG)." },
+      { id: "f1_dis3", text: "Cobros preliminares de vuelos cancelados sin vuelo operado asociado", correct: false, reason: "Las facturas huérfanas provienen del ERP financiero (F4_FIN), no de F1_OPS." }
+    ]
+  },
+  F2_MET: {
+    name: "F2_MET — METEO-AERO Reportes Horarios METAR (f2_meteorologia_aerodromos.csv)",
+    owner: "Grupo de Meteorología Aeronáutica",
+    tech: "API / Flujo Horario en formato JSON/CSV",
+    desc: "Reportes meteorológicos horarios de superficie generados en estaciones aeroportuarias según regulación OACI.",
+    frictions: [
+      { id: "f2_utc", text: "Huso horario en tiempo universal UTC/Zulu (+5h de desfase respecto a la hora local)", correct: true },
+      { id: "f2_outlier", text: "Outlier físico extremo / error de sensor en visibilidad (999999 metros en MET-04)", correct: true },
+      { id: "f2_alert", text: "Condiciones meteorológicas severas (niebla densa y cizalladura) que exigen correlación operativa", correct: true },
+      { id: "f2_dis1", text: "Nombres informales de aeropuertos en texto libre ('EL DORADO', 'RIONEGRO')", correct: false, reason: "F2_MET usa estrictamente el código OACI de 4 letras (SKBO, SKRG, etc.)." },
+      { id: "f2_dis2", text: "Valores de velocidad de viento con cifras numéricas negativas", correct: false, reason: "Los registros de viento son números válidos en nudos; no hay valores negativos." },
+      { id: "f2_dis3", text: "Exposición de cédulas y licencias protegidas por Ley 1581", correct: false, reason: "Los reportes METAR son públicos oficiales y no contienen datos de personas naturales." }
+    ]
+  },
+  F3_SMS: {
+    name: "F3_SMS — SIGSO Reportes de Seguridad Operacional MOR (f3_seguridad_incidentes.csv)",
+    owner: "Secretaría de Seguridad Operacional y de la Aviación Civil",
+    tech: "Archivo Excel Departamental Semanal con Reserva Legal",
+    desc: "Reportes obligatorios y voluntarios de seguridad operacional (Mandatory Occurrence Reporting - MOR).",
+    frictions: [
+      { id: "f3_iata", text: "Heterogeneidad semántica en aeródromos: mezcla códigos IATA ('BOG', 'BAQ'), alias ('EL DORADO') y OACI", correct: true },
+      { id: "f3_pii", text: "Exposición de cédula y nombre del reportante, violando Cultura Justa (Anexo 19 OACI) y Ley 1581", correct: true },
+      { id: "f3_null", text: "Campos de severidad SMS nulos/vacíos sin tipificación de riesgo (MOR-2026-03)", correct: true },
+      { id: "f3_dis1", text: "Vuelos duplicados por retransmisión de base de datos relacional", correct: false, reason: "Los números de reporte MOR son consecutivos únicos semanales; la duplicación técnica ocurrió en F1_OPS." },
+      { id: "f3_dis2", text: "Valores de recaudo económico huérfano", correct: false, reason: "SMS no gestiona recaudos ni liquidaciones de tasas; eso corresponde a Financiera (F4_FIN)." },
+      { id: "f3_dis3", text: "Huso horario UTC en las estampas de tiempo", correct: false, reason: "Los eventos MOR se reportan en fecha y hora local del evento." }
+    ]
+  },
+  F4_FIN: {
+    name: "F4_FIN — RECAUDO-AERO Facturación de Tasas Aeroportuarias (f4_recaudo_tasas.csv)",
+    owner: "Dirección Financiera / Grupo de Facturación",
+    tech: "ERP Financiero On-Premise (Lote Mensual)",
+    desc: "Liquidaciones comerciales de tasas por pasajero facturado y derechos de aeródromo emitidas a aerolíneas comerciales.",
+    frictions: [
+      { id: "f4_iata", text: "Uso exclusivo de códigos comerciales IATA de 3 letras ('BOG', 'MDE', 'CLO', 'BAQ', 'CTG')", correct: true },
+      { id: "f4_orphan", text: "Facturas huérfanas ($13.500.000 COP) de vuelos cancelados (VUELO-9991 y 9992) sin operación real", correct: true },
+      { id: "f4_semantic", text: "Discrepancia semántica de negocio entre Pasajeros Facturados y Pasajeros Declarados", correct: true },
+      { id: "f4_dis1", text: "Valores monetarios negativos en el valor de la tasa en COP", correct: false, reason: "Todas las tasas son importes positivos en pesos colombianos." },
+      { id: "f4_dis2", text: "Exposición de licencias de pilotos técnicos de aerolínea", correct: false, reason: "Financiera no maneja datos de tripulación técnica." },
+      { id: "f4_dis3", text: "Errores de sensor de visibilidad meteorológica", correct: false, reason: "Las variables meteorológicas pertenecen a F2_MET." }
+    ]
+  },
+  M_REF: {
+    name: "M_REF — Tabla Maestra Oficial de Aeródromos MDM (m_maestro_aerodromos.csv)",
+    owner: "Oficina de Analítica / Información Aeronáutica (AIM)",
+    tech: "Catálogo Maestro de Referencia (MDM)",
+    desc: "Activo Habilitador Central de la Arquitectura Data Fabric. Diccionario canónico que mapea código OACI oficial, código IATA, alias comunes, nombre oficial y categoría del aeródromo.",
+    frictions: []
+  }
+};
+
+const siloAuditState = {
+  F1_OPS: { checked: new Set(), passed: false, showErrors: false, shuffledFrictions: null },
+  F2_MET: { checked: new Set(), passed: false, showErrors: false, shuffledFrictions: null },
+  F3_SMS: { checked: new Set(), passed: false, showErrors: false, shuffledFrictions: null },
+  F4_FIN: { checked: new Set(), passed: false, showErrors: false, shuffledFrictions: null },
+  M_REF: { checked: new Set(), passed: true, showErrors: false, shuffledFrictions: null }
+};
+
+let currentSiloKey = 'F1_OPS';
+
+function renderSiloInspector(siloKey, btnEl) {
+  currentSiloKey = siloKey;
+  if (btnEl) {
+    document.querySelectorAll('#session-1 .silo-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+
+  const meta = SILO_META[siloKey];
+  document.getElementById('silo-inspector-meta').innerHTML = `
+    <div class="banner-info" style="margin-bottom:0.6rem;">
+      <strong>${meta.name}</strong><br/>
+      <span style="font-size:0.85rem;"><strong>Área Custodia:</strong> ${meta.owner} | <strong>Tecnología:</strong> ${meta.tech}</span><br/>
+      <span style="font-size:0.83rem; color:var(--text);">${meta.desc}</span>
+    </div>
+  `;
+
+  renderAuditChallengeBox(siloKey);
+  renderSiloDataTable(siloKey);
+  updateAuditGlobalBadge();
+}
+
+function renderAuditChallengeBox(siloKey) {
+  const container = document.getElementById('silo-inspector-audit');
+  const meta = SILO_META[siloKey];
+  const state = siloAuditState[siloKey];
+
+  if (!state.shuffledFrictions && meta.frictions && meta.frictions.length > 0) {
+    state.shuffledFrictions = [...meta.frictions].sort(() => Math.random() - 0.5);
+  }
+  const frictionsList = state.shuffledFrictions || meta.frictions || [];
+
+  if (siloKey === 'M_REF') {
+    container.innerHTML = `
+      <div style="background:#F0FDF4; border:1px solid #86EFAC; border-radius:6px; padding:0.75rem 0.9rem;">
+        <strong style="color:#166534;">🏛️ Activo Habilitador de la Arquitectura Data Fabric (MDM):</strong>
+        <p style="margin:0.25rem 0 0; font-size:0.85rem; color:#14532D;">
+          Esta tabla maestra no es un silo con inconsistencias, sino el activo de referencia que permite homologar de forma centralizada códigos comerciales IATA y alias hacia el estándar único OACI de 4 letras.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  const trueFrictions = meta.frictions.filter(f => f.correct);
+  const totalTrue = trueFrictions.length;
+  const selectedCorrect = meta.frictions.filter(f => f.correct && state.checked.has(f.id)).length;
+  const selectedWrong = meta.frictions.filter(f => !f.correct && state.checked.has(f.id)).length;
+
+  let feedbackHtml = '';
+  if (state.passed) {
+    feedbackHtml = `
+      <div class="banner-success" style="margin-top:0.75rem;">
+        🎉 <strong>¡Auditoría Superada en ${siloKey}!</strong> Has identificado con precisión las ${totalTrue} fricciones reales presentes en esta fuente.
+      </div>
+    `;
+  } else if (selectedWrong > 0) {
+    feedbackHtml = `
+      <div class="banner-danger" style="margin-top:0.75rem;">
+        ⚠️ <strong>Atención:</strong> Has marcado ${selectedWrong} opción(es) que NO corresponden a este silo. Inspecciona con detenimiento los datos o desmárcalas para avanzar.
+      </div>
+    `;
+  } else if (selectedCorrect > 0) {
+    feedbackHtml = `
+      <div class="banner-warn" style="margin-top:0.75rem;">
+        🔍 <strong>Progreso:</strong> Has detectado ${selectedCorrect} de ${totalTrue} fricciones verdaderas. ¡Continúa inspeccionando los datos! (Intentos ilimitados).
+      </div>
+    `;
+  } else {
+    feedbackHtml = `
+      <div style="margin-top:0.6rem; font-size:0.83rem; color:var(--muted);">
+        ℹ️ <em>Revisa la tabla inferior y marca las casillas correspondientes a las anomalías reales. Se dará por superada la auditoría cuando selecciones exactamente todas las que sí corresponden.</em>
+      </div>
+    `;
+  }
+
+  let optionsHtml = '';
+  frictionsList.forEach(f => {
+    const isChecked = state.checked.has(f.id);
+    let itemClass = '';
+    if (isChecked) {
+      itemClass = f.correct ? 'checked-correct' : 'checked-wrong';
+    }
+    optionsHtml += `
+      <label class="audit-option-label ${itemClass}">
+        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="onToggleFriction('${siloKey}', '${f.id}', this.checked)" />
+        <div style="flex:1;">
+          <span style="font-weight:600; color:var(--text);">${f.text}</span>
+          ${(isChecked && !f.correct) ? `<div style="font-size:0.78rem; color:#991B1B; margin-top:0.2rem;">↳ <em>${f.reason}</em></div>` : ''}
+        </div>
+      </label>
+    `;
+  });
+
+  container.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+      <strong style="color:var(--navy); font-size:0.9rem;">🎯 Desafío de Auditoría Técnica — ${siloKey}:</strong>
+      <span class="pill ${state.passed ? 'pill-green' : 'pill-amber'}">
+        ${state.passed ? '✓ Auditoría Superada' : `Detectadas: ${selectedCorrect} / ${totalTrue}`}
+      </span>
+    </div>
+    <div class="audit-grid">${optionsHtml}</div>
+    ${feedbackHtml}
+  `;
+}
+
+function onToggleFriction(siloKey, frictionId, isChecked) {
+  const state = siloAuditState[siloKey];
+  if (isChecked) {
+    state.checked.add(frictionId);
+  } else {
+    state.checked.delete(frictionId);
+  }
+
+  const meta = SILO_META[siloKey];
+  const totalTrue = meta.frictions.filter(f => f.correct).length;
+  const selectedCorrect = meta.frictions.filter(f => f.correct && state.checked.has(f.id)).length;
+  const selectedWrong = meta.frictions.filter(f => !f.correct && state.checked.has(f.id)).length;
+
+  if (selectedWrong === 0 && selectedCorrect === totalTrue) {
+    state.passed = true;
+  } else {
+    state.passed = false;
+  }
+
+  renderAuditChallengeBox(siloKey);
+  updateAuditGlobalBadge();
+}
+
+function updateAuditGlobalBadge() {
+  const silos = ['F1_OPS', 'F2_MET', 'F3_SMS', 'F4_FIN'];
+  const passedCount = silos.filter(k => siloAuditState[k].passed).length;
+  const badge = document.getElementById('audit-global-badge');
+  if (badge) {
+    badge.innerText = `Auditoría: ${passedCount} / 4 Silos Superados`;
+    if (passedCount === 4) {
+      badge.className = 'pill pill-green';
+      badge.innerText = '🎉 ¡Auditoría Completa: 4 / 4 Silos Superados!';
+    } else {
+      badge.className = 'pill pill-blue';
+    }
+  }
+}
+
+function toggleRowDiagnostics() {
+  siloAuditState[currentSiloKey].showErrors = !siloAuditState[currentSiloKey].showErrors;
+  renderSiloDataTable(currentSiloKey);
+}
+
+function renderSiloDataTable(siloKey) {
+  const keyMap = {
+    F1_OPS: 'f1_operaciones',
+    F2_MET: 'f2_meteorologia',
+    F3_SMS: 'f3_seguridad',
+    F4_FIN: 'f4_recaudo',
+    M_REF: 'maestro_aerodromos'
+  };
+  const rows = AEROCIVIL_DATA[keyMap[siloKey]];
+  const cols = Object.keys(rows[0]).filter(c => c !== 'error_tag');
+  const showDiag = siloAuditState[siloKey].showErrors;
+
+  let html = '<table><thead><tr>';
+  cols.forEach(c => { html += `<th>${c}</th>`; });
+  if (showDiag) {
+    html += '<th style="background:#7F1D1D;">Diagnóstico de Calidad</th>';
+  }
+  html += '</tr></thead><tbody>';
+
+  rows.forEach(r => {
+    const hasError = r.error_tag && showDiag;
+    const rowClass = hasError ? 'class="row-error"' : '';
+    html += `<tr ${rowClass}>`;
+    cols.forEach(c => {
+      let val = r[c];
+      if (c === 'valor_tasa_cop') val = '$ ' + Number(val).toLocaleString('es-CO');
+      html += `<td>${val === '' ? '<em>(VACÍO)</em>' : val}</td>`;
+    });
+    if (showDiag) {
+      html += `<td>${r.error_tag ? `<span class="pill pill-red">${r.error_tag}</span>` : '<span class="pill pill-green">OK</span>'}</td>`;
+    }
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('silo-inspector-table').innerHTML = html;
+}
+
+// ----------------------------------------------------------------------------
+// AYUDAS DE ENTREGABLE 1A (PROMPT IA, PYTHON, SQL)
+// ----------------------------------------------------------------------------
+function toggleExpectedFindings() {
+  const box = document.getElementById('box-expected-findings');
+  if (box) {
+    box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+  }
+}
+
+function toggleReferenceLayers() {
+  const box = document.getElementById('box-reference-layers');
+  if (box) {
+    box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+  }
+}
+
+function loadPromptAuditoriaTemplate() {
+  const prompt = `Actúa como auditor sénior de calidad e integración de datos aeronáuticos para la Aerocivil.
+Te entrego muestras crudas de 4 silos institucionales (Operaciones F1, Clima F2, Seguridad F3 y Financiera F4) y 1 tabla maestra M_REF.
+Tu objetivo es analizar fila por fila y columna por columna para identificar:
+1. Registros duplicados técnicos o de negocio.
+2. Inconsistencias de tipo o rango físico (valores negativos, outliers).
+3. Campos nulos o vacíos sin justificación.
+4. Desfases de huso horario (UTC vs Hora Local).
+5. Heterogeneidad semántica en códigos de aeropuertos (OACI vs IATA vs Alias).
+6. Facturas huérfanas o pérdida de integridad referencial.
+7. Exposición de datos personales (PII) bajo Ley 1581 y principio de Cultura Justa (Anexo 19 OACI).
+Devuelve una matriz de hallazgos estructurada con: Silo | Registro / ID | Defecto Encontrado | Impacto en la Operación.`;
+  navigator.clipboard.writeText(prompt).then(() => {
+    alert("¡Prompt de auditoría copiado al portapapeles! Puedes pegarlo en ChatGPT, Gemini o Claude.");
+  });
+}
+
+function loadPythonAuditSnippet() {
+  const pyCode = `# Script de Auditoría de Silos con Pandas (AeroFabric Lab)
+import pandas as pd
+
+# 1. Auditar Operaciones (F1_OPS)
+df_ops = pd.read_csv('f1_operaciones_vuelos.csv')
+duplicados = df_ops[df_ops.duplicated(subset=['id_vuelo'], keep=False)]
+pax_negativos = df_ops[df_ops['pasajeros_declarados'] < 0]
+demora_nula = df_ops[df_ops['minutos_demora'].isna()]
+
+# 2. Auditar Meteorología (F2_MET)
+df_met = pd.read_csv('f2_meteorologia_aerodromos.csv')
+outliers_vis = df_met[df_met['visibilidad_metros'] > 20000]
+
+# 3. Auditar Incidentes MOR (F3_SMS)
+df_sms = pd.read_csv('f3_seguridad_incidentes.csv')
+pii_expuesto = df_sms[['id_suceso', 'cedula_reportante', 'nombre_reportante']]
+
+# 4. Auditar Facturación (F4_FIN) vs Vuelos
+df_fin = pd.read_csv('f4_recaudo_tasas.csv')
+huerfanos = df_fin[~df_fin['id_vuelo'].isin(df_ops['id_vuelo'])]
+print(f"Facturas huérfanas detectadas: {len(huerfanos)} ($ {huerfanos['valor_tasa_cop'].sum():,} COP)")`;
+  navigator.clipboard.writeText(pyCode).then(() => {
+    alert("¡Snippet de Python (Pandas) copiado al portapapeles!");
+  });
+}
+
+function loadSQLAuditSnippet() {
+  const sqlCode = `-- 1. Duplicados en Operaciones
+SELECT id_vuelo, COUNT(*) as conteo 
+FROM f1_operaciones_vuelos 
+GROUP BY id_vuelo HAVING COUNT(*) > 1;
+
+-- 2. Pasajeros Negativos y Demoras Nulas
+SELECT * FROM f1_operaciones_vuelos 
+WHERE pasajeros_declarados < 0 OR minutos_demora IS NULL;
+
+-- 3. Outlier en Visibilidad
+SELECT * FROM f2_meteorologia_aerodromos 
+WHERE visibilidad_metros > 20000;
+
+-- 4. Facturas Huérfanas de Vuelos Cancelados
+SELECT fin.* FROM f4_recaudo_tasas fin
+LEFT JOIN f1_operaciones_vuelos ops ON fin.id_vuelo = ops.id_vuelo
+WHERE ops.id_vuelo IS NULL;`;
+  navigator.clipboard.writeText(sqlCode).then(() => {
+    alert("¡Consultas SQL copiadas al portapapeles!");
+  });
+}
+
+// ----------------------------------------------------------------------------
+// 1.2. CONSTRUCTOR INTERACTIVO DEL MAPA DE FUENTES CON COMBOBOXES
+// ----------------------------------------------------------------------------
+const SOURCE_MAP_DATA = [
+  {
+    id: "F1_OPS",
+    name: "F1_OPS (SIIV Operaciones)",
+    ownerExpected: "Dirección de Navegación Aérea",
+    ownerOptions: ["Dirección de Navegación Aérea", "Grupo de Meteorología Aeronáutica", "Secretaría de Seguridad Operacional (SMS)", "Dirección Financiera", "Oficina de Analítica / AIM"],
+    formatExpected: "PostgreSQL Transaccional / CSV Diario",
+    formatOptions: ["PostgreSQL Transaccional / CSV Diario", "API JSON Horaria (Estampa UTC)", "Excel Semanal Departamental", "ERP On-Premise / Lote Mensual", "Kafka Stream en Tiempo Real"],
+    problemExpected: "Duplicados por retransmisión, pasajeros negativos y PII de pilotos",
+    problemOptions: ["Duplicados por retransmisión, pasajeros negativos y PII de pilotos", "Desfase de reloj UTC (+5h) y lectura anómala de visibilidad (999999)", "Heterogeneidad semántica (IATA/Alias) y reserva legal PII (Cultura Justa)", "Uso de códigos IATA y facturas huérfanas de vuelos cancelados", "Pérdida de conectividad física en base de datos"],
+    sensExpected: "Interno Institucional (con PII)",
+    sensOptions: ["Público Oficial", "Interno Institucional (con PII)", "Confidencial (Cultura Justa OACI)", "Restringido Financiero"],
+    patternExpected: "Ingesta ETL Diario + Reglas de Calidad Automáticas",
+    patternOptions: ["Ingesta ETL Diario + Reglas de Calidad Automáticas", "Conector Virtual API + Normalización de Reloj UTC a Local", "Virtualización Gobernada + Enmascaramiento Dinámico (RBAC)", "Snapshot Conciliado Mensual + Cuarentena por Integridad Referencial", "Reemplazo del sistema transaccional por nuevo software"]
+  },
+  {
+    id: "F2_MET",
+    name: "F2_MET (METEO-AERO)",
+    ownerExpected: "Grupo de Meteorología Aeronáutica",
+    ownerOptions: ["Dirección de Navegación Aérea", "Grupo de Meteorología Aeronáutica", "Secretaría de Seguridad Operacional (SMS)", "Dirección Financiera", "Oficina de Analítica / AIM"],
+    formatExpected: "API JSON Horaria (Estampa UTC)",
+    formatOptions: ["PostgreSQL Transaccional / CSV Diario", "API JSON Horaria (Estampa UTC)", "Excel Semanal Departamental", "ERP On-Premise / Lote Mensual", "Kafka Stream en Tiempo Real"],
+    problemExpected: "Desfase de reloj UTC (+5h) y lectura anómala de visibilidad (999999)",
+    problemOptions: ["Duplicados por retransmisión, pasajeros negativos y PII de pilotos", "Desfase de reloj UTC (+5h) y lectura anómala de visibilidad (999999)", "Heterogeneidad semántica (IATA/Alias) y reserva legal PII (Cultura Justa)", "Uso de códigos IATA y facturas huérfanas de vuelos cancelados", "Pérdida de conectividad física en base de datos"],
+    sensExpected: "Público Oficial",
+    sensOptions: ["Público Oficial", "Interno Institucional (con PII)", "Confidencial (Cultura Justa OACI)", "Restringido Financiero"],
+    patternExpected: "Conector Virtual API + Normalización de Reloj UTC a Local",
+    patternOptions: ["Ingesta ETL Diario + Reglas de Calidad Automáticas", "Conector Virtual API + Normalización de Reloj UTC a Local", "Virtualización Gobernada + Enmascaramiento Dinámico (RBAC)", "Snapshot Conciliado Mensual + Cuarentena por Integridad Referencial", "Reemplazo del sistema transaccional por nuevo software"]
+  },
+  {
+    id: "F3_SMS",
+    name: "F3_SMS (SIGSO MOR)",
+    ownerExpected: "Secretaría de Seguridad Operacional (SMS)",
+    ownerOptions: ["Dirección de Navegación Aérea", "Grupo de Meteorología Aeronáutica", "Secretaría de Seguridad Operacional (SMS)", "Dirección Financiera", "Oficina de Analítica / AIM"],
+    formatExpected: "Excel Semanal Departamental",
+    formatOptions: ["PostgreSQL Transaccional / CSV Diario", "API JSON Horaria (Estampa UTC)", "Excel Semanal Departamental", "ERP On-Premise / Lote Mensual", "Kafka Stream en Tiempo Real"],
+    problemExpected: "Heterogeneidad semántica (IATA/Alias) y reserva legal PII (Cultura Justa)",
+    problemOptions: ["Duplicados por retransmisión, pasajeros negativos y PII de pilotos", "Desfase de reloj UTC (+5h) y lectura anómala de visibilidad (999999)", "Heterogeneidad semántica (IATA/Alias) y reserva legal PII (Cultura Justa)", "Uso de códigos IATA y facturas huérfanas de vuelos cancelados", "Pérdida de conectividad física en base de datos"],
+    sensExpected: "Confidencial (Cultura Justa OACI)",
+    sensOptions: ["Público Oficial", "Interno Institucional (con PII)", "Confidencial (Cultura Justa OACI)", "Restringido Financiero"],
+    patternExpected: "Virtualización Gobernada + Enmascaramiento Dinámico (RBAC)",
+    patternOptions: ["Ingesta ETL Diario + Reglas de Calidad Automáticas", "Conector Virtual API + Normalización de Reloj UTC a Local", "Virtualización Gobernada + Enmascaramiento Dinámico (RBAC)", "Snapshot Conciliado Mensual + Cuarentena por Integridad Referencial", "Reemplazo del sistema transaccional por nuevo software"]
+  },
+  {
+    id: "F4_FIN",
+    name: "F4_FIN (RECAUDO-AERO)",
+    ownerExpected: "Dirección Financiera",
+    ownerOptions: ["Dirección de Navegación Aérea", "Grupo de Meteorología Aeronáutica", "Secretaría de Seguridad Operacional (SMS)", "Dirección Financiera", "Oficina de Analítica / AIM"],
+    formatExpected: "ERP On-Premise / Lote Mensual",
+    formatOptions: ["PostgreSQL Transaccional / CSV Diario", "API JSON Horaria (Estampa UTC)", "Excel Semanal Departamental", "ERP On-Premise / Lote Mensual", "Kafka Stream en Tiempo Real"],
+    problemExpected: "Uso de códigos IATA y facturas huérfanas de vuelos cancelados",
+    problemOptions: ["Duplicados por retransmisión, pasajeros negativos y PII de pilotos", "Desfase de reloj UTC (+5h) y lectura anómala de visibilidad (999999)", "Heterogeneidad semántica (IATA/Alias) y reserva legal PII (Cultura Justa)", "Uso de códigos IATA y facturas huérfanas de vuelos cancelados", "Pérdida de conectividad física en base de datos"],
+    sensExpected: "Restringido Financiero",
+    sensOptions: ["Público Oficial", "Interno Institucional (con PII)", "Confidencial (Cultura Justa OACI)", "Restringido Financiero"],
+    patternExpected: "Snapshot Conciliado Mensual + Cuarentena por Integridad Referencial",
+    patternOptions: ["Ingesta ETL Diario + Reglas de Calidad Automáticas", "Conector Virtual API + Normalización de Reloj UTC a Local", "Virtualización Gobernada + Enmascaramiento Dinámico (RBAC)", "Snapshot Conciliado Mensual + Cuarentena por Integridad Referencial", "Reemplazo del sistema transaccional por nuevo software"]
+  }
+];
+
+let sourceMapAttempts = 0;
+
+function initSourceMap() {
+  const tbody = document.getElementById('source-map-tbody');
+  let html = '';
+
+  SOURCE_MAP_DATA.forEach((r, idx) => {
+    html += `<tr>
+      <td><strong>${r.name}</strong></td>
+      <td>
+        <select id="sm-owner-${idx}">
+          <option value="">-- Seleccionar Área --</option>
+          ${r.ownerOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="sm-fmt-${idx}">
+          <option value="">-- Seleccionar Formato --</option>
+          ${r.formatOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="sm-prob-${idx}">
+          <option value="">-- Seleccionar Fricción --</option>
+          ${r.problemOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="sm-sens-${idx}">
+          <option value="">-- Seleccionar Sensibilidad --</option>
+          ${r.sensOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="sm-pat-${idx}">
+          <option value="">-- Seleccionar Patrón --</option>
+          ${r.patternOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
+}
+
+function verifySourceMap() {
+  sourceMapAttempts++;
+  let totalFields = SOURCE_MAP_DATA.length * 5;
+  let correctCount = 0;
+
+  SOURCE_MAP_DATA.forEach((r, idx) => {
+    const checkField = (elemId, expected) => {
+      const el = document.getElementById(elemId);
+      if (el.value === expected && expected !== "") {
+        el.className = 'select-valid';
+        correctCount++;
+      } else {
+        el.className = 'select-invalid';
+      }
+    };
+
+    checkField(`sm-owner-${idx}`, r.ownerExpected);
+    checkField(`sm-fmt-${idx}`, r.formatExpected);
+    checkField(`sm-prob-${idx}`, r.problemExpected);
+    checkField(`sm-sens-${idx}`, r.sensExpected);
+    checkField(`sm-pat-${idx}`, r.patternExpected);
+  });
+
+  const feedbackEl = document.getElementById('source-map-feedback');
+  const refBtn = document.getElementById('btn-ref-solution');
+
+  if (sourceMapAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+    refBtn.innerText = "💡 Cargar Solución de Referencia (Desbloqueado)";
+  }
+
+  if (correctCount === totalFields) {
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Mapa de Fuentes 100% Validado (${correctCount}/${totalFields})!</strong><br/>
+        Has caracterizado con exactitud las 4 fuentes distribuidas de la Aerocivil, identificando custodios, latencias operativas, fricciones semánticas/sintácticas, niveles de reserva legal y patrones conectivos del Data Fabric. ¡Excelente trabajo de equipo!
+      </div>
+    `;
+  } else {
+    const attemptsLeft = Math.max(0, 3 - sourceMapAttempts);
+    feedbackEl.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Validación Incompleta (Intento ${sourceMapAttempts}):</strong> Obtuviste <strong>${correctCount} de ${totalFields}</strong> atributos correctos.
+        Revisa las casillas resaltadas en rojo e inténtalo nuevamente.
+        ${attemptsLeft > 0 
+          ? `<br/><span style="font-size:0.83rem; color:#7F1D1D;">(El botón de solución de referencia se desbloqueará tras 3 intentos fallidos — faltan ${attemptsLeft} intento(s)).</span>` 
+          : `<br/><span style="font-size:0.83rem; color:#14532D; font-weight:700;">💡 Se ha desbloqueado el botón 'Cargar Solución de Referencia' por si necesitas contrastar tus respuestas.</span>`}
+      </div>
+    `;
+  }
+}
+
+function autofillSourceMap() {
+  SOURCE_MAP_DATA.forEach((r, idx) => {
+    const setAndStyle = (elemId, val) => {
+      const el = document.getElementById(elemId);
+      el.value = val;
+      el.className = 'select-valid';
+    };
+    setAndStyle(`sm-owner-${idx}`, r.ownerExpected);
+    setAndStyle(`sm-fmt-${idx}`, r.formatExpected);
+    setAndStyle(`sm-prob-${idx}`, r.problemExpected);
+    setAndStyle(`sm-sens-${idx}`, r.sensExpected);
+    setAndStyle(`sm-pat-${idx}`, r.patternExpected);
+  });
+
+  document.getElementById('source-map-feedback').innerHTML = `
+    <div class="banner-success">
+      💡 <strong>Solución de Referencia Cargada:</strong> Se han completado los 20 atributos oficiales del Mapa de Fuentes. Analiza en equipo por qué cada custodio, latencia y patrón de conexión fue elegido.
+    </div>
+  `;
+}
+
+// ----------------------------------------------------------------------------
+// 1.3. CAPAS DATA FABRIC Y BITÁCORA
+// ----------------------------------------------------------------------------
+const FABRIC_LAYERS = [
+  { id: "L1", title: "Capa 1: Conectores Híbridos de Ingesta y Virtualización", desc: "Conecta PostgreSQL (F1), API Horaria (F2), Excel SMS (F3) y ERP (F4) sin obligar a reescribir las aplicaciones origen.", enabled: true, impactIfOff: "⚠️ Sin conectores híbridos, los analistas deben seguir descargando archivos por correo electrónico y haciendo cruces manuales." },
+  { id: "L2", title: "Capa 2: Catálogo Activo, Glosario y Datos Maestros (MDM)", desc: "Homologa automáticamente BOG/EL DORADO -> SKBO y estandariza definiciones de Pasajero Declarado vs. Facturado.", enabled: true, impactIfOff: "⚠️ Sin Catálogo/MDM, el 80% de los reportes MOR y el 100% de Financiera fallan al cruzar contra el código OACI." },
+  { id: "L3", title: "Capa 3: Motor Automatizado de Calidad de Datos (Data Quality)", desc: "Ejecuta reglas reproducibles de unicidad, rango numérico, completitud e integridad referencial antes del consumo.", enabled: true, impactIfOff: "⚠️ Sin Motor de Calidad, se cuelan 3 vuelos duplicados, pasajeros negativos (-15) y $13,5M COP de vuelos cancelados." },
+  { id: "L4", title: "Capa 4: Gobierno, Control de Acceso (RBAC) y Enmascaramiento", desc: "Protege la identidad de reportantes MOR (Cultura Justa OACI) y licencias de pilotos según el rol del usuario.", enabled: true, impactIfOff: "⚠️ Sin Capa de Gobierno, cualquier analista vería la cédula de quien reporta un incidente aéreo, violando el Anexo 19 OACI." },
+  { id: "L5", title: "Capa 5: Capa de Consumo y Productos de Datos (SIOA-360)", desc: "Entrega vistas confiables, con linaje auditable y SLA conocido para Dirección General, SMS, Financiera y Datos Abiertos.", enabled: true, impactIfOff: "⚠️ Sin Capa de Consumo de Productos de Datos, cada dirección construye su propio tablero con cifras contradictorias." }
+];
+
+function renderFabricLayers() {
+  const container = document.getElementById('fabric-layers-controls');
+  let html = '';
+  FABRIC_LAYERS.forEach((l, i) => {
+    html += `
+      <div class="rule-item ${l.enabled ? 'enabled' : ''}">
+        <div class="rule-info">
+          <strong>${l.title}</strong>
+          <span>${l.desc}</span>
+        </div>
+        <input type="checkbox" ${l.enabled ? 'checked' : ''} onchange="toggleFabricLayer(${i}, this.checked)" style="width:22px; height:22px; cursor:pointer;" />
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  updateFabricDiagnosis();
+}
+
+function toggleFabricLayer(idx, checked) {
+  FABRIC_LAYERS[idx].enabled = checked;
+  renderFabricLayers();
+}
+
+function updateFabricDiagnosis() {
+  const activeCount = FABRIC_LAYERS.filter(l => l.enabled).length;
+  const missing = FABRIC_LAYERS.filter(l => !l.enabled);
+  const statusEl = document.getElementById('fabric-architecture-status');
+
+  if (activeCount === 5) {
+    statusEl.innerHTML = `
+      <div class="banner-success">
+        <strong>🎉 Arquitectura Data Fabric Completa (5/5 Capas Activas):</strong><br/>
+        Tu diseño conecta las 4 fuentes distribuidas de la Aerocivil, traduce códigos IATA a OACI con el catálogo maestro, depura errores con reglas reproducibles y protege la reserva legal de Seguridad Operacional.
+      </div>`;
+  } else {
+    let warns = missing.map(m => `<li style="margin-bottom:0.3rem;">${m.impactIfOff}</li>`).join('');
+    statusEl.innerHTML = `
+      <div class="banner-danger">
+        <strong>⚠️ Arquitectura Incompleta (${activeCount}/5 Capas Activas) — Riesgos Detectados:</strong>
+        <ul style="margin:0.4rem 0 0; padding-left:1.2rem;">${warns}</ul>
+      </div>`;
+  }
+}
+
+function copyLayerNotes() {
+  const l1 = document.getElementById('layer-log-1') ? document.getElementById('layer-log-1').value : '';
+  const l2 = document.getElementById('layer-log-2') ? document.getElementById('layer-log-2').value : '';
+  const l3 = document.getElementById('layer-log-3') ? document.getElementById('layer-log-3').value : '';
+  const l4 = document.getElementById('layer-log-4') ? document.getElementById('layer-log-4').value : '';
+  const l5 = document.getElementById('layer-log-5') ? document.getElementById('layer-log-5').value : '';
+
+  const text = `Bitácora de Impacto por Capa de Data Fabric - Caso SIOA Aerocivil:
+- Capa 1 (Conectores Híbridos): ${l1}
+- Capa 2 (Catálogo y MDM): ${l2}
+- Capa 3 (Motor de Calidad): ${l3}
+- Capa 4 (Gobierno y Enmascaramiento): ${l4}
+- Capa 5 (Consumo y Productos de Datos): ${l5}`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("¡Bitácora de las 5 capas copiada al portapapeles!");
+  });
+}
+
+// ============================================================================
+// SESIÓN 2: MOTOR DE CALIDAD Y RECONCILIACIÓN EN TIEMPO REAL
+// ============================================================================
+const DQ_RULES = [
+  { id: "DQ01", code: "DQ-01: Unicidad de Operaciones", desc: "Elimina 3 registros de vuelos duplicados por retransmisión en F1_OPS (OPS-103, OPS-107, OPS-113).", enabled: false },
+  { id: "DQ02", code: "DQ-02: Consistencia Semántica OACI (MDM)", desc: "Homologa códigos IATA ('BOG', 'MDE', 'BAQ', 'CLO', 'CTG') y alias ('RIONEGRO', 'EL DORADO') al código OACI oficial usando M_REF.", enabled: false },
+  { id: "DQ03", code: "DQ-03: Validez de Rango Numérico", desc: "Corrige el error de digitación de pasajeros negativos (-15 -> 150 en VUELO-5004) y aísla visibilidad 999999 en MET-04.", enabled: false },
+  { id: "DQ04", code: "DQ-04: Completitud de Campos Críticos", desc: "Imputa minutos_demora=0 en VUELO-5006 (a tiempo) y asigna severidad 'MEDIA' por protocolo en MOR-2026-03.", enabled: false },
+  { id: "DQ05", code: "DQ-05: Integridad Referencial Financiera", desc: "Pone en cuarentena las 2 facturas huérfanas ($13.500.000 COP) de vuelos cancelados (VUELO-9991 y VUELO-9992).", enabled: false }
+];
+
+const IATA_TO_OACI = {
+  "BOG": "SKBO", "EL DORADO": "SKBO", "SKBO": "SKBO",
+  "MDE": "SKRG", "RIONEGRO": "SKRG", "SKRG": "SKRG",
+  "CTG": "SKCG", "SKCG": "SKCG",
+  "CLO": "SKCL", "SKCL": "SKCL",
+  "BAQ": "SKBQ", "SKBQ": "SKBQ"
+};
+
+function renderDQRules() {
+  const container = document.getElementById('dq-rules-container');
+  let html = '';
+  DQ_RULES.forEach((r, idx) => {
+    html += `
+      <div class="rule-item ${r.enabled ? 'enabled' : ''}">
+        <div class="rule-info">
+          <strong>${r.code}</strong>
+          <span>${r.desc}</span>
+        </div>
+        <input type="checkbox" ${r.enabled ? 'checked' : ''} onchange="toggleDQRule(${idx}, this.checked)" style="width:22px; height:22px; cursor:pointer;" />
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  recalculateIntegration();
+}
+
+function toggleDQRule(idx, checked) {
+  DQ_RULES[idx].enabled = checked;
+  renderDQRules();
+}
+
+function toggleAllRules(state) {
+  DQ_RULES.forEach(r => r.enabled = state);
+  renderDQRules();
+}
+
+function recalculateIntegration() {
+  const r1 = DQ_RULES[0].enabled; // Unicidad
+  const r2 = DQ_RULES[1].enabled; // MDM OACI
+  const r3 = DQ_RULES[2].enabled; // Rango
+  const r4 = DQ_RULES[3].enabled; // Completitud
+  const r5 = DQ_RULES[4].enabled; // Integridad referencial
+
+  // 1. Procesar Operaciones
+  let ops = AEROCIVIL_DATA.f1_operaciones.map(o => ({ ...o }));
+  if (r1) {
+    const seen = new Set();
+    ops = ops.filter(o => {
+      if (seen.has(o.id_vuelo)) return false;
+      seen.add(o.id_vuelo);
+      return true;
+    });
+  }
+  ops.forEach(o => {
+    if (r3 && o.pasajeros_declarados < 0) o.pasajeros_declarados = 150;
+    if (r4 && o.minutos_demora === "") o.minutos_demora = 0;
+  });
+
+  // 2. Procesar SMS
+  let smsList = AEROCIVIL_DATA.f3_seguridad.map(s => ({
+    ...s,
+    aero_norm: r2 ? (IATA_TO_OACI[s.aerodromo_reportado] || s.aerodromo_reportado) : s.aerodromo_reportado,
+    severidad_norm: (r4 && !s.severidad_sms) ? "MEDIA (Imputada)" : (s.severidad_sms || "(VACÍO)")
+  }));
+
+  // 3. Procesar Financiera
+  const validFlightIds = new Set(ops.map(o => o.id_vuelo));
+  let finList = AEROCIVIL_DATA.f4_recaudo.map(f => ({
+    ...f,
+    aero_norm: r2 ? (IATA_TO_OACI[f.aerodromo_cobro] || f.aerodromo_cobro) : f.aerodromo_cobro,
+    is_orphan: !validFlightIds.has(f.id_vuelo)
+  }));
+  let activeFin = r5 ? finList.filter(f => !f.is_orphan) : finList;
+
+  // Calcular KPIs
+  const totalVuelos = ops.length;
+  const totalPaxDecl = ops.reduce((acc, o) => acc + Number(o.pasajeros_declarados), 0);
+  const totalFacturas = activeFin.length;
+  const totalPaxFact = activeFin.reduce((acc, f) => acc + Number(f.pasajeros_facturados), 0);
+  const totalRecaudo = activeFin.reduce((acc, f) => acc + Number(f.valor_tasa_cop), 0);
+
+  // Coincidencias de cruce por Vuelo + Aeródromo Origen OACI
+  let matchedFinCount = 0;
+  let matchedSmsCount = 0;
+  ops.forEach(o => {
+    const finMatch = activeFin.find(f => f.id_vuelo === o.id_vuelo && f.aero_norm === o.aerodromo_origen);
+    if (finMatch) matchedFinCount++;
+    const smsMatch = smsList.find(s => s.id_vuelo_asociado === o.id_vuelo && s.aero_norm === o.aerodromo_origen);
+    if (smsMatch) matchedSmsCount++;
+  });
+
+  const kpiGrid = document.getElementById('reconciliation-kpi-grid');
+  kpiGrid.innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-label">Vuelos Contabilizados (F1_OPS)</div>
+      <div class="kpi-val">${totalVuelos} <span style="font-size:0.85rem; font-weight:600; color:${r1?'var(--success)':'var(--danger)'};">${r1 ? '(10 únicos reales)' : '(Inflado por 3 duplicados)'}</span></div>
+      <div class="kpi-sub">Valor Crudo: 13 filas | Meta Gobernada: <strong>10 vuelos</strong></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Pasajeros Declarados vs. Facturados</div>
+      <div class="kpi-val">${totalPaxDecl.toLocaleString('es-CO')} vs. ${totalPaxFact.toLocaleString('es-CO')}</div>
+      <div class="kpi-sub">${(r1 && r3 && r5) ? '✅ Diferencia de <strong>53 pax exentos</strong> (Infantes/Tripulación según Glosario)' : '⚠️ Descuadre distorsionado por errores de calidad'}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cruce Exitoso por Código Aeródromo</div>
+      <div class="kpi-val">${matchedFinCount}/${ops.length} Fin | ${matchedSmsCount}/5 MOR</div>
+      <div class="kpi-sub">${r2 ? '✅ 100% Homologado a estándar OACI (SKBO, SKRG...)' : '❌ Fallo masivo por cruzar SKBO contra BOG / EL DORADO'}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Recaudo Tasas Conciliado (COP)</div>
+      <div class="kpi-val">$ ${totalRecaudo.toLocaleString('es-CO')}</div>
+      <div class="kpi-sub">${r5 ? '✅ $13.500.000 COP de vuelos cancelados en cuarentena' : '❌ Inflado en $13,5M por 2 vuelos cancelados huérfanos'}</div>
+    </div>
+  `;
+
+  const allActive = r1 && r2 && r3 && r4 && r5;
+  document.getElementById('reconciliation-explanation').innerHTML = allActive
+    ? `<div class="banner-success"><strong>🎉 ¡Reconciliación 100% Exitosa!</strong> Con las 5 reglas activas, el Data Fabric eliminó los 3 vuelos duplicados, corrigió el registro negativo (-15 -> 150), homologó todos los códigos IATA/Alias a OACI logrando cruzar las 10 facturas válidas y los 5 sucesos MOR, y aisló en cuarentena los $13.500.000 COP de vuelos cancelados.</div>`
+    : `<div class="banner-warn"><strong>🔍 Estado Parcial o Crudo:</strong> Activa las 5 reglas de calidad en el panel izquierdo para ver cómo se corrigen los descuadres entre Operaciones, Seguridad Operacional y Financiera.</div>`;
+
+  // Renderizar Tabla Integrada
+  let tbl = `<table><thead><tr>
+    <th>ID Vuelo</th>
+    <th>Origen OACI</th>
+    <th>Hora Local / UTC</th>
+    <th>Pax Declarados</th>
+    <th>Pax Facturados</th>
+    <th>Tasa Facturada (COP)</th>
+    <th>Alerta Meteo (UTC)</th>
+    <th>Suceso MOR Asociado</th>
+    <th>Estado Reconciliación</th>
+  </tr></thead><tbody>`;
+
+  ops.forEach(o => {
+    const fin = activeFin.find(f => f.id_vuelo === o.id_vuelo && f.aero_norm === o.aerodromo_origen);
+    const sms = smsList.find(s => s.id_vuelo_asociado === o.id_vuelo && s.aero_norm === o.aerodromo_origen);
+    const met = AEROCIVIL_DATA.f2_meteorologia.find(m => m.codigo_estacion === o.aerodromo_origen && m.hora_utc.includes(o.hora_salida_local.substring(0,2)));
+
+    const paxDiff = fin ? (Number(o.pasajeros_declarados) - Number(fin.pasajeros_facturados)) : null;
+    const rowCls = (o.pasajeros_declarados < 0 || !fin) ? 'class="row-error"' : 'class="row-fixed"';
+
+    tbl += `<tr ${rowCls}>
+      <td><strong>${o.id_vuelo}</strong> <span style="font-size:0.75rem; color:var(--muted);">(${o.id_registro})</span></td>
+      <td><span class="pill pill-blue">${o.aerodromo_origen}</span> → ${o.aerodromo_destino}</td>
+      <td>${o.hora_salida_local} Loc</td>
+      <td>${o.pasajeros_declarados}</td>
+      <td>${fin ? fin.pasajeros_facturados : '<em>Sin cruce (IATA≠OACI)</em>'}</td>
+      <td>${fin ? '$ ' + Number(fin.valor_tasa_cop).toLocaleString('es-CO') : '<em>$ 0 (No cruza)</em>'}</td>
+      <td>${met ? `<span class="pill ${met.alerta_meteo==='ROJA'?'pill-red':'pill-amber'}">${met.alerta_meteo}: ${met.fenomeno_adverso}</span>` : 'VERDE (Normal)'}</td>
+      <td>${sms ? `<strong>${sms.id_suceso}</strong> (${sms.severidad_norm})` : (r2 ? 'Sin suceso MOR' : '<em>No cruza por código</em>')}</td>
+      <td>${(fin && o.pasajeros_declarados > 0) ? `<span class="pill pill-green">Conciliado (Exentos: ${paxDiff})</span>` : '<span class="pill pill-red">Inconsistente</span>'}</td>
+    </tr>`;
+  });
+
+  // Mostrar huérfanos si r5 está desactivado o como cuarentena si está activado
+  finList.filter(f => f.is_orphan).forEach(orf => {
+    tbl += `<tr class="${r5 ? 'row-quarantine' : 'row-error'}">
+      <td><strong>${orf.id_vuelo}</strong> (${orf.id_liquidacion})</td>
+      <td>${orf.aero_norm}</td>
+      <td>—</td>
+      <td><em>No existe en F1_OPS</em></td>
+      <td>${orf.pasajeros_facturados}</td>
+      <td>$ ${Number(orf.valor_tasa_cop).toLocaleString('es-CO')}</td>
+      <td>—</td>
+      <td>—</td>
+      <td>${r5 ? '<span class="pill pill-amber">EN CUARENTENA (DQ-05: Vuelo Cancelado)</span>' : '<span class="pill pill-red">ERROR: Cobro Huérfano Sumado</span>'}</td>
+    </tr>`;
+  });
+
+  tbl += '</tbody></table>';
+  document.getElementById('integrated-flow-table').innerHTML = tbl;
+}
+
+// ============================================================================
+// SESIÓN 3: GRAFO DE LINAJE Y ACCESO POR ROLES (RBAC + ENMASCARAMIENTO)
+// ============================================================================
+const LINEAGE_NODES = {
+  col1: [
+    { id: "SRC_OPS", label: "🛫 F1_OPS: SIIV Vuelos\n(pasajeros_declarados, minutos_demora, nombre_piloto)" },
+    { id: "SRC_MET", label: "⛈️ F2_MET: METEO-AERO\n(visibilidad_metros, alerta_meteo en UTC)" },
+    { id: "SRC_SMS", label: "🛡️ F3_SMS: SIGSO MOR\n(categoria_suceso, severidad_sms, cedula_reportante)" },
+    { id: "SRC_FIN", label: "💰 F4_FIN: RECAUDO-AERO\n(pasajeros_facturados, valor_tasa_cop)" }
+  ],
+  col2: [
+    { id: "MDM_OACI", label: "🧭 Homologación MDM (M_REF)\nBOG / EL DORADO / MDE → SKBO / SKRG" },
+    { id: "TIME_UTC", label: "🕒 Normalización Horaria\nHora Local (UTC-5) ↔ Hora Zulu (UTC)" }
+  ],
+  col3: [
+    { id: "RULE_DQ13", label: "🧹 DQ-01 y DQ-03\nDeduplicación (10 vuelos) y Rango Pax (>0)" },
+    { id: "RULE_DQ4", label: "🧹 DQ-04 Completitud\nImputación de demora=0 y severidad MOR" },
+    { id: "RULE_DQ5", label: "🧹 DQ-05 Integridad Ref.\nCuarentena de VUELO-9991 y VUELO-9992" }
+  ],
+  col4: [
+    { id: "GOV_MASK_PILOT", label: "🔒 Política Masking PII Piloto\n(Oculta licencia y nombre salvo Autoridad)" },
+    { id: "GOV_MASK_SMS", label: "🔒 Política Cultura Justa OACI\n(Enmascara cédula y nombre del reportante MOR)" },
+    { id: "GOV_RBAC_FIN", label: "🔒 Control RBAC Financiero\n(Restringe montos detallados según rol)" }
+  ],
+  col5: [
+    { id: "OUT_RIESGO", label: "🎯 KPI: Índice de Riesgo Operacional y Clima por Aeródromo", path: ["SRC_OPS", "SRC_MET", "SRC_SMS", "MDM_OACI", "TIME_UTC", "RULE_DQ13", "RULE_DQ4", "OUT_RIESGO"], explain: "Combina las demoras depuradas de F1_OPS con las alertas METAR en UTC de F2_MET y la severidad homologada de F3_SMS usando el código oficial OACI." },
+    { id: "OUT_RECAUDO", label: "💵 KPI: Recaudo Conciliado y Pasajeros Exentos ($73,95M COP)", path: ["SRC_OPS", "SRC_FIN", "MDM_OACI", "RULE_DQ13", "RULE_DQ5", "GOV_RBAC_FIN", "OUT_RECAUDO"], explain: "Cruza los 10 vuelos únicos de F1_OPS contra las facturas válidas de F4_FIN tras aislar en cuarentena los $13,5M de vuelos cancelados (DQ-05)." },
+    { id: "OUT_AUDITORIA_SMS", label: "🛡️ Vista: Trazabilidad de Sucesos MOR Protegida (Cultura Justa)", path: ["SRC_OPS", "SRC_SMS", "MDM_OACI", "RULE_DQ4", "GOV_MASK_PILOT", "GOV_MASK_SMS", "OUT_AUDITORIA_SMS"], explain: "Vincula cada reporte MOR con su vuelo y aeródromo OACI aplicando enmascaramiento dinámico sobre la cédula y nombre del reportante (Ley 1581 y Anexo 19 OACI)." }
+  ]
+};
+
+function renderLineageGraph(selectedOutId = "OUT_RIESGO") {
+  const targetObj = LINEAGE_NODES.col5.find(x => x.id === selectedOutId) || LINEAGE_NODES.col5[0];
+  const activeSet = new Set(targetObj.path);
+
+  const titles = [
+    "1. Fuentes Origen (Silos)",
+    "2. Estándar MDM y Tiempo",
+    "3. Reglas de Calidad (DQ)",
+    "4. Políticas de Gobierno",
+    "5. Producto de Datos (SIOA-360)"
+  ];
+  const cols = [LINEAGE_NODES.col1, LINEAGE_NODES.col2, LINEAGE_NODES.col3, LINEAGE_NODES.col4, LINEAGE_NODES.col5];
+
+  let html = '';
+  cols.forEach((colNodes, cIdx) => {
+    html += `<div class="lineage-col"><h4>${titles[cIdx]}</h4>`;
+    colNodes.forEach(n => {
+      const isHi = activeSet.has(n.id);
+      const clickAttr = cIdx === 4 ? `onclick="renderLineageGraph('${n.id}')"` : `onclick="renderLineageNodeInfo('${n.id}')"`;
+      html += `<div class="lineage-node ${isHi ? 'highlighted' : ''}" ${clickAttr}>${n.label.replace(/\n/g, '<br/>')}</div>`;
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById('lineage-graph-container').innerHTML = html;
+  document.getElementById('lineage-detail-box').innerHTML = `
+    <strong>🔎 Ruta de Linaje Seleccionada (${targetObj.label}):</strong><br/>
+    ${targetObj.explain}
+  `;
+}
+
+function renderLineageNodeInfo(nodeId) {
+  // Si el usuario hace clic en un nodo intermedio, busca qué indicador de salida lo usa
+  const outMatch = LINEAGE_NODES.col5.find(o => o.path.includes(nodeId));
+  if (outMatch) renderLineageGraph(outMatch.id);
+}
+
+function recommendVirtualization() {
+  document.getElementById('virt-f1').value = 'FISICA';
+  document.getElementById('virt-f2').value = 'VIRTUAL';
+  document.getElementById('virt-f3').value = 'VIRTUAL';
+  document.getElementById('virt-f4').value = 'FISICA';
+}
+function evaluateVirtualization() {}
+
+// Simulador de Consumo por Roles (RBAC + Dynamic Data Masking)
+const ROLE_POLICIES = {
+  ANALISTA: {
+    title: "Rol Activo: Analista de la Oficina de Analítica (Aerocivil)",
+    policy: "🔓 Acceso autorizado a métricas operativas, meteorológicas y financieras consolidadas. 🔒 Enmascaramiento Dinámico Activo sobre Datos Personales (Nombre/Licencia de Piloto y Cédula/Nombre de Reportante SMS ocultos por Ley 1581 y Cultura Justa)."
+  },
+  INSPECTOR_SMS: {
+    title: "Rol Activo: Inspector de Seguridad Operacional (Secretaría SMS)",
+    policy: "🔓 Acceso completo al detalle técnico de sucesos MOR y severidad para investigación técnica. 🔒 Datos financieros de facturación ocultos (no pertinentes para investigación SMS) y cédula del reportante tokenizada."
+  },
+  AUDITOR_FIN: {
+    title: "Rol Activo: Auditor de la Dirección Financiera",
+    policy: "🔓 Acceso total a liquidaciones, pasajeros declarados vs. facturados y montos en COP. 🔒 Detalle de sucesos de seguridad operacional y datos de tripulación restringidos."
+  },
+  PUBLICO: {
+    title: "Rol Activo: Portal de Datos Abiertos (Ciudadanía e Investigadores)",
+    policy: "🌐 Vista 100% Anonimizada y Agregada por Aeródromo OACI. Sin identificadores individuales de vuelos sensibles, sin nombres de tripulación ni reportantes."
+  }
+};
+
+function renderRoleView(roleKey, btnEl) {
+  if (btnEl) {
+    document.querySelectorAll('#session-3 .silo-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  const pol = ROLE_POLICIES[roleKey];
+  document.getElementById('role-policy-banner').innerHTML = `
+    <div class="banner-warn" style="margin-bottom:0;">
+      <strong>${pol.title}</strong><br/>
+      <span>${pol.policy}</span>
+    </div>
+  `;
+
+  if (roleKey === 'PUBLICO') {
+    document.getElementById('role-product-table').innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Código OACI</th>
+            <th>Nombre Oficial Aeródromo</th>
+            <th>Vuelos Operados</th>
+            <th>Total Pasajeros Movilizados</th>
+            <th>Demora Promedio (min)</th>
+            <th>Nivel Privacidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>SKBO</strong></td><td>Aeropuerto Internacional El Dorado (Bogotá)</td><td>4</td><td>665</td><td>56.0 min</td><td><span class="pill pill-green">Agregado Público Certificado</span></td></tr>
+          <tr><td><strong>SKRG</strong></td><td>Aeropuerto Internacional José María Córdova (Rionegro)</td><td>2</td><td>263</td><td>33.0 min</td><td><span class="pill pill-green">Agregado Público Certificado</span></td></tr>
+          <tr><td><strong>SKCL</strong></td><td>Aeropuerto Internacional Alfonso Bonilla Aragón (Cali)</td><td>2</td><td>294</td><td>6.5 min</td><td><span class="pill pill-green">Agregado Público Certificado</span></td></tr>
+          <tr><td><strong>SKBQ</strong></td><td>Aeropuerto Internacional Ernesto Cortissoz (Barranquilla)</td><td>1</td><td>160</td><td>75.0 min</td><td><span class="pill pill-green">Agregado Público Certificado</span></td></tr>
+          <tr><td><strong>SKCG</strong></td><td>Aeropuerto Internacional Rafael Núñez (Cartagena)</td><td>1</td><td>140</td><td>0.0 min</td><td><span class="pill pill-green">Agregado Público Certificado</span></td></tr>
+        </tbody>
+      </table>`;
+    return;
+  }
+
+  // Vista por Vuelo para los otros 3 roles con enmascaramiento dinámico
+  const sampleFlights = [
+    { id_vuelo: "VUELO-5002", oaci: "SKBO → SKCG", pax_decl: 172, pax_fact: 168, tasa: "$ 8.400.000", piloto: "Cap. Laura Sofía Restrepo (PCA-39104)", mor: "MOR-2026-01 (ALTA - Cizalladura)", reportante: "Ing. Ricardo Gómez (CC 79.845.120)" },
+    { id_vuelo: "VUELO-5003", oaci: "SKRG → SKBO", pax_decl: 135, pax_fact: 130, tasa: "$ 6.500.000", piloto: "Cap. Jorge Eliécer Pineda (PCA-51209)", mor: "MOR-2026-02 (MEDIA - Holding Clima)", reportante: "Catalina Vélez (CC 43.512.890)" },
+    { id_vuelo: "VUELO-5005", oaci: "SKBQ → SKBO", pax_decl: 160, pax_fact: 155, tasa: "$ 7.750.000", piloto: "Cap. Mauricio Valderrama (PCA-60112)", mor: "MOR-2026-03 (MEDIA - Pista Húmeda)", reportante: "Hernán Darío Cotes (CC 72.190.443)" },
+    { id_vuelo: "VUELO-5007", oaci: "SKBO → SKCL", pax_decl: 180, pax_fact: 175, tasa: "$ 8.750.000", piloto: "Cap. Carlos Andrés Mejía (PCA-44821)", mor: "MOR-2026-04 (CRÍTICA - Desvío Tormenta)", reportante: "Luisa Fernanda Ariza (CC 1.020.445.910)" },
+    { id_vuelo: "VUELO-5009", oaci: "SKBO → SKBQ", pax_decl: 165, pax_fact: 160, tasa: "$ 8.000.000", piloto: "Cap. Jorge Eliécer Pineda (PCA-51209)", mor: "MOR-2026-05 (BAJA - Inspección Pista)", reportante: "Camilo Pinzón (CC 80.112.334)" }
+  ];
+
+  let html = `<table><thead><tr>
+    <th>ID Vuelo</th>
+    <th>Ruta OACI</th>
+    <th>Pax Decl / Fact</th>
+    <th>Recaudo Tasa (COP)</th>
+    <th>Piloto al Mando (PII)</th>
+    <th>Suceso MOR</th>
+    <th>Identidad Reportante MOR (Cultura Justa)</th>
+  </tr></thead><tbody>`;
+
+  sampleFlights.forEach(r => {
+    let colTasa = r.tasa;
+    let colPiloto = r.piloto;
+    let colMor = r.mor;
+    let colRep = r.reportante;
+
+    if (roleKey === 'ANALISTA') {
+      colPiloto = `<span class="pill pill-masked">🔒 PCA-***** (ENMASCARADO)</span>`;
+      colRep = `<span class="pill pill-masked">🔒 ***-***-${r.reportante.slice(-4)} (PROTEGIDO SMS)</span>`;
+    } else if (roleKey === 'INSPECTOR_SMS') {
+      colTasa = `<span class="pill pill-masked">🔒 RESTRINGIDO FINANCIERA</span>`;
+      colRep = `<span class="pill pill-amber">TOKEN-SMS-${r.id_vuelo.slice(-2)} (Reserva Anexo 19)</span>`;
+    } else if (roleKey === 'AUDITOR_FIN') {
+      colPiloto = `<span class="pill pill-masked">🔒 NO AUTORIZADO</span>`;
+      colMor = `<span class="pill pill-masked">🔒 RESERVA SMS</span>`;
+      colRep = `<span class="pill pill-masked">🔒 RESERVA LEGAL OACI</span>`;
+    }
+
+    html += `<tr>
+      <td><strong>${r.id_vuelo}</strong></td>
+      <td><span class="pill pill-blue">${r.oaci}</span></td>
+      <td>${r.pax_decl} / ${r.pax_fact}</td>
+      <td>${colTasa}</td>
+      <td>${colPiloto}</td>
+      <td>${colMor}</td>
+      <td>${colRep}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('role-product-table').innerHTML = html;
+}
+
+// ============================================================================
+// UTILIDADES: COPIAR PROMPTS, DESCARGAR CSVs Y EXPORTAR ENTREGABLE
+// ============================================================================
+function copyText(elementId) {
+  const txt = document.getElementById(elementId).innerText;
+  navigator.clipboard.writeText(txt).then(() => {
+    alert("✅ Prompt copiado al portapapeles. Pégalo en ChatGPT, Gemini o Copilot.");
+  });
+}
+
+function arrayToCSV(rows) {
+  const cols = Object.keys(rows[0]).filter(c => c !== 'error_tag');
+  const header = cols.join(',');
+  const lines = rows.map(r => cols.map(c => {
+    const val = String(r[c] ?? '').replace(/"/g, '""');
+    return val.includes(',') ? `"${val}"` : val;
+  }).join(','));
+  return '\uFEFF' + [header, ...lines].join('\r\n');
+}
+
+function triggerDownload(filename, content, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function downloadAllCSVs() {
+  const files = [
+    ['m_maestro_aerodromos.csv', AEROCIVIL_DATA.maestro_aerodromos],
+    ['f1_operaciones_vuelos.csv', AEROCIVIL_DATA.f1_operaciones],
+    ['f2_meteorologia_aerodromos.csv', AEROCIVIL_DATA.f2_meteorologia],
+    ['f3_seguridad_incidentes.csv', AEROCIVIL_DATA.f3_seguridad],
+    ['f4_recaudo_tasas.csv', AEROCIVIL_DATA.f4_recaudo]
+  ];
+  files.forEach(([name, data], idx) => {
+    setTimeout(() => {
+      triggerDownload(name, arrayToCSV(data), 'text/csv;charset=utf-8;');
+    }, idx * 250);
+  });
+}
+
+function exportStudentDeliverable() {
+  const s1Notes = document.getElementById('s1-arch-notes') ? document.getElementById('s1-arch-notes').value : '';
+  const s1Findings = document.getElementById('s1-findings-notes') ? document.getElementById('s1-findings-notes').value : '';
+  const s1Methodology = document.getElementById('s1-methodology-notes') ? document.getElementById('s1-methodology-notes').value : '';
+  // Diagrama visual generado con IA se socializa en plenaria (Mermaid.live)
+
+  const l1 = document.getElementById('layer-log-1') ? document.getElementById('layer-log-1').value : '';
+  const l2 = document.getElementById('layer-log-2') ? document.getElementById('layer-log-2').value : '';
+  const l3 = document.getElementById('layer-log-3') ? document.getElementById('layer-log-3').value : '';
+  const l4 = document.getElementById('layer-log-4') ? document.getElementById('layer-log-4').value : '';
+  const l5 = document.getElementById('layer-log-5') ? document.getElementById('layer-log-5').value : '';
+
+  const s3Notes = document.getElementById('s3-roadmap-notes') ? document.getElementById('s3-roadmap-notes').value : '';
+
+  const md = `# Memoria Integral de Taller y Plenaria: Data Fabric — Aerocivil (Caso SIOA)
+**Programa:** Curso Data Fabric (12 Horas) — Universidad Santo Tomás (Ingenierías TIC)
+**Entidad:** Aeronáutica Civil de Colombia (Aerocivil)
+**Caso Transversal:** Proyecto Cielo Integrado (SIOA)
+
+---
+
+## 1. Auditoría de Silos, Mapa de Fuentes y Arquitectura Conceptual (Sesión 1)
+
+### 1.1. Síntesis de Hallazgos en Fuentes Distribuidas (Entregable 1A)
+> ${s1Findings}
+
+### 1.2. Metodología Técnica Aplicada (IA / Python / SQL)
+> ${s1Methodology}
+
+### 1.3. Justificación Arquitectónica del Data Fabric
+> ${s1Notes}
+
+### 1.4. Bitácora de Impacto por Capa de Data Fabric
+- **Capa 1 (Conectores Híbridos y Virtualización):** ${l1}
+- **Capa 2 (Catálogo Activo, Glosario y MDM):** ${l2}
+- **Capa 3 (Motor Automatizado de Calidad de Datos):** ${l3}
+- **Capa 4 (Gobierno y Enmascaramiento Dinámico):** ${l4}
+- **Capa 5 (Consumo y Productos de Datos SIOA-360):** ${l5}
+
+### 1.5. Simulación de la Arquitectura con Asistente de IA (Diagrama Visual)
+\`\`\`text
+${s1AiSim}
+\`\`\`
+
+---
+
+## 2. Catálogo, Glosario y Reglas de Calidad (Sesión 2 — Plenaria 2)
+- **Estandarización Semántica:** Homologación al código OACI de 4 letras (\`SKBO\`, \`SKRG\`, \`SKCG\`, \`SKCL\`, \`SKBQ\`) y distinción formal entre *Pasajeros Declarados* (1.532) y *Pasajeros Facturados* (1.479), explicando los 53 pasajeros exentos (infantes y tripulación).
+- **Reglas de Calidad Aplicadas:** \`DQ-01\` (Unicidad: 3 duplicados eliminados), \`DQ-02\` (MDM OACI), \`DQ-03\` (Rango: corrección de -15 a 150 pax y aislamiento de visibilidad 999999), \`DQ-04\` (Completitud) y \`DQ-05\` (Integridad referencial: $13.500.000 COP de 2 vuelos cancelados puestos en cuarentena).
+
+---
+
+## 3. Flujo Demostrativo, Reconciliación y Linaje (Sesiones 2 y 3)
+- **Recaudo Bruto Crudo (Sin Data Fabric):** $ 87.450.000 COP (12 facturas, 2 huérfanas).
+- **Recaudo Gobernado y Conciliado (Con Data Fabric):** $ 73.950.000 COP (10 vuelos ejecutados conciliados al 100%).
+- **Gobierno y Privacidad:** Aplicación de control RBAC y enmascaramiento dinámico para proteger la identidad del reportante MOR (Cultura Justa OACI Anexo 19 y Ley 1581/2012).
+
+---
+
+## 4. Hoja de Ruta Gradual y Conclusiones para Plenaria Final (Sesión 3)
+> ${s3Notes}
+`;
+  triggerDownload('Memoria_Taller_Plenaria_Data_Fabric_Aerocivil.md', md, 'text/markdown;charset=utf-8;');
+}
+
+// Inicialización al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  renderSiloInspector('F1_OPS');
+  initSourceMap();
+  renderFabricLayers();
+  renderDQRules();
+  renderLineageGraph('OUT_RIESGO');
+  renderRoleView('ANALISTA');
+});
+</script>
+</body>
+</html>

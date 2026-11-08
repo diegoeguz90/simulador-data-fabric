@@ -1,0 +1,14 @@
+﻿id_registro,id_vuelo,fecha_local,hora_salida_local,aerodromo_origen,aerodromo_destino,tipo_vuelo,pasajeros_declarados,minutos_demora,estado_vuelo,licencia_piloto,nombre_piloto
+OPS-101,VUELO-5001,2026-10-15,06:15,SKBO,SKRG,Comercial Regular,148,12,Aterrizado,PCA-44821,Cap. Carlos Andrés Mejía
+OPS-102,VUELO-5002,2026-10-15,07:30,SKBO,SKCG,Comercial Regular,172,55,Aterrizado,PCA-39104,Cap. Laura Sofía Restrepo
+OPS-103,VUELO-5002,2026-10-15,07:30,SKBO,SKCG,Comercial Regular,172,55,Aterrizado,PCA-39104,Cap. Laura Sofía Restrepo
+OPS-104,VUELO-5003,2026-10-15,08:45,SKRG,SKBO,Comercial Regular,135,48,Aterrizado,PCA-51209,Cap. Jorge Eliécer Pineda
+OPS-105,VUELO-5004,2026-10-15,09:20,SKCL,SKBO,Comercial Regular,-15,5,Aterrizado,PCA-28910,Cap. Diana Marcela Gómez
+OPS-106,VUELO-5005,2026-10-15,10:10,SKBQ,SKBO,Comercial Regular,160,75,Aterrizado,PCA-60112,Cap. Mauricio Valderrama
+OPS-107,VUELO-5005,2026-10-15,10:10,SKBQ,SKBO,Comercial Regular,160,75,Aterrizado,PCA-60112,Cap. Mauricio Valderrama
+OPS-108,VUELO-5006,2026-10-15,11:00,SKCG,SKRG,Comercial Regular,140,,Aterrizado,PCA-33490,Cap. Andrés Felipe Mora
+OPS-109,VUELO-5007,2026-10-15,13:15,SKBO,SKCL,Comercial Regular,180,95,Desviado,PCA-44821,Cap. Carlos Andrés Mejía
+OPS-110,VUELO-5008,2026-10-15,14:40,SKRG,SKBQ,Comercial Regular,128,18,Aterrizado,PCA-71902,Cap. Natalia Echeverri
+OPS-111,VUELO-5009,2026-10-15,16:05,SKBO,SKBQ,Comercial Regular,165,62,Aterrizado,PCA-51209,Cap. Jorge Eliécer Pineda
+OPS-112,VUELO-5010,2026-10-15,17:50,SKCL,SKCG,Comercial Regular,144,8,Aterrizado,PCA-28910,Cap. Diana Marcela Gómez
+OPS-113,VUELO-5010,2026-10-15,17:50,SKCL,SKCG,Comercial Regular,144,8,Aterrizado,PCA-28910,Cap. Diana Marcela Gómez

@@ -1,0 +1,6 @@
+﻿codigo_oaci,codigo_iata,alias_comunes,nombre_oficial,ciudad,regional_aerocivil,categoria_oaci
+SKBO,BOG,BOG|EL DORADO|BOGOTA|SKBO,Aeropuerto Internacional El Dorado,Bogotá D.C.,Regional Cundinamarca,4F
+SKRG,MDE,MDE|RIONEGRO|JOSE MARIA CORDOVA|SKRG,Aeropuerto Internacional José María Córdova,Rionegro / Medellín,Regional Antioquia,4E
+SKCG,CTG,CTG|CRESPO|RAFAEL NUNEZ|CARTAGENA|SKCG,Aeropuerto Internacional Rafael Núñez,Cartagena,Regional Atlántico / Bolívar,4D
+SKCL,CLO,CLO|PALMASECA|ALFONSO BONILLA|CALI|SKCL,Aeropuerto Internacional Alfonso Bonilla Aragón,Palmira / Cali,Regional Valle,4E
+SKBQ,BAQ,BAQ|SOLEDAD|ERNESTO CORTISSOZ|BARRANQUILLA|SKBQ,Aeropuerto Internacional Ernesto Cortissoz,Soledad / Barranquilla,Regional Atlántico,4E

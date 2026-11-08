@@ -1,0 +1,9 @@
+﻿id_reporte_met,codigo_estacion,fecha_utc,hora_utc,visibilidad_metros,viento_nudos,fenomeno_adverso,alerta_meteo
+MET-01,SKBO,2026-10-15,11:00Z,8000,8,Ninguno,VERDE
+MET-02,SKBO,2026-10-15,12:30Z,1200,22,Niebla Densa / Cizalladura,ROJA
+MET-03,SKRG,2026-10-15,13:45Z,2500,18,Tormenta Eléctrica (TSRA),AMARILLA
+MET-04,SKCL,2026-10-15,14:20Z,999999,6,Despejado,VERDE
+MET-05,SKBQ,2026-10-15,15:10Z,1800,28,Ráfagas Fuertes / Lluvia,ROJA
+MET-06,SKCG,2026-10-15,16:00Z,9000,12,Ninguno,VERDE
+MET-07,SKBO,2026-10-15,18:15Z,900,30,Granizo / CB en aproximación,ROJA
+MET-08,SKBO,2026-10-15,21:05Z,3200,19,Lluvia Moderada,AMARILLA
