@@ -916,10 +916,13 @@ C) EVALUACIÓN CRÍTICA: Formula 2 recomendaciones de gobernanza para evitar que
     <div class="card">
       <div class="card-header">
         <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual</h2>
-        <button class="btn btn-success" onclick="recommendVirtualization()">💡 Ver Recomendación Arquitectónica</button>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="evaluateVirtualization()">🔍 Validar Decisiones</button>
+          <button id="btn-ref-virt" class="btn btn-success disabled-btn" onclick="recommendVirtualization()" disabled>💡 Ver Recomendación de Referencia (Tras 3 intentos)</button>
+        </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        Una ventaja clave de <strong>Data Fabric</strong> es que <strong>no obliga a copiar todos los datos a un único almacén físico</strong>. Combina <strong>Integración Física (ETL/ELT)</strong> para históricos pesados con <strong>Virtualización de Datos / APIs</strong> para datos en tiempo real o altamente sensibles:
+        Una ventaja clave de <strong>Data Fabric</strong> es que <strong>no obliga a copiar todos los datos a un único almacén físico centralizado</strong>. Combina <strong>Integración Física (ETL/ELT)</strong> para históricos pesados con <strong>Virtualización de Datos / APIs Federadas</strong> para datos en tiempo real o altamente sensibles. Selecciona el mecanismo óptimo para cada fuente y valida tu criterio:
       </p>
       <div class="table-wrap">
         <table>
@@ -936,49 +939,54 @@ C) EVALUACIÓN CRÍTICA: Formula 2 recomendaciones de gobernanza para evitar que
               <td><strong>F1_OPS (SIIV Operaciones)</strong></td>
               <td>Alto volumen histórico de vuelos diarios</td>
               <td>
-                <select id="virt-f1" onchange="evaluateVirtualization()">
-                  <option value="FISICA">Integración Física (ETL/ELT hacia Capa Analítica)</option>
-                  <option value="VIRTUAL">Acceso Virtual (Consulta en vivo al sistema transaccional)</option>
+                <select id="virt-f1">
+                  <option value="">-- Selecciona patrón --</option>
+                  <option value="FISICA">Integración Física (ETL/ELT consolidado)</option>
+                  <option value="VIRTUAL">Acceso Virtual (Consulta en vivo al transaccional)</option>
                 </select>
               </td>
-              <td id="virt-just-f1">Ideal consolidar físicamente en lote diario con deduplicación (<code>DQ-01</code>) para no sobrecargar la base de datos operativa de planes de vuelo.</td>
+              <td id="virt-just-f1" style="font-size:0.84rem; color:var(--slate);"><em>Selecciona una opción y valida para ver el diagnóstico...</em></td>
             </tr>
             <tr>
               <td><strong>F2_MET (METEO-AERO)</strong></td>
               <td>Flujo horario cambiante (Alertas METAR en vivo)</td>
               <td>
-                <select id="virt-f2" onchange="evaluateVirtualization()">
+                <select id="virt-f2">
+                  <option value="">-- Selecciona patrón --</option>
                   <option value="VIRTUAL">Acceso Virtual / API Federada en Tiempo Real</option>
                   <option value="FISICA">Integración Física (Lote mensual)</option>
                 </select>
               </td>
-              <td id="virt-just-f2">El estado meteorológico cambia cada hora; el acceso virtual vía conector API permite consultar la alerta vigente sin esperar procesos batch nocturnos.</td>
+              <td id="virt-just-f2" style="font-size:0.84rem; color:var(--slate);"><em>Selecciona una opción y valida para ver el diagnóstico...</em></td>
             </tr>
             <tr>
               <td><strong>F3_SMS (SIGSO Incidentes MOR)</strong></td>
               <td>Alta reserva legal (Anexo 19 OACI / Cultura Justa)</td>
               <td>
-                <select id="virt-f3" onchange="evaluateVirtualization()">
+                <select id="virt-f3">
+                  <option value="">-- Selecciona patrón --</option>
                   <option value="VIRTUAL">Acceso Virtual Gobernado con Enmascaramiento en Vuelo</option>
                   <option value="FISICA">Copia Física Cruda sin filtro a todos los analistas</option>
                 </select>
               </td>
-              <td id="virt-just-f3">La virtualización gobernada permite exponer el conteo y severidad del incidente aplicando enmascaramiento dinámico sobre la cédula del reportante sin duplicar datos sensibles fuera de la Secretaría SMS.</td>
+              <td id="virt-just-f3" style="font-size:0.84rem; color:var(--slate);"><em>Selecciona una opción y valida para ver el diagnóstico...</em></td>
             </tr>
             <tr>
               <td><strong>F4_FIN (RECAUDO-AERO)</strong></td>
               <td>Cierres contables auditables y conciliación</td>
               <td>
-                <select id="virt-f4" onchange="evaluateVirtualization()">
+                <select id="virt-f4">
+                  <option value="">-- Selecciona patrón --</option>
                   <option value="FISICA">Integración Física Certificada (Snapshot Conciliado)</option>
                   <option value="VIRTUAL">Lectura directa de borradores sin conciliar</option>
                 </select>
               </td>
-              <td id="virt-just-f4">Para reportes oficiales de recaudo se requiere una foto física certificada (tras aplicar <code>DQ-05</code> para excluir vuelos cancelados) que garantice reproducibilidad ante Contraloría.</td>
+              <td id="virt-just-f4" style="font-size:0.84rem; color:var(--slate);"><em>Selecciona una opción y valida para ver el diagnóstico...</em></td>
             </tr>
           </tbody>
         </table>
       </div>
+      <div id="virt-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
     <!-- Paso 3.3: Simulador de Consumo por Roles (RBAC + Enmascaramiento Dinámico) -->
@@ -1060,15 +1068,20 @@ C) EVALUACIÓN CRÍTICA: Formula 2 recomendaciones de gobernanza para evitar que
     <!-- Paso 3.5: Copiloto de IA Socrático Sesión 3 -->
     <div class="card">
       <div class="card-header">
-        <h2>3.5. Copiloto de IA Socrático — Sesión 3 (Simulacro de Sustentación Directiva)</h2>
+        <h2>3.5. Copiloto de IA Socrático — Sesión 3 (Simulacro de Sustentación Directiva y Diagrama Mermaid)</h2>
         <button class="btn btn-primary" onclick="copyText('prompt-s3')">📋 Copiar Prompt para Simulacro de Sustentación</button>
       </div>
       <div class="ai-console" id="prompt-s3">Actúa como el Comité Directivo de la Aerocivil (integrado por el Director General, el Director Financiero y el Secretario de Seguridad Operacional).
 Vamos a sustentarte nuestra propuesta de Data Fabric para el caso "Cielo Integrado (SIOA)" con nuestra Hoja de Ruta a 30-90-180 días.
-Haznos 3 preguntas de sustentación ejecutiva:
-1. Como Secretario de Seguridad Operacional: cuestiona cómo garantizaremos que la integración de F3_SMS no viole el principio de Cultura Justa ni revele la cédula de los controladores o pilotos que reportan incidentes.
-2. Como Director Financiero: pregunta cómo aseguraremos que la diferencia entre Pasajeros Declarados (1.532) y Pasajeros Facturados (1.479) y los $13.500.000 COP en cuarentena queden auditables con linaje claro.
-3. Como Director General: pide justificar por qué una hoja de ruta gradual en 3 fases es más segura y viable que comprar una macro-plataforma en un proyecto de 2 años.</div>
+Realiza dos tareas:
+1. Haznos 3 preguntas de sustentación ejecutiva de alta dificultad técnica y normativa:
+   - Como Secretario de Seguridad Operacional: cuestiona cómo garantizaremos que la integración de F3_SMS no viole el principio de Cultura Justa (Anexo 19 OACI / RAC 219) ni exponga la cédula de quienes reportan incidentes a través del Data Fabric.
+   - Como Director Financiero: exige demostrar cómo aseguraremos que la diferencia entre Pasajeros Declarados (1.532) y Facturados (1.479), junto con los $13.500.000 COP en cuarentena, queden auditables con linaje demostrable ante la Contraloría.
+   - Como Director General: pide justificar técnica y presupuestalmente por qué una hoja de ruta gradual en 3 fases (30-90-180 días) es más viable y de menor riesgo que comprar una macro-licencia de software en un contrato cerrado de 2 años.
+2. Genera un DIAGRAMA DE HOJA DE RUTA en formato Mermaid (bloque ```mermaid ... ```) que visualice cronológicamente las 3 fases, sus hitos clave y la matriz RACI de responsables.</div>
+      <div class="banner-info" style="margin-top:0.75rem;">
+        💡 <strong>Proyección en Pantalla Completa:</strong> Pega el bloque de código Mermaid generado por la IA en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar la Hoja de Ruta ante el Comité Directivo y la Plenaria de cierre.
+      </div>
     </div>
   </section>
 
@@ -2000,13 +2013,86 @@ function renderLineageNodeInfo(nodeId) {
   if (outMatch) renderLineageGraph(outMatch.id);
 }
 
+let virtAttempts = 0;
+
+function evaluateVirtualization() {
+  virtAttempts++;
+  const answers = {
+    'virt-f1': {
+      correct: 'FISICA',
+      just: '✅ <strong>Correcto (Física / ETL en lote):</strong> Alto volumen histórico de vuelos diarios. Conviene consolidar en lote con deduplicación (DQ-01) para no saturar el motor transaccional SIIV de despacho de aeronaves.'
+    },
+    'virt-f2': {
+      correct: 'VIRTUAL',
+      just: '✅ <strong>Correcto (Virtual / API en vivo):</strong> El estado meteorológico cambia hora a hora. El acceso virtual vía conector API permite consultar la alerta METAR vigente sin esperar procesos batch nocturnos.'
+    },
+    'virt-f3': {
+      correct: 'VIRTUAL',
+      just: '✅ <strong>Correcto (Virtual Gobernado / DDM):</strong> Alta reserva legal (Anexo 19 OACI / Cultura Justa y Ley 1581). Expone el conteo y severidad enmascarando en vuelo la cédula del reportante sin duplicar datos confidenciales fuera del área SMS.'
+    },
+    'virt-f4': {
+      correct: 'FISICA',
+      just: '✅ <strong>Correcto (Física Certificada / Snapshot):</strong> Para reportes oficiales de recaudo se exige una foto física consolidada tras aplicar DQ-05 (cuarentena de vuelos cancelados) garantizando inmutabilidad ante Contraloría.'
+    }
+  };
+
+  let correctCount = 0;
+  for (const [id, info] of Object.entries(answers)) {
+    const el = document.getElementById(id);
+    const justEl = document.getElementById('virt-just-' + id.replace('virt-', ''));
+    if (!el) continue;
+    
+    if (el.value === info.correct) {
+      el.className = 'select-valid';
+      justEl.innerHTML = info.just;
+      correctCount++;
+    } else {
+      el.className = el.value ? 'select-invalid' : '';
+      justEl.innerHTML = el.value 
+        ? '❌ <strong>Revisa tu elección:</strong> Este mecanismo no es el más idóneo según los requerimientos de latencia, volumen o reserva legal de esta fuente.' 
+        : '<em>Selecciona una opción y valida para ver el diagnóstico...</em>';
+    }
+  }
+
+  const refBtn = document.getElementById('btn-ref-virt');
+  if (virtAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+  }
+
+  const feedbackEl = document.getElementById('virt-feedback');
+  if (correctCount === 4) {
+    if (refBtn) {
+      refBtn.disabled = false;
+      refBtn.classList.remove('disabled-btn');
+    }
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Excelente Análisis Arquitectónico!</strong> Has justificado correctamente los 4 mecanismos de integración. 
+        Demostraste que el Data Fabric combina la ingestión física para datos estructurados masivos con la virtualización gobernada para datos en tiempo real y sensibles.
+      </div>
+    `;
+  } else {
+    const attemptsLeft = Math.max(0, 3 - virtAttempts);
+    feedbackEl.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Decisiones pendientes (Intento ${virtAttempts}):</strong> Obtuviste <strong>${correctCount} de 4</strong> elecciones óptimas.
+        Revisa las casillas resaltadas en rojo y reflexiona sobre el volumen y la reserva legal de cada fuente.
+        ${attemptsLeft > 0 
+          ? `<br/><span style="font-size:0.83rem; color:#7F1D1D;">(El botón de referencia se desbloqueará tras 3 intentos fallidos - faltan ${attemptsLeft} intento(s)).</span>` 
+          : `<br/><span style="font-size:0.83rem; color:#14532D; font-weight:700;">💡 Se ha desbloqueado el botón 'Ver Recomendación de Referencia'.</span>`}
+      </div>
+    `;
+  }
+}
+
 function recommendVirtualization() {
   document.getElementById('virt-f1').value = 'FISICA';
   document.getElementById('virt-f2').value = 'VIRTUAL';
   document.getElementById('virt-f3').value = 'VIRTUAL';
   document.getElementById('virt-f4').value = 'FISICA';
+  evaluateVirtualization();
 }
-function evaluateVirtualization() {}
 
 // Simulador de Consumo por Roles (RBAC + Dynamic Data Masking)
 const ROLE_POLICIES = {
@@ -2168,6 +2254,7 @@ function exportStudentDeliverable() {
   const s1Findings = document.getElementById('s1-findings-notes') ? document.getElementById('s1-findings-notes').value : '';
   const s1Methodology = document.getElementById('s1-methodology-notes') ? document.getElementById('s1-methodology-notes').value : '';
   // Diagrama visual generado con IA se socializa en plenaria (Mermaid.live)
+  const s1AiSim = "Diagrama de arquitectura simulado y proyectado en Mermaid.live durante la plenaria grupal.";
 
   const l1 = document.getElementById('layer-log-1') ? document.getElementById('layer-log-1').value : '';
   const l2 = document.getElementById('layer-log-2') ? document.getElementById('layer-log-2').value : '';
