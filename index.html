@@ -478,6 +478,222 @@
       font-size: 0.82rem;
     }
 
+  
+    /* --- Estilos Pestaña 2: Crucigrama, Matriz RACI y Veredicto --- */
+    .crossword-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: flex-start;
+      margin-top: 1rem;
+    }
+    .crossword-board-wrap {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+      overflow-x: auto;
+    }
+    .crossword-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 34px);
+      grid-template-rows: repeat(10, 34px);
+      gap: 2px;
+      user-select: none;
+    }
+    .cw-cell {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 3px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .cw-cell.black {
+      background: #0F172A;
+      border-color: #0F172A;
+    }
+    .cw-cell .cell-num {
+      position: absolute;
+      top: 1px;
+      left: 2px;
+      font-size: 8px;
+      font-weight: 800;
+      color: #002060;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .cw-cell input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      color: #0F172A;
+      text-transform: uppercase;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    .cw-cell.active {
+      border: 2px solid #0070C0 !important;
+      background: #EFF6FF !important;
+      z-index: 2;
+    }
+    .cw-cell.highlighted {
+      background: #F0F9FF;
+    }
+    .cw-cell.correct input {
+      background-color: #DCFCE7 !important;
+      color: #14532D !important;
+      font-weight: 800;
+    }
+    .cw-cell.wrong input {
+      background-color: #FEF2F2 !important;
+      color: #991B1B !important;
+    }
+    .crossword-clues {
+      flex: 1;
+      min-width: 280px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 768px) {
+      .crossword-clues { grid-template-columns: 1fr; }
+    }
+    .clue-group h4 {
+      margin: 0 0 0.5rem;
+      font-size: 0.88rem;
+      color: var(--navy);
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 0.25rem;
+    }
+    .clue-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.8rem;
+    }
+    .clue-item {
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+      line-height: 1.35;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      transition: background 0.15s;
+    }
+    .clue-item:hover {
+      background: #F1F5F9;
+    }
+    .clue-item.active {
+      background: #E0F2FE;
+      border-color: #0070C0;
+      font-weight: 600;
+    }
+    .clue-item.solved {
+      text-decoration: line-through;
+      color: #15803D;
+      background: #F0FDF4;
+      border-color: #BBF7D0;
+    }
+
+    /* Estilos Clasificador DAMA */
+    .dama-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0.85rem;
+      margin-top: 0.75rem;
+    }
+    .dama-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .dama-card strong {
+      color: var(--navy);
+      font-size: 0.85rem;
+    }
+    .dama-card p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: #475569;
+      line-height: 1.35;
+    }
+
+    /* Estilos Veredicto de Auditoría */
+    .verdict-quiz-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+    .verdict-question-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .verdict-question-box h4 {
+      margin: 0 0 0.6rem;
+      font-size: 0.92rem;
+      color: var(--navy);
+    }
+    .verdict-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .verdict-option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.75rem;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: all 0.15s;
+    }
+    .verdict-option-label:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+    }
+    .verdict-option-label.selected {
+      border-color: var(--navy);
+      background: #F8FAFC;
+    }
+    .verdict-option-label.correct-verdict {
+      background: #F0FDF4 !important;
+      border-color: #16A34A !important;
+      color: #14532D !important;
+      font-weight: 600;
+    }
+    .verdict-option-label.wrong-verdict {
+      background: #FEF2F2 !important;
+      border-color: #DC2626 !important;
+      color: #991B1B !important;
+    }
+
   </style>
 </head>
 <body>
@@ -748,86 +964,102 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- SESIÓN 2:<!-- SESIÓN 2: METADATOS, CATÁLOGO, CALIDAD Y FLUJO DEMOSTRATIVO           -->
+    <!-- ===================================================================== -->
+  <!-- SESIÓN 2: METADATOS, CATÁLOGO, CALIDAD Y FLUJO DEMOSTRATIVO           -->
   <!-- ===================================================================== -->
   <section class="session-panel" id="session-2">
     <div class="banner-info">
-      <strong>🎯 Misión de la Sesión 2 (4 Horas — 1h Conceptual / 3h Taller):</strong>
-      Sin metadatos claros ni reglas de calidad, integrar datos solo produce <em>"basura unificada a mayor velocidad"</em>. Hoy construirás el <strong>Catálogo Mínimo y Glosario de Negocio</strong>, activarás las <strong>5 Reglas de Calidad Reproducibles</strong> sobre los datos sintéticos y demostrarás el <strong>Cuadre y Reconciliación de Registros y Totales</strong>.
+      <strong>🎯 Misión de la Sesión 2 (4 Horas - 1h Conceptual / 3h Taller):</strong>
+      Sin metadatos claros ni reglas de calidad, integrar datos solo produce <em>"basura unificada a mayor velocidad"</em>. Hoy asignarás los <strong>Roles RACI de Gobernanza</strong> (rompiendo el mito de que TI es dueño de todo), resolverás el <strong>Crucigrama de Metadatos</strong>, clasificarás las anomalías en las <strong>6 Dimensiones DAMA</strong>, activarás las <strong>5 Reglas de Calidad</strong> y emitirás el <strong>Veredicto Ejecutivo de Reconciliación</strong> para la plenaria final.
     </div>
 
-    <!-- Paso 2.1: Catálogo Mínimo y Glosario de Negocio -->
+    <!-- Paso 2.1: Matriz Interactiva de Gobernanza RACI -->
     <div class="card">
       <div class="card-header">
-        <h2>2.1. Catálogo Mínimo, Glosario de Negocio y Responsables (Entregable 2A)</h2>
-        <span class="pill pill-blue">Metadatos Técnicos vs. Metadatos de Negocio</span>
+        <h2>2.1. Matriz Interactiva de Gobernanza RACI: Asignación de Roles (Entregable 2A)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="resetGovernanceRoles()" title="Mezclar aleatoriamente el orden de los menús desplegables">🔀 Mezclar / Reordenar</button>
+          <button class="btn btn-primary" onclick="verifyGovernanceRoles()">🔍 Validar Asignación RACI</button>
+          <button id="btn-ref-roles" class="btn btn-success disabled-btn" onclick="autofillGovernanceRoles()" disabled>🔒 Cargar Solución RACI (Disponible tras 3 intentos fallidos)</button>
+        </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        Observa cómo el <strong>Glosario de Negocio</strong> resuelve las disputas entre áreas (por ejemplo, por qué <em>Pasajeros Declarados</em> en Operaciones nunca es igual a <em>Pasajeros Facturados</em> en Financiera) y asigna un responsable formal (<em>Data Owner</em> y <em>Data Steward</em>):
+        Asigna para cada término crítico de la Aerocivil su <strong>Data Owner</strong> (Líder misional que asume la responsabilidad de negocio y rinde cuentas), su <strong>Data Steward</strong> (Custodio temático que vigila la calidad y homologa el glosario a diario) y su <strong>Data Custodian</strong> (Custodio técnico responsable de la infraestructura, base de datos y respaldos). 
+        <em>Recuerda el principio DAMA-DMBOK: La Dirección de TI es el Data Custodian técnico, pero <strong>NUNCA</strong> el Data Owner de la información misional.</em>
       </p>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Término de Negocio (Glosario)</th>
-              <th>Metadato Técnico (Campo / Tipo / Fuente)</th>
-              <th>Definición Oficial Acordada (Metadato de Negocio)</th>
-              <th>Dueño del Dato (Data Owner)</th>
-              <th>Custodio de Calidad (Data Steward)</th>
-              <th>Clasificación de Seguridad</th>
+              <th style="width:22%;">Término de Negocio / Campo</th>
+              <th style="width:26%;">Dueño del Dato (Data Owner - Negocio)</th>
+              <th style="width:26%;">Custodio Funcional (Data Steward)</th>
+              <th style="width:26%;">Custodio Técnico (Data Custodian - TI)</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td><strong>Código Oficial de Aeródromo</strong></td>
-              <td><code>codigo_oaci</code> (VARCHAR(4))<br/>Maestro: <code>M_REF</code></td>
-              <td>Identificador único de 4 letras asignado por la OACI a cada aeródromo colombiano (ej. <code>SKBO</code>). Todo código IATA (<code>BOG</code>) o nombre comercial debe homologarse a OACI antes de cualquier cruce.</td>
-              <td>Dirección de Información Aeronáutica (AIM)</td>
-              <td>Líder de Datos Maestros – Oficina de Analítica</td>
-              <td><span class="pill pill-green">Público Oficial</span></td>
-            </tr>
-            <tr>
-              <td><strong>Pasajeros Declarados en Vuelo</strong></td>
-              <td><code>pasajeros_declarados</code> (INT)<br/>Fuente: <code>F1_OPS</code></td>
-              <td>Total de personas a bordo reportadas en el manifiesto operativo de salida. <strong>Incluye infantes de brazos (&lt;2 años) y tripulación en comisión</strong>.</td>
-              <td>Dirección de Servicios a la Navegación Aérea</td>
-              <td>Coordinador Estadísticas de Tráfico Aéreo</td>
-              <td><span class="pill pill-blue">Interno Institucional</span></td>
-            </tr>
-            <tr>
-              <td><strong>Pasajeros Facturables por Tasa</strong></td>
-              <td><code>pasajeros_facturados</code> (INT)<br/>Fuente: <code>F4_FIN</code></td>
-              <td>Total de pasajeros sujetos al cobro de tasa aeroportuaria. <strong>Excluye infantes, tránsitos directos y tripulantes en comisión</strong>. Por regla de negocio siempre es menor o igual a <code>pasajeros_declarados</code>.</td>
-              <td>Dirección Financiera</td>
-              <td>Analista Senior de Liquidación y Recaudo</td>
-              <td><span class="pill pill-amber">Restringido Financiero</span></td>
-            </tr>
-            <tr>
-              <td><strong>Estampa Horaria Operacional</strong></td>
-              <td><code>hora_utc</code> / <code>hora_salida_local</code><br/>Fuentes: <code>F2_MET</code> / <code>F1_OPS</code></td>
-              <td>Meteorología reporta en tiempo universal coordinado (<strong>UTC / Zulu</strong>). Operaciones reporta en <strong>Hora Oficial de Colombia (UTC-5)</strong>. Para cruzarlos debe aplicarse conversión explícita <code>UTC = Local + 5h</code>.</td>
-              <td>Grupo de Meteorología Aeronáutica</td>
-              <td>Ingeniero de Integración – Oficina de Analítica</td>
-              <td><span class="pill pill-green">Público Oficial</span></td>
-            </tr>
-            <tr>
-              <td><strong>Identidad de Reportante SMS (MOR)</strong></td>
-              <td><code>cedula_reportante</code>, <code>nombre_reportante</code><br/>Fuente: <code>F3_SMS</code></td>
-              <td>Datos personales de quien reporta voluntaria u obligatoriamente un suceso de seguridad operacional. Protegido por <strong>Cultura Justa (Anexo 19 OACI)</strong> y Ley 1581/2012. Nunca debe exponerse en tableros analíticos.</td>
-              <td>Secretaría de Seguridad Operacional</td>
-              <td>Oficial de Protección de Datos y SMS</td>
-              <td><span class="pill pill-red">Confidencial / PII Sensible</span></td>
-            </tr>
-          </tbody>
+          <tbody id="governance-roles-tbody"></tbody>
         </table>
       </div>
+      <div id="governance-roles-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
-    <!-- Paso 2.2: Motor Interactivo de Reglas de Calidad -->
+    <!-- Paso 2.2: Minijuego - Crucigrama de Metadatos y Data Fabric -->
     <div class="card">
       <div class="card-header">
-        <h2>2.2. Motor Interactivo de Reglas de Calidad y Reconciliación (Entregable 2B y 3A)</h2>
+        <h2>2.2. Crucigrama Interactivo de Metadatos y Data Fabric (Minijuego Pedagógico)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="hintCrosswordCell()" title="Revela la letra de la casilla actualmente seleccionada">💡 Pista (Revelar Letra)</button>
+          <button class="btn btn-secondary" onclick="clearCrossword()" title="Borrar las letras escritas y comenzar de nuevo">🔄 Limpiar Crucigrama</button>
+          <button class="btn btn-primary" onclick="verifyCrossword()">🔍 Verificar Crucigrama</button>
+          <button id="btn-ref-crossword" class="btn btn-success disabled-btn" onclick="solveCrossword()" disabled>🔒 Revelar Solución (Tras 3 intentos)</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Pon a prueba tu dominio conceptual de la arquitectura Data Fabric completando las 8 palabras clave. Haz clic en cualquier casilla o en una de las pistas laterales para escribir tu respuesta. Al pulsar <strong>"Verificar Crucigrama"</strong> sabrás cuáles letras son correctas (en verde) y cuáles requieren corregirse (en rojo).
+      </p>
+
+      <div class="crossword-container">
+        <!-- Tablero de Cuadrícula -->
+        <div class="crossword-board-wrap">
+          <div class="crossword-grid" id="cw-grid"></div>
+        </div>
+
+        <!-- Pistas Horizontales y Verticales -->
+        <div class="crossword-clues">
+          <div class="clue-group">
+            <h4>➡️ Horizontales</h4>
+            <ul class="clue-list" id="clues-across"></ul>
+          </div>
+          <div class="clue-group">
+            <h4>⬇️ Verticales</h4>
+            <ul class="clue-list" id="clues-down"></ul>
+          </div>
+        </div>
+      </div>
+      <div id="crossword-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 2.3: Clasificador Interactivo de Reglas DQ vs. Dimensiones DAMA -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2.3. Clasificador de Calidad: 5 Reglas DQ vs. 6 Dimensiones DAMA (Entregable 2B - Parte 1)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="resetDamaClassifier()" title="Mezclar el orden de las opciones">🔀 Mezclar / Reordenar</button>
+          <button class="btn btn-primary" onclick="verifyDamaClassifier()">🔍 Validar Dimensiones DAMA</button>
+          <button id="btn-ref-dama" class="btn btn-success disabled-btn" onclick="autofillDamaClassifier()" disabled>🔒 Cargar Solución DAMA (Tras 3 intentos)</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Antes de ejecutar las reglas en el motor, relaciona cada anomalía detectada en los silos de la Aerocivil con su correspondiente <strong>Dimensión Teórica de Calidad según el marco DAMA-DMBOK</strong>:
+      </p>
+      <div class="dama-card-grid" id="dama-cards-container"></div>
+      <div id="dama-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 2.4: Motor Interactivo de Reglas de Calidad y Reconciliación en Vivo -->
+    <div class="card">
+      <div class="card-header">
+        <h2>2.4. Motor Interactivo de Reglas de Calidad y Reconciliación en Tiempo Real (Entregable 2B - Parte 2)</h2>
         <div>
           <button class="btn btn-success" onclick="toggleAllRules(true)">⚡ Activar las 5 Reglas del Data Fabric</button>
           <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy);" onclick="toggleAllRules(false)">🔄 Ver Datos Crudos (Sin Reglas)</button>
@@ -835,7 +1067,7 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       </div>
 
       <p style="margin-top:0; font-size:0.9rem;">
-        Activa una por una las <strong>5 Reglas de Calidad Reproducibles</strong> y observa en tiempo real cómo cambian los indicadores de control, cuántos registros se recuperan o entran en cuarentena, y cómo cuadran las cifras entre Operaciones, Seguridad Operacional y Financiera:
+        Activa una por una las <strong>5 Reglas de Calidad Reproducibles</strong> y observa en tiempo real cómo cambian los indicadores de control, cuántos registros entran en cuarentena y cómo cuadran las cifras entre Operaciones, Meteorología, SMS y Financiera:
       </p>
 
       <div class="grid-2">
@@ -850,19 +1082,32 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       </div>
     </div>
 
-    <!-- Paso 2.3: Vista del Flujo Combinado y Reconciliado -->
+    <!-- Paso 2.5: Veredicto Ejecutivo de Reconciliación (Quiz de Auditoría para la Plenaria) -->
+    <div class="card" style="border-left: 5px solid var(--gold);">
+      <div class="card-header">
+        <h2>2.5. Veredicto Ejecutivo de Reconciliación: Decisiones de Auditoría (Entregable 2C)</h2>
+        <button class="btn btn-primary" onclick="verifyVerdictQuiz()">⚖️ Emitir Veredicto de Auditoría</button>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Como Auditor Principal de Calidad y Gobierno de Datos de la Aerocivil, debes justificar técnicamente las conclusiones ante el Director General y los entes de control fiscal. Responde con criterio de negocio las 3 preguntas clave:
+      </p>
+      <div class="verdict-quiz-grid" id="verdict-quiz-container"></div>
+      <div id="verdict-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 2.6: Vista del Flujo Combinado y Copiloto de IA Socrático -->
     <div class="card">
       <div class="card-header">
-        <h2>2.3. Vista en Vivo del Flujo Demostrativo de Combinación (Tabla Integrada SIOA)</h2>
+        <h2>2.6. Vista en Vivo del Flujo Demostrativo de Combinación (Tabla Integrada SIOA)</h2>
         <span class="pill pill-green" id="integrated-status-badge">Mostrando resultado del flujo en vivo</span>
       </div>
       <div class="table-wrap" id="integrated-flow-table"></div>
     </div>
 
-    <!-- Paso 2.4: Copiloto de IA Socrático Sesión 2 -->
+    <!-- Copiloto de IA Socrático Sesin 2 -->
     <div class="card" style="border-left: 5px solid var(--cyan);">
       <div class="card-header">
-        <h2>2.4. Copiloto de IA Socrático — Sesión 2: Reconciliación y Diagrama de Flujo</h2>
+        <h2>2.7. Copiloto de IA Socrático - Sesión 2: Reconciliación y Diagrama de Flujo</h2>
         <button class="btn btn-primary" onclick="copyText('prompt-s2')">📋 Copiar Metaprompt de Reconciliación</button>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
@@ -873,19 +1118,18 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
 Acabamos de ejecutar el motor Data Fabric con las 5 reglas de calidad (DQ-01 a DQ-05) sobre los silos sintéticos del caso "Cielo Integrado (SIOA)" y obtuvimos los siguientes hallazgos:
 1. Unicidad: 3 vuelos duplicados eliminados en F1_OPS (VUELO-5002, 5005, 5010), reduciendo de 13 a 10 vuelos reales.
 2. Consistencia MDM: F3_SMS y F4_FIN usaban códigos IATA ("BOG", "MDE", "BAQ") o nombres como "EL DORADO" y "RIONEGRO"; la tabla M_REF los homologó al 100% al estándar OACI (SKBO, SKRG, SKBQ).
-3. Validez de Rango: Se corrigió el error tipográfico de -15 a 150 pasajeros en VUELO-5004 y se aisló la visibilidad 999999 m de MET-04 como sensor fuera de rango.
-4. Completitud: Se imputó demora=0 (puntual) en VUELO-5006 y se asignó severidad "MEDIA" a MOR-2026-03 por protocolo.
-5. Integridad Referencial: 2 facturas en F4_FIN por $13.500.000 COP (FAC-2026-009 por $7.5M y FAC-2026-010 por $6.0M) corresponden a vuelos cancelados (VUELO-9991 y 9992). Se trasladaron a Bandeja de Cuarentena (NO se borraron con DELETE).
-6. Glosario Canónico: Pasajeros Declarados suma 1.532 y Pasajeros Facturados suma 1.479 (brecha legítima de 53 pasajeros exentos por normativa RAC: infantes &lt;2 años y tripulantes en servicio).
+3. Validez de Rango: VUELO-5004 registraba -15 pasajeros (error tipográfico corregido a 150) y MET-04 registraba visibilidad 999999 m (outlier aislado).
+4. Completitud: Imputación de minutos_demora=0 en VUELO-5006 y severidad 'MEDIA' en MOR-2026-03.
+5. Integridad Referencial: Aislamiento en CUARENTENA de 2 facturas ($13.500.000 COP) de vuelos cancelados (VUELO-9991 y 9992).
+6. Conciliación de Pasajeros: 1.532 Pasajeros Declarados vs. 1.479 Pasajeros Facturados. Brecha exacta explicada: 53 pasajeros exentos (infantes de brazos y tripulantes en comisión según RAC).
+7. Conciliación Financiera: Recaudo crudo $87.450.000 COP vs. Recaudo legítimo conciliado $73.950.000 COP.
 
 ENTREGABLES REQUERIDOS:
-A) ACTA EJECUTIVA DE RECONCILIACIÓN para el Comité de Analítica y la Dirección General, con tabla comparativa de cifras (Total Bruto $87.450.000 vs. Total Con Reglas $73.950.000 COP), justificación del no borrado físico (valor probatorio ante Contraloría) y explicación de los 53 exentos.
-B) DIAGRAMA DE FLUJO en sintaxis Mermaid (código en bloque ```mermaid flowchart TD ... ```) que ilustre: Silos Crudos ➔ Reglas DQ-01 a DQ-05 ➔ Bifurcación entre Flujo SIOA-360 ($73.95M / 10 vuelos) y Bandeja de Cuarentena ($13.5M aislados).
-C) EVALUACIÓN CRÍTICA: Formula 2 recomendaciones de gobernanza para evitar que el ERP siga facturando vuelos cancelados sin validar con la torre de control.</div>
+A) Un DIAGRAMA DE FLUJO DE CALIDAD Y RECONCILIACIÓN en formato Mermaid (bloque ```mermaid ... ```) que ilustre cómo entran los datos crudos, qué filtros DQ atraviesan y cómo se separan los datos limpios de los registros en cuarentena.
+B) Redacta el ACTA EJECUTIVA DE CONCILIACIÓN DE DATOS (máximo 300 palabras) para el Director General de la Aerocivil, explicando el riesgo fiscal y reputacional evitado al no cobrar los $13.5M COP a aerolíneas por vuelos que nunca despegaron.</div>
 
-      <div class="banner-info" style="margin-top:0.9rem;">
-        <strong>💡 Tip de Visualización Interactiva (Mermaid.live) para la Plenaria:</strong><br/>
-        Copia el bloque de código Mermaid generado por la IA (<code>```mermaid ... ```</code>) y pégalo directamente en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">Mermaid.live</a>. Podrás proyectar el flujo de reconciliación en pantalla completa, explorar el camino que tomaron los $13.5M hacia la cuarentena y sustentar tu reporte con soporte visual durante la plenaria grupal de cierre.
+      <div class="banner-info" style="margin-top:0.85rem;">
+        🌐 <strong>Visualización Interactiva Recomendada:</strong> Copia el código Mermaid generado por tu asistente y pégalo en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar el diagrama de flujo en pantalla completa durante la plenaria.
       </div>
     </div>
   </section>
@@ -1798,6 +2042,798 @@ function copyLayerNotes() {
   });
 }
 
+
+// ============================================================================
+// SESIÓN 2: GOBERNANZA RACI, CRUCIGRAMA, CLASIFICADOR DAMA Y VEREDICTO
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// 2.1. MATRIZ INTERACTIVA DE GOBERNANZA RACI
+// ----------------------------------------------------------------------------
+const GOVERNANCE_ROLES_DATA = [
+  {
+    id: "term_oaci",
+    name: "Código Oficial de Aeródromo",
+    tech: "codigo_oaci (VARCHAR(4)) | Maestro M_REF",
+    ownerExpected: "Dirección de Información Aeronáutica (AIM)",
+    ownerOptions: [
+      "Dirección de Información Aeronáutica (AIM)",
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección Financiera",
+      "Grupo de Meteorología Aeronáutica",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    stewardExpected: "Líder de Datos Maestros (Oficina de Analítica)",
+    stewardOptions: [
+      "Líder de Datos Maestros (Oficina de Analítica)",
+      "Administrador de Base de Datos (TI)",
+      "Analista Senior de Liquidación",
+      "Oficial de Protección de Datos",
+      "Coordinador de Tráfico Aéreo"
+    ],
+    custodianExpected: "Dirección de Tecnología (Oficina TI)",
+    custodianOptions: [
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección de Información Aeronáutica (AIM)",
+      "Dirección Financiera",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    explanation: "AIM define y normaliza el catálogo oficial soberano; Analítica homologa tablas maestras (MDM); TI asegura la base de datos."
+  },
+  {
+    id: "term_pax_decl",
+    name: "Pasajeros Declarados en Vuelo",
+    tech: "pasajeros_declarados (INT) | Silo F1_OPS",
+    ownerExpected: "Dirección de Navegación Aérea",
+    ownerOptions: [
+      "Dirección de Navegación Aérea",
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección Financiera",
+      "Grupo de Meteorología Aeronáutica",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    stewardExpected: "Coordinador de Estadísticas de Tráfico Aéreo",
+    stewardOptions: [
+      "Coordinador de Estadísticas de Tráfico Aéreo",
+      "Administrador de Servidores (TI)",
+      "Analista de Cuentas por Cobrar",
+      "Líder de Datos Maestros",
+      "Inspector de Seguridad Operacional"
+    ],
+    custodianExpected: "Dirección de Tecnología (Oficina TI)",
+    custodianOptions: [
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección de Navegación Aérea",
+      "Dirección Financiera",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    explanation: "Navegación Aérea responde por la veracidad de los manifiestos de salida de vuelo; Tráfico Aéreo vigila la coherencia; TI custodia los servidores."
+  },
+  {
+    id: "term_pax_fact",
+    name: "Pasajeros Facturables por Tasa",
+    tech: "pasajeros_facturados (INT) | Silo F4_FIN",
+    ownerExpected: "Dirección Financiera",
+    ownerOptions: [
+      "Dirección Financiera",
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección de Navegación Aérea",
+      "Grupo de Meteorología Aeronáutica",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    stewardExpected: "Analista Senior de Liquidación y Recaudo",
+    stewardOptions: [
+      "Analista Senior de Liquidación y Recaudo",
+      "DBA Oracle/PostgreSQL (TI)",
+      "Coordinador de Estadísticas de Tráfico",
+      "Líder de Integración de Datos",
+      "Auditor de Calidad Aeronáutica"
+    ],
+    custodianExpected: "Dirección de Tecnología (Oficina TI)",
+    custodianOptions: [
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección Financiera",
+      "Dirección de Navegación Aérea",
+      "Oficina de Analítica"
+    ],
+    explanation: "Financiera define las reglas tributarias de cobro de tasas según RAC; Liquidación y Recaudo audita las exenciones; TI aloja el sistema ERP."
+  },
+  {
+    id: "term_hora_utc",
+    name: "Estampa Horaria Operacional",
+    tech: "hora_utc / hora_salida_local | F2_MET y F1_OPS",
+    ownerExpected: "Grupo de Meteorología Aeronáutica",
+    ownerOptions: [
+      "Grupo de Meteorología Aeronáutica",
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección Financiera",
+      "Secretaría de Seguridad Operacional (SMS)",
+      "Dirección de Navegación Aérea"
+    ],
+    stewardExpected: "Ingeniero de Integración (Oficina de Analítica)",
+    stewardOptions: [
+      "Ingeniero de Integración (Oficina de Analítica)",
+      "Soporte de Infraestructura TI",
+      "Analista de Liquidación de Tasas",
+      "Coordinador de Seguridad SMS",
+      "Meteorólogo Predictor de Turno"
+    ],
+    custodianExpected: "Dirección de Tecnología (Oficina TI)",
+    custodianOptions: [
+      "Dirección de Tecnología (Oficina TI)",
+      "Grupo de Meteorología Aeronáutica",
+      "Dirección de Navegación Aérea",
+      "Secretaría de Seguridad Operacional (SMS)"
+    ],
+    explanation: "Meteorología es dueña de las estaciones y sensores con estampa UTC; Analítica homologa la conversión horaria a local (-5h); TI mantiene la red y APIs."
+  },
+  {
+    id: "term_mor_pii",
+    name: "Identidad de Reportante MOR",
+    tech: "cedula_reportante (CONFIDENCIAL) | Silo F3_SMS",
+    ownerExpected: "Secretaría de Seguridad Operacional (SMS)",
+    ownerOptions: [
+      "Secretaría de Seguridad Operacional (SMS)",
+      "Dirección de Tecnología (Oficina TI)",
+      "Dirección Financiera",
+      "Dirección de Navegación Aérea",
+      "Grupo de Meteorología Aeronáutica"
+    ],
+    stewardExpected: "Oficial de Protección de Datos y Cultura Justa",
+    stewardOptions: [
+      "Oficial de Protección de Datos y Cultura Justa",
+      "Administrador de Base de Datos TI",
+      "Analista de Facturación y Tasas",
+      "Coordinador de Tráfico Aéreo",
+      "Ingeniero de Plataformas Cloud"
+    ],
+    custodianExpected: "Dirección de Tecnología (Oficina TI)",
+    custodianOptions: [
+      "Dirección de Tecnología (Oficina TI)",
+      "Secretaría de Seguridad Operacional (SMS)",
+      "Dirección Financiera",
+      "Oficina de Analítica"
+    ],
+    explanation: "SMS protege la reserva legal bajo Cultura Justa (Anexo 19 OACI); el Oficial de Protección vigila el enmascaramiento; TI custodia la encriptación."
+  }
+];
+
+let governanceAttempts = 0;
+
+function initGovernanceRoles() {
+  const tbody = document.getElementById('governance-roles-tbody');
+  if (!tbody) return;
+  let html = '';
+
+  GOVERNANCE_ROLES_DATA.forEach((r, idx) => {
+    const owners = shuffleArray(r.ownerOptions);
+    const stewards = shuffleArray(r.stewardOptions);
+    const custodians = shuffleArray(r.custodianOptions);
+
+    html += `<tr>
+      <td>
+        <strong>${r.name}</strong><br/>
+        <code style="font-size:0.75rem; color:#475569;">${r.tech}</code>
+      </td>
+      <td>
+        <select id="gov-owner-${idx}">
+          <option value="">-- Seleccionar Data Owner --</option>
+          ${owners.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="gov-stew-${idx}">
+          <option value="">-- Seleccionar Data Steward --</option>
+          ${stewards.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="gov-cust-${idx}">
+          <option value="">-- Seleccionar Data Custodian --</option>
+          ${custodians.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        </select>
+      </td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = html;
+}
+
+function resetGovernanceRoles() {
+  governanceAttempts = 0;
+  const refBtn = document.getElementById('btn-ref-roles');
+  if (refBtn) {
+    refBtn.disabled = true;
+    refBtn.classList.add('disabled-btn');
+    refBtn.innerText = "🔒 Cargar Solución RACI (Disponible tras 3 intentos fallidos)";
+  }
+  initGovernanceRoles();
+  const feedbackEl = document.getElementById('governance-roles-feedback');
+  if (feedbackEl) {
+    feedbackEl.innerHTML = `
+      <div class="banner-info" style="font-size:0.85rem;">
+        🔀 <strong>Opciones reorganizadas:</strong> Se ha generado un nuevo orden aleatorio en las listas de roles de gobernanza.
+      </div>
+    `;
+  }
+}
+
+function verifyGovernanceRoles() {
+  governanceAttempts++;
+  let totalFields = GOVERNANCE_ROLES_DATA.length * 3;
+  let correctCount = 0;
+  let tiAsOwnerMistake = false;
+
+  GOVERNANCE_ROLES_DATA.forEach((r, idx) => {
+    const checkRole = (elemId, expected, isOwnerCheck) => {
+      const el = document.getElementById(elemId);
+      if (!el) return;
+      if (el.value === expected && expected !== "") {
+        el.className = 'select-valid';
+        correctCount++;
+      } else {
+        el.className = 'select-invalid';
+        if (isOwnerCheck && el.value.includes("Tecnología")) {
+          tiAsOwnerMistake = true;
+        }
+      }
+    };
+
+    checkRole(`gov-owner-${idx}`, r.ownerExpected, true);
+    checkRole(`gov-stew-${idx}`, r.stewardExpected, false);
+    checkRole(`gov-cust-${idx}`, r.custodianExpected, false);
+  });
+
+  const feedbackEl = document.getElementById('governance-roles-feedback');
+  const refBtn = document.getElementById('btn-ref-roles');
+
+  if (governanceAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+    refBtn.innerText = "💡 Cargar Solución RACI (Desbloqueado)";
+  }
+
+  if (correctCount === totalFields) {
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Matriz RACI de Gobernanza 100% Validada (${correctCount}/${totalFields})!</strong><br/>
+        Has distinguido con precisión que las áreas misionales (AIM, Navegación Aérea, Financiera, Meteorología y SMS) son los <strong>Data Owners</strong> responsables del significado del dato, los analistas especializados son los <strong>Data Stewards</strong> encargados de la calidad operativa, y la Dirección de TI es el <strong>Data Custodian</strong> que asegura la infraestructura y la base de datos.
+      </div>
+    `;
+  } else {
+    const attemptsLeft = Math.max(0, 3 - governanceAttempts);
+    feedbackEl.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Validación Incompleta (Intento ${governanceAttempts}):</strong> Obtuviste <strong>${correctCount} de ${totalFields}</strong> asignaciones correctas.
+        ${tiAsOwnerMistake ? '<br/><strong>💡 Alerta DAMA-DMBOK:</strong> Has asignado a TI como Dueño del Dato (Data Owner). Recuerda que TI es el Custodio Técnico de la infraestructura, pero quien rinde cuentas por la operación aérea, la facturación o la seguridad es la dirección misional correspondiente.' : ''}
+        ${attemptsLeft > 0 
+          ? `<br/><span style="font-size:0.83rem; color:#7F1D1D;">(El botón de solución se desbloqueará tras 3 intentos — faltan ${attemptsLeft} intento(s)).</span>` 
+          : `<br/><span style="font-size:0.83rem; color:#14532D; font-weight:700;">💡 Botón 'Cargar Solución RACI' desbloqueado.</span>`}
+      </div>
+    `;
+  }
+}
+
+function autofillGovernanceRoles() {
+  GOVERNANCE_ROLES_DATA.forEach((r, idx) => {
+    const setAndStyle = (elemId, val) => {
+      const el = document.getElementById(elemId);
+      if (el) {
+        el.value = val;
+        el.className = 'select-valid';
+      }
+    };
+    setAndStyle(`gov-owner-${idx}`, r.ownerExpected);
+    setAndStyle(`gov-stew-${idx}`, r.stewardExpected);
+    setAndStyle(`gov-cust-${idx}`, r.custodianExpected);
+  });
+
+  document.getElementById('governance-roles-feedback').innerHTML = `
+    <div class="banner-success">
+      💡 <strong>Solución RACI Cargada:</strong> Se han asignado los roles oficiales aprobados por la Aerocivil. Revisa la justificación de por qué cada dirección misional es la dueña legal de sus datos.
+    </div>
+  `;
+}
+
+// ----------------------------------------------------------------------------
+// 2.2. CRUCIGRAMA INTERACTIVO DE METADATOS Y DATA FABRIC
+// ----------------------------------------------------------------------------
+const CW_WORDS = [
+  { id: 1, num: 1, word: 'CUARENTENA', r: 3, c: 0, dir: 'H', clue: 'Bandeja de aislamiento auditable donde se depositan registros con errores de integridad sin borrarlos físicamente.' },
+  { id: 2, num: 1, word: 'CALIDAD', r: 3, c: 0, dir: 'V', clue: 'Reglas reproducibles (DQ) que limpian duplicados, inconsistencias y nulos antes del consumo.' },
+  { id: 3, num: 2, word: 'LINEAJE', r: 1, c: 5, dir: 'V', clue: 'Trazabilidad extremo a extremo que muestra el origen, transformaciones y viaje del dato.' },
+  { id: 4, num: 4, word: 'METADATO', r: 7, c: 4, dir: 'H', clue: 'El dato sobre el dato que otorga contexto, significado, tipo y linaje técnico.' },
+  { id: 5, num: 3, word: 'UNICIDAD', r: 2, c: 8, dir: 'V', clue: 'Dimensión DAMA que garantiza la ausencia de registros duplicados por retransmisión.' },
+  { id: 6, num: 5, word: 'OACI', r: 2, c: 2, dir: 'V', clue: 'Estándar soberano internacional de 4 letras para códigos de aeródromos (ej. SKBO).' },
+  { id: 7, num: 6, word: 'GLOSARIO', r: 0, c: 11, dir: 'V', clue: 'Repositorio institucional que define términos de negocio y resuelve disputas entre áreas.' },
+  { id: 8, num: 7, word: 'CUSTODIO', r: 9, c: 3, dir: 'H', clue: 'Rol técnico ejercido por TI, responsable del almacenamiento, servidores y respaldos.' }
+];
+
+let cwActiveCell = null;
+let cwAttempts = 0;
+
+function initCrossword() {
+  const gridEl = document.getElementById('cw-grid');
+  const acrossEl = document.getElementById('clues-across');
+  const downEl = document.getElementById('clues-down');
+  if (!gridEl || !acrossEl || !downEl) return;
+
+  // Mapa de letras correctas y números de celda
+  const letterMap = {};
+  const numMap = {};
+
+  CW_WORDS.forEach(w => {
+    numMap[`${w.r}_${w.c}`] = w.num;
+    for (let i = 0; i < w.word.length; i++) {
+      const cr = w.dir === 'H' ? w.r : w.r + i;
+      const cc = w.dir === 'H' ? w.c + i : w.c;
+      letterMap[`${cr}_${cc}`] = w.word[i];
+    }
+  });
+
+  // Renderizar 10 filas x 12 columnas
+  let gridHtml = '';
+  for (let r = 0; r < 10; r++) {
+    for (let c = 0; c < 12; c++) {
+      const key = `${r}_${c}`;
+      if (letterMap[key]) {
+        const num = numMap[key] ? `<span class="cell-num">${numMap[key]}</span>` : '';
+        gridHtml += `
+          <div class="cw-cell" id="cw-cell-${r}-${c}" data-r="${r}" data-c="${c}" data-letter="${letterMap[key]}" onclick="focusCwCell(${r}, ${c})">
+            ${num}
+            <input type="text" maxlength="1" id="cw-in-${r}-${c}" oninput="handleCwInput(${r}, ${c}, this)" onkeydown="handleCwKeyDown(event, ${r}, ${c})" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+          </div>
+        `;
+      } else {
+        gridHtml += `<div class="cw-cell black"></div>`;
+      }
+    }
+  }
+  gridEl.innerHTML = gridHtml;
+
+  // Renderizar Pistas
+  let acrossHtml = '';
+  let downHtml = '';
+  CW_WORDS.forEach(w => {
+    const item = `
+      <li class="clue-item" id="clue-item-${w.id}" onclick="selectCwWord(${w.id})">
+        <strong>${w.num}.</strong> ${w.clue} <span style="color:#64748B; font-size:0.75rem;">(${w.word.length} letras)</span>
+      </li>
+    `;
+    if (w.dir === 'H') acrossHtml += item;
+    else downHtml += item;
+  });
+  acrossEl.innerHTML = acrossHtml;
+  downEl.innerHTML = downHtml;
+}
+
+function focusCwCell(r, c) {
+  cwActiveCell = { r, c };
+  document.querySelectorAll('.cw-cell').forEach(el => el.classList.remove('active'));
+  const cell = document.getElementById(`cw-cell-${r}-${c}`);
+  if (cell) {
+    cell.classList.add('active');
+    const input = document.getElementById(`cw-in-${r}-${c}`);
+    if (input) input.focus();
+  }
+}
+
+function selectCwWord(wordId) {
+  const w = CW_WORDS.find(x => x.id === wordId);
+  if (!w) return;
+
+  document.querySelectorAll('.clue-item').forEach(el => el.classList.remove('active'));
+  const clueEl = document.getElementById(`clue-item-${wordId}`);
+  if (clueEl) clueEl.classList.add('active');
+
+  document.querySelectorAll('.cw-cell').forEach(el => el.classList.remove('highlighted'));
+  for (let i = 0; i < w.word.length; i++) {
+    const cr = w.dir === 'H' ? w.r : w.r + i;
+    const cc = w.dir === 'H' ? w.c + i : w.c;
+    const cell = document.getElementById(`cw-cell-${cr}-${cc}`);
+    if (cell) cell.classList.add('highlighted');
+  }
+
+  focusCwCell(w.r, w.c);
+}
+
+function handleCwInput(r, c, inputEl) {
+  inputEl.value = inputEl.value.toUpperCase();
+  if (inputEl.value.length === 1) {
+    // Auto-avanzar a la siguiente celda adyacente
+    const nextH = document.getElementById(`cw-in-${r}-${c + 1}`);
+    const nextV = document.getElementById(`cw-in-${r + 1}-${c}`);
+    if (nextH) {
+      focusCwCell(r, c + 1);
+    } else if (nextV) {
+      focusCwCell(r + 1, c);
+    }
+  }
+}
+
+function handleCwKeyDown(e, r, c) {
+  if (e.key === 'Backspace') {
+    const input = document.getElementById(`cw-in-${r}-${c}`);
+    if (input && input.value === '') {
+      // Retroceder
+      const prevH = document.getElementById(`cw-in-${r}-${c - 1}`);
+      const prevV = document.getElementById(`cw-in-${r - 1}-${c}`);
+      if (prevH) focusCwCell(r, c - 1);
+      else if (prevV) focusCwCell(r - 1, c);
+    }
+  } else if (e.key === 'ArrowRight') {
+    const next = document.getElementById(`cw-in-${r}-${c + 1}`);
+    if (next) focusCwCell(r, c + 1);
+  } else if (e.key === 'ArrowLeft') {
+    const prev = document.getElementById(`cw-in-${r}-${c - 1}`);
+    if (prev) focusCwCell(r, c - 1);
+  } else if (e.key === 'ArrowDown') {
+    const next = document.getElementById(`cw-in-${r + 1}-${c}`);
+    if (next) focusCwCell(r + 1, c);
+  } else if (e.key === 'ArrowUp') {
+    const prev = document.getElementById(`cw-in-${r - 1}-${c}`);
+    if (prev) focusCwCell(r - 1, c);
+  }
+}
+
+function verifyCrossword() {
+  cwAttempts++;
+  let totalLetters = 0;
+  let correctLetters = 0;
+
+  document.querySelectorAll('.cw-cell:not(.black)').forEach(cell => {
+    totalLetters++;
+    const expected = cell.getAttribute('data-letter');
+    const input = cell.querySelector('input');
+    if (input && input.value.trim() === expected) {
+      cell.className = 'cw-cell correct';
+      correctLetters++;
+    } else if (input && input.value.trim() !== '') {
+      cell.className = 'cw-cell wrong';
+    } else {
+      cell.className = 'cw-cell';
+    }
+  });
+
+  // Verificar palabras resueltas
+  CW_WORDS.forEach(w => {
+    let wordOk = true;
+    for (let i = 0; i < w.word.length; i++) {
+      const cr = w.dir === 'H' ? w.r : w.r + i;
+      const cc = w.dir === 'H' ? w.c + i : w.c;
+      const cell = document.getElementById(`cw-cell-${cr}-${cc}`);
+      const input = cell ? cell.querySelector('input') : null;
+      if (!input || input.value.trim() !== w.word[i]) {
+        wordOk = false;
+        break;
+      }
+    }
+    const clueEl = document.getElementById(`clue-item-${w.id}`);
+    if (clueEl) {
+      if (wordOk) clueEl.classList.add('solved');
+      else clueEl.classList.remove('solved');
+    }
+  });
+
+  const feedbackEl = document.getElementById('crossword-feedback');
+  const refBtn = document.getElementById('btn-ref-crossword');
+
+  if (cwAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+    refBtn.innerText = "💡 Revelar Solución del Crucigrama (Desbloqueado)";
+  }
+
+  if (correctLetters === totalLetters) {
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Crucigrama Completado al 100% (${correctLetters}/${totalLetters} letras correctas)!</strong><br/>
+        Has consolidado el dominio de los 8 pilares conceptuales del Data Fabric aeronáutico: Glosario, Linaje, Steward, Custodio, Calidad, OACI, Cuarentena y Metadatos. ¡Excelente agilidad conceptual!
+      </div>
+    `;
+  } else {
+    feedbackEl.innerHTML = `
+      <div class="banner-warn">
+        🔍 <strong>Avance del Crucigrama (Intento ${cwAttempts}):</strong> Has ubicado correctamente <strong>${correctLetters} de ${totalLetters}</strong> letras.
+        Revisa las casillas resaltadas en rojo y apóyate en el botón <em>"💡 Pista (Revelar Letra)"</em> si necesitas destrabar alguna palabra.
+      </div>
+    `;
+  }
+}
+
+function hintCrosswordCell() {
+  if (!cwActiveCell) {
+    alert("Haz clic primero en una casilla del crucigrama para revelar su letra.");
+    return;
+  }
+  const cell = document.getElementById(`cw-cell-${cwActiveCell.r}-${cwActiveCell.c}`);
+  if (cell && !cell.classList.contains('black')) {
+    const letter = cell.getAttribute('data-letter');
+    const input = cell.querySelector('input');
+    if (input) {
+      input.value = letter;
+      cell.className = 'cw-cell correct';
+    }
+  }
+}
+
+function clearCrossword() {
+  document.querySelectorAll('.cw-cell:not(.black)').forEach(cell => {
+    cell.className = 'cw-cell';
+    const input = cell.querySelector('input');
+    if (input) input.value = '';
+  });
+  document.querySelectorAll('.clue-item').forEach(el => el.classList.remove('solved', 'active'));
+  const feedbackEl = document.getElementById('crossword-feedback');
+  if (feedbackEl) feedbackEl.innerHTML = '';
+}
+
+function solveCrossword() {
+  document.querySelectorAll('.cw-cell:not(.black)').forEach(cell => {
+    const letter = cell.getAttribute('data-letter');
+    const input = cell.querySelector('input');
+    if (input) input.value = letter;
+    cell.className = 'cw-cell correct';
+  });
+  document.querySelectorAll('.clue-item').forEach(el => el.classList.add('solved'));
+  document.getElementById('crossword-feedback').innerHTML = `
+    <div class="banner-success">
+      💡 <strong>Crucigrama Resuelto:</strong> Se han revelado los 8 términos fundamentales del Catálogo y Gobierno de Datos.
+    </div>
+  `;
+}
+
+// ----------------------------------------------------------------------------
+// 2.3. CLASIFICADOR INTERACTIVO: 5 REGLAS DQ vs. 6 DIMENSIONES DAMA
+// ----------------------------------------------------------------------------
+const DAMA_ITEMS = [
+  {
+    id: "dama_dq1",
+    rule: "Regla DQ-01: Fricción en F1_OPS",
+    symptom: "Retransmisión de red causa 3 vuelos duplicados (OPS-103, 107 y 113) inflando el conteo operativo.",
+    expected: "Unicidad (Uniqueness)",
+    options: ["Unicidad (Uniqueness)", "Consistencia Semántica", "Validez de Rango", "Completitud", "Integridad Referencial"],
+    justification: "Evalúa que cada entidad o suceso del mundo real esté registrado exactamente una vez en el conjunto de datos."
+  },
+  {
+    id: "dama_dq2",
+    rule: "Regla DQ-02: Fricción en F3_SMS y F4_FIN",
+    symptom: "Uso indistinto de códigos IATA ('BOG', 'MDE') y alias comerciales ('EL DORADO') impidiendo cruces.",
+    expected: "Consistencia Semántica",
+    options: ["Unicidad (Uniqueness)", "Consistencia Semántica", "Validez de Rango", "Completitud", "Integridad Referencial"],
+    justification: "Verifica la conformidad del vocabulario contra una tabla maestra oficial única (código OACI en M_REF)."
+  },
+  {
+    id: "dama_dq3",
+    rule: "Regla DQ-03: Fricción en F1_OPS y F2_MET",
+    symptom: "Pasajeros negativos (-15 pax en VUELO-5004) y lectura de visibilidad instrumental imposible (999999 m en MET-04).",
+    expected: "Validez de Rango",
+    options: ["Unicidad (Uniqueness)", "Consistencia Semántica", "Validez de Rango", "Completitud", "Integridad Referencial"],
+    justification: "Garantiza que los valores numéricos pertenezcan al dominio físico y operacionalmente admisible para aeronaves."
+  },
+  {
+    id: "dama_dq4",
+    rule: "Regla DQ-04: Fricción en F1_OPS y F3_SMS",
+    symptom: "Minutos de demora en blanco (NULL) en OPS-108 y severidad omitida en reporte de incidente MOR-2026-03.",
+    expected: "Completitud",
+    options: ["Unicidad (Uniqueness)", "Consistencia Semántica", "Validez de Rango", "Completitud", "Integridad Referencial"],
+    justification: "Mide la proporción de campos críticos obligatorios no nulos necesarios para calcular métricas de puntualidad y riesgo."
+  },
+  {
+    id: "dama_dq5",
+    rule: "Regla DQ-05: Fricción en F4_FIN",
+    symptom: "Facturas emitidas ($13.5M COP en LIQ-8011 y 8012) para vuelos cancelados (VUELO-9991 y 9992) sin vuelo ejecutado.",
+    expected: "Integridad Referencial",
+    options: ["Unicidad (Uniqueness)", "Consistencia Semántica", "Validez de Rango", "Completitud", "Integridad Referencial"],
+    justification: "Exige que toda transacción hija (tasa cobrada) tenga obligatoriamente una entidad padre válida (vuelo efectivamente operado)."
+  }
+];
+
+let damaAttempts = 0;
+
+function initDamaClassifier() {
+  const container = document.getElementById('dama-cards-container');
+  if (!container) return;
+  let html = '';
+
+  DAMA_ITEMS.forEach((item, idx) => {
+    const opts = shuffleArray(item.options);
+    html += `
+      <div class="dama-card">
+        <div>
+          <strong>${item.rule}</strong>
+          <p style="margin-top:0.25rem;">${item.symptom}</p>
+        </div>
+        <div>
+          <label style="font-size:0.75rem; font-weight:700; color:#475569; display:block; margin-bottom:0.25rem;">Dimensión DAMA Correspondiente:</label>
+          <select id="dama-sel-${idx}">
+            <option value="">-- Seleccionar Dimensión DAMA --</option>
+            ${opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function resetDamaClassifier() {
+  damaAttempts = 0;
+  const refBtn = document.getElementById('btn-ref-dama');
+  if (refBtn) {
+    refBtn.disabled = true;
+    refBtn.classList.add('disabled-btn');
+    refBtn.innerText = "🔒 Cargar Solución DAMA (Tras 3 intentos)";
+  }
+  initDamaClassifier();
+  const feedbackEl = document.getElementById('dama-feedback');
+  if (feedbackEl) feedbackEl.innerHTML = '';
+}
+
+function verifyDamaClassifier() {
+  damaAttempts++;
+  let total = DAMA_ITEMS.length;
+  let correct = 0;
+
+  DAMA_ITEMS.forEach((item, idx) => {
+    const sel = document.getElementById(`dama-sel-${idx}`);
+    if (!sel) return;
+    if (sel.value === item.expected) {
+      sel.className = 'select-valid';
+      correct++;
+    } else {
+      sel.className = 'select-invalid';
+    }
+  });
+
+  const feedbackEl = document.getElementById('dama-feedback');
+  const refBtn = document.getElementById('btn-ref-dama');
+
+  if (damaAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+    refBtn.innerText = "💡 Cargar Solución DAMA (Desbloqueado)";
+  }
+
+  if (correct === total) {
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Clasificación DAMA 100% Correcta (${correct}/${total})!</strong><br/>
+        Has vinculado cada problema de datos con su dimensión metodológica formal: Unicidad, Consistencia, Validez, Completitud e Integridad Referencial.
+      </div>
+    `;
+  } else {
+    feedbackEl.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Clasificación Parcial (Intento ${damaAttempts}):</strong> Lograste <strong>${correct} de ${total}</strong> dimensiones correctas.
+        Revisa las tarjetas resaltadas en rojo y reflexiona qué aspecto de la calidad se vulnera en cada caso.
+      </div>
+    `;
+  }
+}
+
+function autofillDamaClassifier() {
+  DAMA_ITEMS.forEach((item, idx) => {
+    const sel = document.getElementById(`dama-sel-${idx}`);
+    if (sel) {
+      sel.value = item.expected;
+      sel.className = 'select-valid';
+    }
+  });
+  document.getElementById('dama-feedback').innerHTML = `
+    <div class="banner-success">
+      💡 <strong>Solución DAMA Cargada:</strong> Se han asociado las 5 dimensiones oficiales de calidad de datos.
+    </div>
+  `;
+}
+
+// ----------------------------------------------------------------------------
+// 2.5. VEREDICTO EJECUTIVO DE RECONCILIACIÓN (QUIZ DE AUDITORÍA)
+// ----------------------------------------------------------------------------
+const VERDICT_QUESTIONS = [
+  {
+    id: "q_pax_gap",
+    title: "1. Discrepancia de Pasajeros: 1.532 en Operaciones vs. 1.479 en Financiera",
+    options: [
+      { text: "A) Es un error técnico de transmisión que amerita abrir una investigación disciplinaria a la Dirección de Navegación Aérea.", isCorrect: false },
+      { text: "B) Es una discrepancia legítima de 53 pasajeros exentos de tasa aeroportuaria (infantes menores de 2 años y tripulantes en comisión de servicio según los RAC); el Glosario de Negocio formaliza esta regla.", isCorrect: true },
+      { text: "C) Corresponde a una evasión de impuestos no detectada por las aerolíneas que debe cobrarse coactivamente de inmediato.", isCorrect: false }
+    ],
+    argument: "En aviación, 'Pasajero Declarado' en manifiesto operativo siempre incluye a toda persona a bordo. 'Pasajero Facturado' excluye exenciones de ley (infantes y tripulación). No es un error de datos, sino una regla semántica de negocio documentada en el Catálogo."
+  },
+  {
+    id: "q_orphan_money",
+    title: "2. Tratamiento de los $13.500.000 COP de Vuelos Cancelados (LIQ-8011 y 8012)",
+    options: [
+      { text: "A) Borrar inmediatamente las dos facturas de la base de datos de Financiera para que la suma en Excel cuadre sin generar alertas.", isCorrect: false },
+      { text: "B) Cobrar el valor a las aerolíneas porque la factura ya fue expedida formalmente en el sistema ERP.", isCorrect: false },
+      { text: "C) Aislar los $13.5M en una tabla auditable de Cuarentena Contable; no sumarlos al recaudo de vuelos ejecutados e iniciar el proceso de nota crédito sin destruir el registro original.", isCorrect: true }
+    ],
+    argument: "Destruir físicamente un registro contable constituye una falta grave contra la auditoría fiscal. La arquitectura Data Fabric aísla los registros con fallas de integridad en una bandeja de cuarentena gobernada para que el equipo financiero ejecute la conciliación legal."
+  },
+  {
+    id: "q_oaci_standard",
+    title: "3. Justificación de Adopción del Estándar OACI de 4 Letras (SKBO) frente al Código IATA (BOG)",
+    options: [
+      { text: "A) OACI es el estándar soberano internacional de la navegación aérea mundial; identifica sin ambigüedades técnicas cada aeródromo físico y permite interoperabilidad técnica global (SWIM / OACI Anexo 15).", isCorrect: true },
+      { text: "B) Es una imposición arbitraria de la Oficina de Sistemas para dificultar la lectura a los usuarios comerciales.", isCorrect: false },
+      { text: "C) Los códigos IATA y OACI son exactamente lo mismo y pueden usarse indistintamente en cualquier reporte analítico.", isCorrect: false }
+    ],
+    argument: "IATA es un código comercial y de boletaje que cambia con frecuencia y presenta colisiones. OACI es el estándar soberano universal de infraestructura aeronáutica y el pilar del Sistema de Información de Origen Aeronáutico (SIOA)."
+  }
+];
+
+function initVerdictQuiz() {
+  const container = document.getElementById('verdict-quiz-container');
+  if (!container) return;
+  let html = '';
+
+  VERDICT_QUESTIONS.forEach((q, qIdx) => {
+    html += `
+      <div class="verdict-question-box">
+        <h4>${q.title}</h4>
+        <div class="verdict-options">
+          ${q.options.map((opt, oIdx) => `
+            <label class="verdict-option-label" id="lbl-verdict-${qIdx}-${oIdx}">
+              <input type="radio" name="verdict_q_${qIdx}" value="${oIdx}" style="margin-top:2px;" />
+              <span>${opt.text}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function verifyVerdictQuiz() {
+  let correctCount = 0;
+  let total = VERDICT_QUESTIONS.length;
+  let feedbackDetails = [];
+
+  VERDICT_QUESTIONS.forEach((q, qIdx) => {
+    const selected = document.querySelector(`input[name="verdict_q_${qIdx}"]:checked`);
+    q.options.forEach((opt, oIdx) => {
+      const lbl = document.getElementById(`lbl-verdict-${qIdx}-${oIdx}`);
+      if (!lbl) return;
+      lbl.className = 'verdict-option-label';
+      if (opt.isCorrect) {
+        lbl.classList.add('correct-verdict');
+      } else if (selected && Number(selected.value) === oIdx) {
+        lbl.classList.add('wrong-verdict');
+      }
+    });
+
+    if (selected && q.options[Number(selected.value)].isCorrect) {
+      correctCount++;
+      feedbackDetails.push(`✅ <strong>Pregunta ${qIdx + 1}:</strong> Veredicto acertado. ${q.argument}`);
+    } else {
+      feedbackDetails.push(`❌ <strong>Pregunta ${qIdx + 1}:</strong> Veredicto incorrecto o incompleto. Fundamento técnico: ${q.argument}`);
+    }
+  });
+
+  const feedbackEl = document.getElementById('verdict-feedback');
+  if (correctCount === total) {
+    feedbackEl.innerHTML = `
+      <div class="banner-success">
+        🎉 <strong>¡Veredicto de Auditoría 100% Respaldado (${correctCount}/${total})!</strong><br/>
+        Has emitido un dictamen impecable para la Dirección General y la Contraloría: los 53 pasajeros no son fraude sino exención reglamentaria (RAC), los $13.5M COP deben aislarse en cuarentena sin borrado físico, y el código OACI es la única verdad soberana para la interoperabilidad aeronáutica.<br/><br/>
+        <ul style="margin:0; padding-left:1.2rem; font-size:0.84rem; line-height:1.5;">${feedbackDetails.map(d => `<li>${d}</li>`).join('')}</ul>
+      </div>
+    `;
+  } else {
+    feedbackEl.innerHTML = `
+      <div class="banner-warn">
+        ⚠️ <strong>Veredicto Parcial (${correctCount}/${total} Aciertos):</strong><br/>
+        Revisa las opciones correctas resaltadas en verde y lee los argumentos de auditoría para preparar tu sustentación en la plenaria:<br/><br/>
+        <ul style="margin:0; padding-left:1.2rem; font-size:0.84rem; line-height:1.5;">${feedbackDetails.map(d => `<li>${d}</li>`).join('')}</ul>
+      </div>
+    `;
+  }
+}
+
 // ============================================================================
 // SESIÓN 2: MOTOR DE CALIDAD Y RECONCILIACIÓN EN TIEMPO REAL
 // ============================================================================
@@ -2357,7 +3393,11 @@ window.addEventListener('DOMContentLoaded', () => {
   renderSiloInspector('F1_OPS');
   initSourceMap();
   renderFabricLayers();
+  initGovernanceRoles();
+  initCrossword();
+  initDamaClassifier();
   renderDQRules();
+  initVerdictQuiz();
   renderLineageGraph('OUT_RIESGO');
   renderRoleView('ANALISTA');
 });
