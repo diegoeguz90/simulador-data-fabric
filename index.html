@@ -774,6 +774,101 @@
       margin-top: 0.75rem;
     }
 
+  
+    /* --- ESTILOS AVANZADOS SESIÓN 3 (LINAJE, PRIVACIDAD Y AUDITORÍA) --- */
+    .lineage-node.impact-danger {
+      background: #FEF2F2 !important;
+      border-color: #EF4444 !important;
+      color: #991B1B !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.4) !important;
+      font-weight: 700;
+      animation: pulseImpact 2s infinite ease-in-out;
+    }
+    .lineage-node.impact-source {
+      background: #FFFBEB !important;
+      border-color: #F59E0B !important;
+      color: #92400E !important;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4) !important;
+      font-weight: 700;
+    }
+    @keyframes pulseImpact {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    .leak-alert-row {
+      background-color: #FEE2E2 !important;
+      color: #991B1B !important;
+    }
+    .leak-badge {
+      background: #DC2626;
+      color: #FFFFFF;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.72rem;
+      display: inline-block;
+      animation: flashLeak 1.2s infinite;
+    }
+    @keyframes flashLeak {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    .maturity-meter-box {
+      background: #F8FAFC;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 0.85rem;
+    }
+    .maturity-bar-wrap {
+      background: #E2E8F0;
+      border-radius: 999px;
+      height: 18px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+      position: relative;
+    }
+    .maturity-bar-fill {
+      background: linear-gradient(90deg, #0070C0, #10B981);
+      height: 100%;
+      width: 40%;
+      transition: width 0.4s ease;
+    }
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+    .audit-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .audit-card.correct {
+      border-color: #10B981;
+      background: #F0FDF4;
+    }
+    .audit-card.incorrect {
+      border-color: #EF4444;
+      background: #FEF2F2;
+    }
+    .tradeoff-box {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+
   </style>
 </head>
 <body>
@@ -1360,46 +1455,63 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
   <!-- ===================================================================== -->
   <!-- SESIÓN 3: LINAJE, GOBIERNO POR ROLES Y HOJA DE RUTA                   -->
   <!-- ===================================================================== -->
+    <!-- ===================================================================== -->
+  <!-- SESIÓN 3: GOBIERNO, CONSUMO Y HOJA DE RUTA (LINAJE, ROLES Y ROADMAP)  -->
+  <!-- ===================================================================== -->
   <section class="session-panel" id="session-3">
     <div class="banner-info">
-      <strong>🎯 Misión de la Sesión 3 (4 Horas — 1h Conceptual / 3h Taller):</strong>
-      En esta sesión final cerrarás el ciclo del Data Fabric: trazarás el <strong>Linaje Extremo a Extremo</strong>, decidirás qué fuentes integrar físicamente vs. virtualmente, probarás el <strong>Control de Acceso por Roles (RBAC) con Enmascaramiento Dinámico</strong> y formularás la <strong>Hoja de Ruta Gradual</strong> para sustentar tu propuesta.
+      <strong>🎯 Misión de la Sesión 3 (4 Horas — 1h Conceptual / 3h Taller Activo y Plenaria):</strong>
+      En esta sesión final cerrarás el ciclo de valor del Data Fabric: trazarás el <strong>Linaje Extremo a Extremo</strong> (directo e inverso), evaluarás la decisión arquitectónica de <strong>Integración Física (ETL) vs. Acceso Virtual (APIs)</strong>, auditarás el <strong>Control de Acceso por Roles (RBAC) con Enmascaramiento Dinámico</strong> para evitar fugas de PII, superarás el <strong>Desafío de Auditoría ante Entes de Control</strong>, formularás la <strong>Hoja de Ruta Gradual (30-90-180 Días)</strong> y emitirás el <strong>Veredicto de Sustentación Directiva</strong> con visualización en Mermaid.live.
     </div>
 
-    <!-- Paso 3.1: Grafo Interactivo de Linaje -->
+    <!-- Paso 3.1: Grafo Interactivo de Linaje y Análisis de Impacto -->
     <div class="card">
       <div class="card-header">
-        <h2>3.1. Explorador Interactivo de Linaje Extremo a Extremo (Entregable 3B)</h2>
-        <span class="pill pill-blue">Haz clic en cualquier indicador final para rastrear su linaje</span>
+        <h2>3.1. Explorador Interactivo de Linaje Extremo a Extremo y Análisis de Impacto (Entregable 3B)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="setLineageMode('DIRECT')" id="btn-lineage-direct">🔍 Trazabilidad Directa (KPIs)</button>
+          <button class="btn btn-secondary" onclick="setLineageMode('IMPACT')" id="btn-lineage-impact">⚡ Simular Falla en Origen (Análisis de Impacto)</button>
+          <button class="btn btn-primary" onclick="resetLineageGraph()">🔄 Restablecer Grafo</button>
+        </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        El <strong>linaje de datos</strong> permite responder ante una auditoría: <em>"¿De dónde salió exactamente este número, qué transformaciones sufrió y quién lo autorizó?"</em>. Selecciona un campo del Producto de Datos final (Columna 5) para iluminar toda su ruta desde la fuente origen:
+        El <strong>linaje de datos (Data Lineage)</strong> es el corazón de la gobernanza activa: permite responder ante una auditoría fiscal de Contraloría u operacional de OACI: <em>"¿De dónde salió exactamente este número, qué transformaciones sufrió y quién autorizó cada regla?"</em>. 
+        En el <strong>Modo Trazabilidad</strong> haz clic en cualquier KPI final (Columna 5) para iluminar su ruta. En el <strong>Modo Análisis de Impacto</strong> simula una falla o cambio no anunciado en una fuente origen para observar el efecto dominó aguas abajo:
       </p>
+
+      <div id="lineage-impact-controls" style="display:none; background:#FFFBEB; border:1px solid #F59E0B; border-radius:6px; padding:0.75rem; margin-bottom:0.85rem;">
+        <label style="font-weight:700; font-size:0.84rem; color:#92400E;">Selecciona una falla o cambio no anunciado en la fuente para simular el impacto:</label>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.4rem;">
+          <button class="btn btn-secondary" style="font-size:0.78rem;" onclick="simulateLineageImpact('ESC_OPS_SCHEMA')">💥 Escenario A: SIIV altera reloj UTC a hora local (-05:00)</button>
+          <button class="btn btn-secondary" style="font-size:0.78rem;" onclick="simulateLineageImpact('ESC_SMS_LEAK')">💥 Escenario B: SIGSO transmite cédulas MOR sin tokenizar</button>
+          <button class="btn btn-secondary" style="font-size:0.78rem;" onclick="simulateLineageImpact('ESC_FIN_QUARANTINE')">💥 Escenario C: ERP desactiva cuarentena DQ-05 ($13.5M)</button>
+        </div>
+      </div>
 
       <div class="lineage-stage-grid" id="lineage-graph-container"></div>
       <div id="lineage-detail-box" class="banner-info" style="margin-top:1rem; margin-bottom:0;"></div>
     </div>
 
-    <!-- Paso 3.2: Integración Física (ETL) vs. Acceso Virtual (Virtualización) -->
+    <!-- Paso 3.2: Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual -->
     <div class="card">
       <div class="card-header">
-        <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual</h2>
+        <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual (Entregable 3A)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-primary" onclick="evaluateVirtualization()">🔍 Validar Decisiones</button>
-          <button id="btn-ref-virt" class="btn btn-success disabled-btn" onclick="recommendVirtualization()" disabled>💡 Ver Recomendación de Referencia (Tras 3 intentos)</button>
+          <button id="btn-ref-virt" class="btn btn-success disabled-btn" onclick="recommendVirtualization()" disabled>🔒 Ver Recomendación de Referencia (Tras 3 intentos)</button>
         </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        Una ventaja clave de <strong>Data Fabric</strong> es que <strong>no obliga a copiar todos los datos a un único almacén físico centralizado</strong>. Combina <strong>Integración Física (ETL/ELT)</strong> para históricos pesados con <strong>Virtualización de Datos / APIs Federadas</strong> para datos en tiempo real o altamente sensibles. Selecciona el mecanismo óptimo para cada fuente y valida tu criterio:
+        Una ventaja fundamental de <strong>Data Fabric</strong> es que <strong>no obliga a copiar todos los datos a un único almacén físico centralizado</strong>. Combina <strong>Integración Física (ETL/ELT)</strong> para históricos masivos y fotos auditables con <strong>Virtualización de Datos / APIs Federadas</strong> para datos en tiempo real o de estricta reserva legal. Selecciona el mecanismo óptimo para cada fuente y valida tu criterio:
       </p>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Fuente</th>
-              <th>Naturaleza y Latencia</th>
-              <th>Mecanismo Seleccionado</th>
-              <th>Justificación Técnica y de Gobierno</th>
+              <th style="width:24%;">Fuente / Silo</th>
+              <th style="width:26%;">Naturaleza y Latencia</th>
+              <th style="width:26%;">Mecanismo Seleccionado</th>
+              <th style="width:24%;">Justificación Técnica y de Gobierno</th>
             </tr>
           </thead>
           <tbody>
@@ -1455,16 +1567,21 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
         </table>
       </div>
       <div id="virt-feedback" style="margin-top:0.85rem;"></div>
+      <div id="virt-tradeoff-summary" class="tradeoff-box" style="display:none;"></div>
     </div>
 
-    <!-- Paso 3.3: Simulador de Consumo por Roles (RBAC + Enmascaramiento Dinámico) -->
-    <div class="card">
+    <!-- Paso 3.3: Simulador de Consumo por Roles (RBAC) y Auditor de Privacidad en Vivo -->
+    <div class="card" style="border-left: 5px solid var(--navy);">
       <div class="card-header">
-        <h2>3.3. Simulador de Gobierno en el Consumo: Acceso por Roles y Enmascaramiento Dinámico</h2>
-        <span class="pill pill-red">Protección Ley 1581/2012 + Cultura Justa OACI</span>
+        <h2>3.3. Consumo Gobernado: Control por Roles (RBAC) y Dynamic Data Masking (Entregable 3C)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="auditPrivacyCompliance()">🛡️ Auditar Privacidad y Fuga de PII (Ley 1581 / RAC 219)</button>
+          <button class="btn btn-secondary" onclick="simulateDataLeak()" style="background:#FEF2F2; color:#991B1B; border-color:#EF4444;">⚠️ Simular Fuga (Sin Data Fabric)</button>
+          <button class="btn btn-secondary" onclick="resetRoleGovernance()">🔄 Restaurar Vista Gobernada</button>
+        </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        En un <strong>Data Fabric</strong>, todos los usuarios consultan el <strong>mismo Producto de Datos certificado (SIOA-360)</strong>, pero las políticas de gobierno ocultan o enmascaran automáticamente columnas y filas según el rol conectado. Cambia de rol para verificar el producto de datos:
+        En un <strong>Data Fabric</strong>, todos los usuarios autorizados consultan el <strong>mismo Producto de Datos certificado (SIOA-360)</strong>, pero las políticas de gobierno en la capa semántica ocultan, anonimizan o enmascaran automáticamente las columnas y filas según el rol institucional. Cambia de rol para verificar la vista resultante y ejecuta la <strong>Auditoría de Privacidad</strong> para certificar la no-fuga de datos personales:
       </p>
 
       <div class="silo-btn-group">
@@ -1475,68 +1592,137 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
       </div>
 
       <div id="role-policy-banner" style="margin-bottom:0.85rem;"></div>
+      <div id="role-audit-verdict" style="margin-bottom:0.85rem;"></div>
       <div class="table-wrap" id="role-product-table"></div>
     </div>
 
-    <!-- Paso 3.4: Constructor de Hoja de Ruta Gradual -->
+    <!-- Paso 3.4: Minijuego Pedagógico - Desafío de Auditoría y Trazabilidad Extremo a Extremo -->
     <div class="card">
       <div class="card-header">
-        <h2>3.4. Constructor de Hoja de Ruta Gradual (Roadmap 30-60-90-180 Días)</h2>
-        <span class="pill pill-blue">Síntesis para Plenaria Final</span>
+        <h2>3.4. Minijuego Pedagógico: Desafío de Auditoría y Trazabilidad Extremo a Extremo</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="resetAuditChallenge()">🔄 Reiniciar Desafío</button>
+          <button class="btn btn-primary" onclick="verifyAuditChallenge()">🔍 Validar Respuestas de Auditoría</button>
+          <button id="btn-ref-audit" class="btn btn-success disabled-btn" onclick="solveAuditChallenge()" disabled>🔒 Revelar Solución Canónica (Tras 3 intentos)</button>
+        </div>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        Revisa y personaliza la hoja de ruta incremental para implementar el Data Fabric en la Aerocivil sin depender de compras "Big Bang" riesgosas:
+        Ponte en los zapatos del <strong>Auditor Principal y Oficial de Cumplimiento de la Aerocivil</strong>. Enfrentarás 4 requerimientos reales de entes de control externos e internos. Selecciona la evidencia de linaje y la acción de gobierno que resuelve cada caso de manera inobjetable:
       </p>
+
+      <div class="audit-grid" id="audit-challenge-container"></div>
+      <div id="audit-challenge-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 3.5: Constructor Interactivo de Hoja de Ruta Gradual con Medidor de Madurez -->
+    <div class="card">
+      <div class="card-header">
+        <h2>3.5. Constructor Interactivo de Hoja de Ruta Gradual (Roadmap 30-90-180 Días)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="autofillRoadmap()">📋 Cargar Plantilla Recomendada</button>
+          <button class="btn btn-primary" onclick="updateRoadmapMaturity()">📊 Calcular Índice de Madurez Data Fabric</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        La implementación exitosa de un Data Fabric en el sector público colombiano no se realiza mediante licitaciones "Big Bang" de varios años, sino a través de una <strong>adopción gradual por Quick Wins</strong> que demuestre valor medible desde el primer mes. Configura las prioridades y responsables de las 3 fases:
+      </p>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Fase / Horizonte</th>
-              <th>Objetivo Prioritario (Quick Win)</th>
-              <th>Entregables Concretos</th>
-              <th>Responsable (A / R)</th>
-              <th>Riesgo Principal y Mitigación</th>
-              <th>Criterio de Aceptación Medible</th>
+              <th style="width:18%;">Fase / Horizonte</th>
+              <th style="width:24%;">Objetivo Prioritario (Quick Win)</th>
+              <th style="width:24%;">Entregables Concretos</th>
+              <th style="width:16%;">Prioridad Asignada</th>
+              <th style="width:18%;">Responsable RACI (A / R)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Fase 1 (Días 1–30)</strong><br/>Cimientos y Semántica</td>
-              <td>Acordar el idioma común y el catálogo inicial del caso SIOA.</td>
+              <td>Acordar el idioma común institucional y el catálogo inicial sobre el caso SIOA.</td>
               <td>Tabla maestra oficial de aeródromos OACI-IATA (<code>M_REF</code>), Glosario de 15 términos críticos y Matriz RACI.</td>
+              <td>
+                <select id="roadmap-prio-1" onchange="updateRoadmapMaturity()">
+                  <option value="CRITICA" selected>Crítica (Imprescindible)</option>
+                  <option value="ALTA">Alta</option>
+                  <option value="MEDIA">Media</option>
+                </select>
+              </td>
               <td><strong>A:</strong> Jefe Oficina Analítica<br/><strong>R:</strong> Comité de Datos (AIM, Ops, Fin, SMS)</td>
-              <td><em>Riesgo:</em> Resistencia de las áreas a ceder propiedad.<br/><em>Mitigación:</em> El dueño sigue siendo el área misional; Analítica solo articula.</td>
-              <td>100% de los aeródromos y términos del caso documentados y firmados por los 4 Data Owners.</td>
             </tr>
             <tr>
-              <td><strong>Fase 2 (Días 31–90)</strong><br/>Calidad y Piloto de Reconciliación</td>
-              <td>Automatizar las 5 reglas de calidad y eliminar el retrabajo manual de 8 días.</td>
-              <td>Flujo automatizado de validación (<code>DQ-01</code> a <code>DQ-05</code>) y bandeja de cuarentena de vuelos huérfanos/duplicados.</td>
+              <td><strong>Fase 2 (Días 31–90)</strong><br/>Calidad y Reconciliación</td>
+              <td>Automatizar las 5 reglas de calidad y reducir el retrabajo manual de 8 días a &lt; 2 horas.</td>
+              <td>Flujo automatizado de validación (<code>DQ-01</code> a <code>DQ-05</code>) y bandeja de cuarentena con ticket formal.</td>
+              <td>
+                <select id="roadmap-prio-2" onchange="updateRoadmapMaturity()">
+                  <option value="CRITICA" selected>Crítica (Imprescindible)</option>
+                  <option value="ALTA">Alta</option>
+                  <option value="MEDIA">Media</option>
+                </select>
+              </td>
               <td><strong>A:</strong> Dirección TIC / Analítica<br/><strong>R:</strong> Data Stewards de Operaciones y Financiera</td>
-              <td><em>Riesgo:</em> Descuadres históricos no documentados.<br/><em>Mitigación:</em> Reporte dual (Crudo vs. Conciliado) durante 2 cierres mensuales.</td>
-              <td>Reducción del tiempo de cruce de 8 días a &lt; 2 horas y 0 vuelos cancelados cobrados en el reporte consolidado.</td>
             </tr>
             <tr>
-              <td><strong>Fase 3 (Días 91–180)</strong><br/>Consumo Gobernado y Acceso Virtual</td>
+              <td><strong>Fase 3 (Días 91–180)</strong><br/>Consumo y Acceso Virtual</td>
               <td>Habilitar el Producto de Datos <code>SIOA-360</code> con control por roles y observabilidad.</td>
               <td>Vistas gobernadas con enmascaramiento dinámico de PII (Ley 1581 / Anexo 19 OACI) y linaje documentado.</td>
+              <td>
+                <select id="roadmap-prio-3" onchange="updateRoadmapMaturity()">
+                  <option value="CRITICA" selected>Crítica (Imprescindible)</option>
+                  <option value="ALTA">Alta</option>
+                  <option value="MEDIA">Media</option>
+                </select>
+              </td>
               <td><strong>A:</strong> Comité Directivo de Datos<br/><strong>R:</strong> Seguridad de la Información + SMS</td>
-              <td><em>Riesgo:</em> Exposición accidental de reportantes MOR.<br/><em>Mitigación:</em> Pruebas de penetración por rol antes de salir a producción.</td>
-              <td>4 perfiles de acceso validados en auditoría con 0 fugas de datos personales o confidenciales.</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <!-- Medidor de Madurez Data Fabric -->
+      <div class="maturity-meter-box">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h4 style="margin:0; color:var(--navy); font-size:0.92rem;">📈 Medidor de Madurez Institucional Data Fabric (Modelo CMMI para Datos)</h4>
+          <span id="maturity-badge" class="pill pill-green" style="font-size:0.8rem;">Nivel 4: Cuantitativamente Gestionado (4.2 / 5.0)</span>
+        </div>
+        <div class="maturity-bar-wrap">
+          <div id="maturity-bar-fill" class="maturity-bar-fill" style="width:84%;"></div>
+        </div>
+        <p id="maturity-desc" style="margin:0.5rem 0 0; font-size:0.82rem; color:var(--text);">
+          Tu configuración actual alcanza un <strong>Nivel 4 de Madurez</strong>: La Aerocivil gobierna los metadatos de forma activa, cuenta con reconciliación automatizada, cuarentena formal sin destrucción de datos (CPACA) y vistas protegidas por roles.
+        </p>
+      </div>
+
       <div style="margin-top:0.9rem;">
-        <label style="font-weight:700; font-size:0.85rem; color:var(--navy);">Recomendación Ejecutiva Final de tu Equipo para la Sustentación:</label>
-        <textarea id="s3-roadmap-notes">Recomendamos iniciar la implementación del Data Fabric en la Aerocivil con un piloto acotado de 90 días sobre el caso SIOA, priorizando primero la homologación semántica (estándar OACI y huso horario UTC) y las 5 reglas de calidad automatizadas antes de adquirir cualquier plataforma comercial costosa.</textarea>
+        <label style="font-weight:700; font-size:0.85rem; color:var(--navy);">Recomendación Ejecutiva Final de tu Equipo para la Sustentación Directiva:</label>
+        <textarea id="s3-roadmap-notes" rows="3">Recomendamos iniciar la implementación del Data Fabric en la Aerocivil con un piloto acotado de 90 días sobre el caso SIOA, priorizando la homologación semántica (estándar OACI y huso UTC) y las 5 reglas de calidad automatizadas antes de adquirir cualquier macro-licencia comercial. Esto mitiga riesgos de inversión y entrega valor tangible inmediato.</textarea>
       </div>
     </div>
 
-    <!-- Paso 3.5: Copiloto de IA Socrático Sesión 3 -->
+    <!-- Paso 3.6: Veredicto de Salida y Sustentación Directiva -->
     <div class="card">
       <div class="card-header">
-        <h2>3.5. Copiloto de IA Socrático — Sesión 3 (Simulacro de Sustentación Directiva y Diagrama Mermaid)</h2>
+        <h2>3.6. Veredicto de Salida: Sustentación ante el Comité Directivo de la Aerocivil</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="verifyExecutiveVerdict()">🔍 Evaluar Veredicto Directivo</button>
+          <button id="btn-ref-verdict-s3" class="btn btn-success disabled-btn" onclick="solveExecutiveVerdict()" disabled>🔒 Cargar Respuestas Canónicas (Tras 3 intentos)</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        Como cierre de la sustentación, el Comité Directivo (Director General, Director Financiero y Secretario SMS) plantea tres dilemas decisivos. Selecciona la postura institucional que tu equipo defenderá en la plenaria:
+      </p>
+
+      <div class="dama-card-grid" id="verdict-s3-container"></div>
+      <div id="verdict-s3-feedback" style="margin-top:0.85rem;"></div>
+    </div>
+
+    <!-- Paso 3.7: Copiloto de IA Socrático Sesión 3 (Simulacro Directivo y Mermaid.live) -->
+    <div class="card" style="border-left: 5px solid var(--cyan);">
+      <div class="card-header">
+        <h2>3.7. Copiloto de IA Socrático — Sesión 3 (Simulacro de Sustentación Directiva y Diagrama Mermaid)</h2>
         <button class="btn btn-primary" onclick="copyText('prompt-s3')">📋 Copiar Prompt para Simulacro de Sustentación</button>
       </div>
       <div class="ai-console" id="prompt-s3">Actúa como el Comité Directivo de la Aerocivil (integrado por el Director General, el Director Financiero y el Secretario de Seguridad Operacional).
@@ -1548,10 +1734,11 @@ Realiza dos tareas:
    - Como Director General: pide justificar técnica y presupuestalmente por qué una hoja de ruta gradual en 3 fases (30-90-180 días) es más viable y de menor riesgo que comprar una macro-licencia de software en un contrato cerrado de 2 años.
 2. Genera un DIAGRAMA DE HOJA DE RUTA en formato Mermaid (bloque ```mermaid ... ```) que visualice cronológicamente las 3 fases, sus hitos clave y la matriz RACI de responsables.</div>
       <div class="banner-info" style="margin-top:0.75rem;">
-        💡 <strong>Proyección en Pantalla Completa:</strong> Pega el bloque de código Mermaid generado por la IA en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar la Hoja de Ruta ante el Comité Directivo y la Plenaria de cierre.
+        💡 <strong>Proyección en Pantalla Completa para la Plenaria:</strong> Pega el bloque de código Mermaid generado por la IA en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar la Hoja de Ruta ante el Comité Directivo y la Plenaria de cierre.
       </div>
     </div>
   </section>
+
 
 </main>
 
@@ -3604,7 +3791,8 @@ function resolveQuarantineAction(action) {
 }
 
 // ============================================================================
-// SESIÓN 3: GRAFO DE LINAJE Y ACCESO POR ROLES (RBAC + ENMASCARAMIENTO)
+// ============================================================================
+// SESIÓN 3: LINAJE, GOBIERNO POR ROLES, AUDITORÍA Y HOJA DE RUTA
 // ============================================================================
 const LINEAGE_NODES = {
   col1: [
@@ -3634,6 +3822,29 @@ const LINEAGE_NODES = {
   ]
 };
 
+let currentLineageMode = 'DIRECT';
+let activeImpactScenario = null;
+
+function setLineageMode(mode) {
+  currentLineageMode = mode;
+  const directBtn = document.getElementById('btn-lineage-direct');
+  const impactBtn = document.getElementById('btn-lineage-impact');
+  const impactCtrl = document.getElementById('lineage-impact-controls');
+
+  if (mode === 'DIRECT') {
+    directBtn.className = 'btn btn-primary';
+    impactBtn.className = 'btn btn-secondary';
+    impactCtrl.style.display = 'none';
+    activeImpactScenario = null;
+    renderLineageGraph('OUT_RIESGO');
+  } else {
+    directBtn.className = 'btn btn-secondary';
+    impactBtn.className = 'btn btn-primary';
+    impactCtrl.style.display = 'block';
+    simulateLineageImpact('ESC_OPS_SCHEMA');
+  }
+}
+
 function renderLineageGraph(selectedOutId = "OUT_RIESGO") {
   const targetObj = LINEAGE_NODES.col5.find(x => x.id === selectedOutId) || LINEAGE_NODES.col5[0];
   const activeSet = new Set(targetObj.path);
@@ -3651,9 +3862,10 @@ function renderLineageGraph(selectedOutId = "OUT_RIESGO") {
   cols.forEach((colNodes, cIdx) => {
     html += `<div class="lineage-col"><h4>${titles[cIdx]}</h4>`;
     colNodes.forEach(n => {
-      const isHi = activeSet.has(n.id);
-      const clickAttr = cIdx === 4 ? `onclick="renderLineageGraph('${n.id}')"` : `onclick="renderLineageNodeInfo('${n.id}')"`;
-      html += `<div class="lineage-node ${isHi ? 'highlighted' : ''}" ${clickAttr}>${n.label.replace(/\n/g, '<br/>')}</div>`;
+      let isHi = activeSet.has(n.id);
+      let extraClass = isHi ? 'highlighted' : '';
+      let clickAttr = cIdx === 4 ? `onclick="renderLineageGraph('${n.id}')"` : `onclick="renderLineageNodeInfo('${n.id}')"`;
+      html += `<div class="lineage-node ${extraClass}" ${clickAttr} id="ln-${n.id}">${n.label.replace(/\n/g, '<br/>')}</div>`;
     });
     html += `</div>`;
   });
@@ -3666,11 +3878,71 @@ function renderLineageGraph(selectedOutId = "OUT_RIESGO") {
 }
 
 function renderLineageNodeInfo(nodeId) {
-  // Si el usuario hace clic en un nodo intermedio, busca qué indicador de salida lo usa
   const outMatch = LINEAGE_NODES.col5.find(o => o.path.includes(nodeId));
   if (outMatch) renderLineageGraph(outMatch.id);
 }
 
+function resetLineageGraph() {
+  setLineageMode('DIRECT');
+}
+
+function simulateLineageImpact(scenarioKey) {
+  activeImpactScenario = scenarioKey;
+  const titles = [
+    "1. Fuentes Origen (Silos)",
+    "2. Estándar MDM y Tiempo",
+    "3. Reglas de Calidad (DQ)",
+    "4. Políticas de Gobierno",
+    "5. Producto de Datos (SIOA-360)"
+  ];
+  const cols = [LINEAGE_NODES.col1, LINEAGE_NODES.col2, LINEAGE_NODES.col3, LINEAGE_NODES.col4, LINEAGE_NODES.col5];
+
+  let sourceNode = '';
+  let affectedNodes = [];
+  let explanation = '';
+
+  if (scenarioKey === 'ESC_OPS_SCHEMA') {
+    sourceNode = 'SRC_OPS';
+    affectedNodes = ['TIME_UTC', 'RULE_DQ13', 'OUT_RIESGO', 'OUT_RECAUDO'];
+    explanation = `<strong>💥 Impacto Simulado: SIIV altera reloj UTC a hora local (-05:00) sin previo aviso en el Catálogo</strong><br/>
+      • <em>Causa Raíz:</em> Navegación Aérea cambió el formato de estampa de tiempo en el silo F1_OPS.<br/>
+      • <em>Efecto Aguas Abajo:</em> La capa de normalización (TIME_UTC) colapsa, las demoras se calculan con 5 horas de desalineación frente a METAR y los indicadores OUT_RIESGO y OUT_RECAUDO quedan suspendidos preventivamente.<br/>
+      • <em>Respuesta Data Fabric:</em> El Catálogo Activo detecta la anomalía de esquema, activa la alerta de Linaje Inverso y previene la emisión de reportes falsos a la Dirección General.`;
+  } else if (scenarioKey === 'ESC_SMS_LEAK') {
+    sourceNode = 'SRC_SMS';
+    affectedNodes = ['GOV_MASK_SMS', 'OUT_AUDITORIA_SMS'];
+    explanation = `<strong>💥 Impacto Simulado: SIGSO transmite cédulas de reportantes MOR en texto plano</strong><br/>
+      • <em>Causa Raíz:</em> El área SMS exportó una versión preliminar de F3_SMS sin anonimizar.<br/>
+      • <em>Efecto Aguas Abajo:</em> Se dispara la política GOV_MASK_SMS en la Capa 4 de Gobierno. Si el Data Fabric no estuviera activo, se produciría una violación flagrante de la Ley 1581 de 2012 y del Anexo 19 de la OACI (Cultura Justa).<br/>
+      • <em>Respuesta Data Fabric:</em> El motor de Enmascaramiento Dinámico interviene en memoria, tokeniza las cédulas en vuelo y previene cualquier filtración hacia los roles no autorizados.`;
+  } else if (scenarioKey === 'ESC_FIN_QUARANTINE') {
+    sourceNode = 'SRC_FIN';
+    affectedNodes = ['RULE_DQ5', 'OUT_RECAUDO'];
+    explanation = `<strong>💥 Impacto Simulado: Se desactiva la regla de cuarentena DQ-05 para intentar cuadrar caja</strong><br/>
+      • <em>Causa Raíz:</em> Un operador contable intentó forzar la liquidación de las facturas huérfanas LIQ-8011 y LIQ-8012 ($13.500.000 COP).<br/>
+      • <em>Efecto Aguas Abajo:</em> El indicador OUT_RECAUDO salta erróneamente de $73.95M a $87.45M COP cobrando vuelos cancelados, lo que generaría demandas inmediatas de las aerolíneas y hallazgos fiscales de la Contraloría General.<br/>
+      • <em>Respuesta Data Fabric:</em> El linaje auditable bloquea el cambio sin aprobación explícita del Data Owner de Operaciones.`;
+  }
+
+  let html = '';
+  cols.forEach((colNodes, cIdx) => {
+    html += `<div class="lineage-col"><h4>${titles[cIdx]}</h4>`;
+    colNodes.forEach(n => {
+      let isSource = n.id === sourceNode;
+      let isAffected = affectedNodes.includes(n.id);
+      let cls = isSource ? 'impact-source' : (isAffected ? 'impact-danger' : '');
+      html += `<div class="lineage-node ${cls}" id="ln-${n.id}">${n.label.replace(/\n/g, '<br/>')}</div>`;
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById('lineage-graph-container').innerHTML = html;
+  document.getElementById('lineage-detail-box').innerHTML = explanation;
+}
+
+// -----------------------------------------------------------------------------
+// 3.2 DECISIÓN FÍSICA VS. VIRTUAL
+// -----------------------------------------------------------------------------
 let virtAttempts = 0;
 
 function evaluateVirtualization() {
@@ -3719,6 +3991,8 @@ function evaluateVirtualization() {
   }
 
   const feedbackEl = document.getElementById('virt-feedback');
+  const tradeoffBox = document.getElementById('virt-tradeoff-summary');
+
   if (correctCount === 4) {
     if (refBtn) {
       refBtn.disabled = false;
@@ -3729,6 +4003,14 @@ function evaluateVirtualization() {
         🎉 <strong>¡Excelente Análisis Arquitectónico!</strong> Has justificado correctamente los 4 mecanismos de integración. 
         Demostraste que el Data Fabric combina la ingestión física para datos estructurados masivos con la virtualización gobernada para datos en tiempo real y sensibles.
       </div>
+    `;
+    tradeoffBox.style.display = 'block';
+    tradeoffBox.innerHTML = `
+      <strong>⚖️ Matriz de Trade-offs Arquitectónicos Confirmada:</strong><br/>
+      • <strong>F1_OPS (Física ETL):</strong> Cero impacto en transaccional SIIV | Latencia: Batch Diario | Costo Almacenamiento: Medio.<br/>
+      • <strong>F2_MET (Virtual API):</strong> Datos frescos al segundo | Latencia: &lt; 200 ms | Cero almacenamiento duplicado.<br/>
+      • <strong>F3_SMS (Virtual Gobernado DDM):</strong> Cumplimiento Anexo 19 OACI | Enmascaramiento en RAM | Cero riesgo de fuga física.<br/>
+      • <strong>F4_FIN (Física Snapshot):</strong> Inmutabilidad probatoria | Conciliación al centavo ($73,95M) | Trazabilidad ante Contraloría.
     `;
   } else {
     const attemptsLeft = Math.max(0, 3 - virtAttempts);
@@ -3752,27 +4034,38 @@ function recommendVirtualization() {
   evaluateVirtualization();
 }
 
-// Simulador de Consumo por Roles (RBAC + Dynamic Data Masking)
+// -----------------------------------------------------------------------------
+// 3.3 SIMULADOR DE ROLES Y AUDITOR DE PRIVACIDAD EN VIVO
+// -----------------------------------------------------------------------------
 const ROLE_POLICIES = {
   ANALISTA: {
     title: "Rol Activo: Analista de la Oficina de Analítica (Aerocivil)",
-    policy: "🔓 Acceso autorizado a métricas operativas, meteorológicas y financieras consolidadas. 🔒 Enmascaramiento Dinámico Activo sobre Datos Personales (Nombre/Licencia de Piloto y Cédula/Nombre de Reportante SMS ocultos por Ley 1581 y Cultura Justa)."
+    policy: "🔓 Acceso autorizado a métricas operativas, meteorológicas y financieras consolidadas. 🔒 Enmascaramiento Dinámico Activo sobre Datos Personales (Nombre/Licencia de Piloto y Cédula/Nombre de Reportante SMS ocultos por Ley 1581 y Cultura Justa).",
+    roleKey: "ANALISTA"
   },
   INSPECTOR_SMS: {
     title: "Rol Activo: Inspector de Seguridad Operacional (Secretaría SMS)",
-    policy: "🔓 Acceso completo al detalle técnico de sucesos MOR y severidad para investigación técnica. 🔒 Datos financieros de facturación ocultos (no pertinentes para investigación SMS) y cédula del reportante tokenizada."
+    policy: "🔓 Acceso completo al detalle técnico de sucesos MOR y severidad para investigación técnica. 🔒 Datos financieros de facturación ocultos (no pertinentes para investigación SMS) y cédula del reportante tokenizada.",
+    roleKey: "INSPECTOR_SMS"
   },
   AUDITOR_FIN: {
     title: "Rol Activo: Auditor de la Dirección Financiera",
-    policy: "🔓 Acceso total a liquidaciones, pasajeros declarados vs. facturados y montos en COP. 🔒 Detalle de sucesos de seguridad operacional y datos de tripulación restringidos."
+    policy: "🔓 Acceso total a liquidaciones, pasajeros declarados vs. facturados y montos en COP. 🔒 Detalle de sucesos de seguridad operacional y datos de tripulación restringidos.",
+    roleKey: "AUDITOR_FIN"
   },
   PUBLICO: {
     title: "Rol Activo: Portal de Datos Abiertos (Ciudadanía e Investigadores)",
-    policy: "🌐 Vista 100% Anonimizada y Agregada por Aeródromo OACI. Sin identificadores individuales de vuelos sensibles, sin nombres de tripulación ni reportantes."
+    policy: "🌐 Vista 100% Anonimizada y Agregada por Aeródromo OACI. Sin identificadores individuales de vuelos sensibles, sin nombres de tripulación ni reportantes.",
+    roleKey: "PUBLICO"
   }
 };
 
+let currentActiveRole = 'ANALISTA';
+let isDataLeakSimulated = false;
+
 function renderRoleView(roleKey, btnEl) {
+  currentActiveRole = roleKey;
+  isDataLeakSimulated = false;
   if (btnEl) {
     document.querySelectorAll('#session-3 .silo-btn').forEach(b => b.classList.remove('active'));
     btnEl.classList.add('active');
@@ -3784,8 +4077,13 @@ function renderRoleView(roleKey, btnEl) {
       <span>${pol.policy}</span>
     </div>
   `;
+  document.getElementById('role-audit-verdict').innerHTML = '';
 
-  if (roleKey === 'PUBLICO') {
+  renderRoleTable(roleKey, false);
+}
+
+function renderRoleTable(roleKey, simulateLeak) {
+  if (roleKey === 'PUBLICO' && !simulateLeak) {
     document.getElementById('role-product-table').innerHTML = `
       <table>
         <thead>
@@ -3809,7 +4107,6 @@ function renderRoleView(roleKey, btnEl) {
     return;
   }
 
-  // Vista por Vuelo para los otros 3 roles con enmascaramiento dinámico
   const sampleFlights = [
     { id_vuelo: "VUELO-5002", oaci: "SKBO → SKCG", pax_decl: 172, pax_fact: 168, tasa: "$ 8.400.000", piloto: "Cap. Laura Sofía Restrepo (PCA-39104)", mor: "MOR-2026-01 (ALTA - Cizalladura)", reportante: "Ing. Ricardo Gómez (CC 79.845.120)" },
     { id_vuelo: "VUELO-5003", oaci: "SKRG → SKBO", pax_decl: 135, pax_fact: 130, tasa: "$ 6.500.000", piloto: "Cap. Jorge Eliécer Pineda (PCA-51209)", mor: "MOR-2026-02 (MEDIA - Holding Clima)", reportante: "Catalina Vélez (CC 43.512.890)" },
@@ -3833,20 +4130,27 @@ function renderRoleView(roleKey, btnEl) {
     let colPiloto = r.piloto;
     let colMor = r.mor;
     let colRep = r.reportante;
+    let rowClass = '';
 
-    if (roleKey === 'ANALISTA') {
-      colPiloto = `<span class="pill pill-masked">🔒 PCA-***** (ENMASCARADO)</span>`;
-      colRep = `<span class="pill pill-masked">🔒 ***-***-${r.reportante.slice(-4)} (PROTEGIDO SMS)</span>`;
-    } else if (roleKey === 'INSPECTOR_SMS') {
-      colTasa = `<span class="pill pill-masked">🔒 RESTRINGIDO FINANCIERA</span>`;
-      colRep = `<span class="pill pill-amber">TOKEN-SMS-${r.id_vuelo.slice(-2)} (Reserva Anexo 19)</span>`;
-    } else if (roleKey === 'AUDITOR_FIN') {
-      colPiloto = `<span class="pill pill-masked">🔒 NO AUTORIZADO</span>`;
-      colMor = `<span class="pill pill-masked">🔒 RESERVA SMS</span>`;
-      colRep = `<span class="pill pill-masked">🔒 RESERVA LEGAL OACI</span>`;
+    if (simulateLeak) {
+      rowClass = 'class="leak-alert-row"';
+      colPiloto = `<strong>${r.piloto}</strong> <span class="leak-badge">¡EXPUESTO!</span>`;
+      colRep = `<strong>${r.reportante}</strong> <span class="leak-badge">¡BRECHA MOR!</span>`;
+    } else {
+      if (roleKey === 'ANALISTA') {
+        colPiloto = `<span class="pill pill-masked">🔒 PCA-***** (ENMASCARADO)</span>`;
+        colRep = `<span class="pill pill-masked">🔒 ***-***-${r.reportante.slice(-4)} (PROTEGIDO SMS)</span>`;
+      } else if (roleKey === 'INSPECTOR_SMS') {
+        colTasa = `<span class="pill pill-masked">🔒 RESTRINGIDO FINANCIERA</span>`;
+        colRep = `<span class="pill pill-amber">TOKEN-SMS-${r.id_vuelo.slice(-2)} (Reserva Anexo 19)</span>`;
+      } else if (roleKey === 'AUDITOR_FIN') {
+        colPiloto = `<span class="pill pill-masked">🔒 NO AUTORIZADO</span>`;
+        colMor = `<span class="pill pill-masked">🔒 RESERVA SMS</span>`;
+        colRep = `<span class="pill pill-masked">🔒 RESERVA LEGAL OACI</span>`;
+      }
     }
 
-    html += `<tr>
+    html += `<tr ${rowClass}>
       <td><strong>${r.id_vuelo}</strong></td>
       <td><span class="pill pill-blue">${r.oaci}</span></td>
       <td>${r.pax_decl} / ${r.pax_fact}</td>
@@ -3858,6 +4162,364 @@ function renderRoleView(roleKey, btnEl) {
   });
   html += '</tbody></table>';
   document.getElementById('role-product-table').innerHTML = html;
+}
+
+function auditPrivacyCompliance() {
+  const pol = ROLE_POLICIES[currentActiveRole];
+  document.getElementById('role-audit-verdict').innerHTML = `
+    <div class="banner-success">
+      🛡️ <strong>DICTAMEN FORMAL DE AUDITORÍA DE PRIVACIDAD — CUMPLIMIENTO EXITOSO (100% CONFORME)</strong><br/>
+      • <strong>Rol Auditado:</strong> ${pol.title}<br/>
+      • <strong>Evaluación Ley 1581 de 2012 (Habeas Data):</strong> Cero fugas de números de cédula ni licencias PCA de tripulaciones.<br/>
+      • <strong>Evaluación RAC 219 / Anexo 19 OACI (Cultura Justa):</strong> La identidad de los informantes MOR está enmascarada/tokenizada. Ningún reporte voluntario puede ser utilizado para fines punitivos o disciplinarios.<br/>
+      • <strong>Veredicto:</strong> El Producto de Datos SIOA-360 cumple cabalmente con los estándares de gobernanza y confidencialidad.
+    </div>
+  `;
+}
+
+function simulateDataLeak() {
+  isDataLeakSimulated = true;
+  renderRoleTable(currentActiveRole, true);
+  document.getElementById('role-audit-verdict').innerHTML = `
+    <div class="banner-danger">
+      🚨 <strong>¡ALERTA CRÍTICA DE SEGURIDAD Y PRIVACIDAD — SIMULACIÓN DE BRECHA SIN DATA FABRIC!</strong><br/>
+      • <strong>Hallazgo:</strong> Al compartir archivos planos o conectar bases sin enmascaramiento dinámico, las cédulas de los reportantes MOR y licencias de pilotos quedaron expuestas a analistas y auditores.<br/>
+      • <strong>Sanción Legal Inminente:</strong> Violación expresa del Anexo 19 OACI, RAC 219 y apertura de investigación sancionatoria por la Superintendencia de Industria y Comercio (SIC) bajo Ley 1581.<br/>
+      • <strong>Impacto Operacional:</strong> Colapso inmediato de los reportes voluntarios de incidentes por temor a represalias laborales.<br/>
+      • <em>Solución: Haz clic en 'Restaurar Vista Gobernada' para reactivar el tejido de protección Data Fabric.</em>
+    </div>
+  `;
+}
+
+function resetRoleGovernance() {
+  isDataLeakSimulated = false;
+  renderRoleView(currentActiveRole);
+}
+
+// -----------------------------------------------------------------------------
+// 3.4 MINIJUEGO PEDAGÓGICO: DESAFÍO DE AUDITORÍA Y TRAZABILIDAD
+// -----------------------------------------------------------------------------
+const AUDIT_CHALLENGES = [
+  {
+    id: "AC-1",
+    authority: "🏛️ Contraloría General de la República",
+    caseTitle: "Requerimiento Fiscal: Cuarentena de $13.5M COP",
+    caseDesc: "La Contraloría cuestiona por qué el producto SIOA-360 reporta $73.95M en recaudo cuando el ERP emitió facturas por $87.45M COP.",
+    options: [
+      { text: "-- Selecciona la acción de linaje --", correct: false },
+      { text: "Borrar las facturas huérfanas de la base de datos para que las sumatorias coincidan.", correct: false },
+      { text: "Exhibir el linaje inmutable de DQ-05: aislar en cuarentena formal sin destruir registros (CPACA) y emitir Nota Crédito auditada.", correct: true },
+      { text: "Cobrar los $13.5M a las aerolíneas para evitar que la Contraloría abra hallazgo fiscal.", correct: false }
+    ],
+    feedback: "✅ <strong>Conforme a la Ley 1437/CPACA:</strong> Está prohibido borrar registros contables. La evidencia de linaje demuestra que VUELO-9991 y 9992 fueron cancelados por mal clima y su recaudo se aisló en cuarentena con Nota Crédito."
+  },
+  {
+    id: "AC-2",
+    authority: "🌐 Auditoría Internacional OACI (USOAP)",
+    caseTitle: "Inspección Técnica: Demoras y Alertas Meteorológicas",
+    caseDesc: "Los inspectores de la OACI exigen demostrar cómo se correlacionan las demoras de vuelos con las alertas de cizalladura y tormenta METAR.",
+    options: [
+      { text: "-- Selecciona la acción de linaje --", correct: false },
+      { text: "Alinear marcas de tiempo mediante la Capa 2 de Normalización Horaria (UTC) y conector API en vivo F2_MET.", correct: true },
+      { text: "Usar la hora local colombiana (-05:00) en todos los sistemas asumiendo que los vuelos nunca cruzan husos horarios.", correct: false },
+      { text: "Excluir la meteorología del producto analítico para simplificar las consultas.", correct: false }
+    ],
+    feedback: "✅ <strong>Conforme a OACI Doc 10039 (SWIM):</strong> La aviación mundial se sincroniza en hora Zulú (UTC). El Data Fabric normaliza automáticamente el desfase de 5 horas entre la API horaria y el transaccional."
+  },
+  {
+    id: "AC-3",
+    authority: "📰 Petición Ciudadana (Ley 1712 de 2014 - Transparencia)",
+    caseTitle: "Solicitud de Prensa: Pilotos con Mayor Demora",
+    caseDesc: "Un medio de comunicación exige los nombres y números de cédula de los pilotos involucrados en vuelos demorados durante la última semana.",
+    options: [
+      { text: "-- Selecciona la acción de linaje --", correct: false },
+      { text: "Entregar el archivo Excel completo amparándose en el derecho de acceso a la información pública.", correct: false },
+      { text: "Negar la solicitud por completo y bloquear el acceso a cualquier dato del aeropuerto.", correct: false },
+      { text: "Entregar la vista ciudadana SIOA-360 (Rol 4): datos agregados por pista OACI con enmascaramiento total de PII de tripulación.", correct: true }
+    ],
+    feedback: "✅ <strong>Cumplimiento Armónico Ley 1712 + Ley 1581:</strong> Se garantiza el derecho a la información pública mediante métricas agregadas por pista OACI, protegiendo a la vez los datos personales sensibles de las tripulaciones."
+  },
+  {
+    id: "AC-4",
+    authority: "🛡️ Secretaría de Seguridad Operacional (SMS)",
+    caseTitle: "Presión Punitiva: Identidad del Reportante MOR-2026-04",
+    caseDesc: "Un directivo exige revelar el nombre y cédula de quien reportó el incidente crítico MOR-2026-04 para abrirle un proceso disciplinario.",
+    options: [
+      { text: "-- Selecciona la acción de linaje --", correct: false },
+      { text: "Revelar el nombre al directivo bajo acuerdo de confidencialidad verbal.", correct: false },
+      { text: "Bloquear la consulta mediante la política GOV_MASK_SMS: tokenización obligatoria amparada en Cultura Justa (Anexo 19 / RAC 219).", correct: true },
+      { text: "Modificar el reporte MOR en la base de datos para borrar el incidente.", correct: false }
+    ],
+    feedback: "✅ <strong>Mandato Sagrado de Cultura Justa (RAC 219):</strong> Los reportes voluntarios no son punibles. Violar este principio destruye la confianza técnica y eleva el riesgo de accidentes aéreos."
+  }
+];
+
+let auditAttempts = 0;
+
+function initAuditChallenge() {
+  const container = document.getElementById('audit-challenge-container');
+  if (!container) return;
+  let html = '';
+  AUDIT_CHALLENGES.forEach((c, idx) => {
+    html += `
+      <div class="audit-card" id="card-${c.id}">
+        <div>
+          <span class="pill pill-blue" style="font-size:0.75rem;">${c.authority}</span>
+          <h4 style="margin:0.5rem 0 0.3rem; color:var(--navy); font-size:0.92rem;">${c.caseTitle}</h4>
+          <p style="margin:0 0 0.7rem; font-size:0.83rem; color:var(--text);">${c.caseDesc}</p>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; color:var(--slate);">Decisión de Gobierno Data Fabric:</label>
+          <select id="sel-${c.id}" style="width:100%; font-size:0.82rem; margin-top:0.3rem;">
+            ${c.options.map((opt, oIdx) => `<option value="${oIdx}">${opt.text}</option>`).join('')}
+          </select>
+          <div id="feed-${c.id}" style="margin-top:0.5rem; font-size:0.8rem;"></div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function verifyAuditChallenge() {
+  auditAttempts++;
+  let score = 0;
+  AUDIT_CHALLENGES.forEach(c => {
+    const sel = document.getElementById(`sel-${c.id}`);
+    const feed = document.getElementById(`feed-${c.id}`);
+    const card = document.getElementById(`card-${c.id}`);
+    const chosenIdx = parseInt(sel.value, 10);
+    const isCorrect = c.options[chosenIdx] && c.options[chosenIdx].correct;
+
+    if (isCorrect) {
+      score += 25;
+      card.className = 'audit-card correct';
+      feed.innerHTML = c.feedback;
+    } else {
+      card.className = 'audit-card incorrect';
+      feed.innerHTML = `<span style="color:#DC2626;">❌ <strong>Decisión Inadecuada:</strong> Esta postura expone a la Aerocivil a sanciones legales o debilita la gobernanza de datos.</span>`;
+    }
+  });
+
+  const refBtn = document.getElementById('btn-ref-audit');
+  if (auditAttempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+  }
+
+  const feedbackBox = document.getElementById('audit-challenge-feedback');
+  if (score === 100) {
+    if (refBtn) {
+      refBtn.disabled = false;
+      refBtn.classList.remove('disabled-btn');
+    }
+    feedbackBox.innerHTML = `
+      <div class="banner-success">
+        🏆 <strong>¡Puntuación Perfecta: 100 / 100 Puntos!</strong> Has superado los 4 desafíos de auditoría de la Aerocivil. 
+        Demostraste que el Data Fabric no es solo tecnología: es el escudo jurídico y técnico que protege la soberanía de la información, el recaudo fiscal y la vida de los pasajeros.
+      </div>
+    `;
+  } else {
+    const attemptsLeft = Math.max(0, 3 - auditAttempts);
+    feedbackBox.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Puntuación Obtenida: ${score} / 100 Puntos (Intento ${auditAttempts}).</strong> 
+        Revisa las tarjetas resaltadas en rojo y reflexiona sobre el principio de no-destrucción de datos (CPACA) y Cultura Justa (RAC 219).
+        ${attemptsLeft > 0 
+          ? `<br/><span style="font-size:0.83rem; color:#7F1D1D;">(El botón de solución se desbloqueará tras 3 intentos fallidos - faltan ${attemptsLeft} intento(s)).</span>` 
+          : `<br/><span style="font-size:0.83rem; color:#14532D; font-weight:700;">💡 Se ha desbloqueado el botón 'Revelar Solución Canónica'.</span>`}
+      </div>
+    `;
+  }
+}
+
+function resetAuditChallenge() {
+  initAuditChallenge();
+  document.getElementById('audit-challenge-feedback').innerHTML = '';
+}
+
+function solveAuditChallenge() {
+  AUDIT_CHALLENGES.forEach(c => {
+    const correctIdx = c.options.findIndex(o => o.correct);
+    const sel = document.getElementById(`sel-${c.id}`);
+    if (sel && correctIdx !== -1) {
+      sel.value = correctIdx;
+    }
+  });
+  verifyAuditChallenge();
+}
+
+// -----------------------------------------------------------------------------
+// 3.5 CONSTRUCTOR DE HOJA DE RUTA Y MEDIDOR DE MADUREZ
+// -----------------------------------------------------------------------------
+function updateRoadmapMaturity() {
+  const p1 = document.getElementById('roadmap-prio-1').value;
+  const p2 = document.getElementById('roadmap-prio-2').value;
+  const p3 = document.getElementById('roadmap-prio-3').value;
+
+  let points = 20; // Base inicial
+  if (p1 === 'CRITICA') points += 25;
+  else if (p1 === 'ALTA') points += 15;
+  else points += 5;
+
+  if (p2 === 'CRITICA') points += 30;
+  else if (p2 === 'ALTA') points += 20;
+  else points += 10;
+
+  if (p3 === 'CRITICA') points += 25;
+  else if (p3 === 'ALTA') points += 15;
+  else points += 5;
+
+  const bar = document.getElementById('maturity-bar-fill');
+  const badge = document.getElementById('maturity-badge');
+  const desc = document.getElementById('maturity-desc');
+
+  bar.style.width = points + '%';
+  const scoreNum = (points / 20).toFixed(1);
+
+  if (points >= 80) {
+    badge.className = 'pill pill-green';
+    badge.innerText = `Nivel 4: Cuantitativamente Gestionado (${scoreNum} / 5.0)`;
+    desc.innerHTML = `Tu configuración alcanza un <strong>Nivel 4 de Madurez</strong>: La Aerocivil gobierna los metadatos de forma activa, cuenta con reconciliación automatizada, cuarentena formal sin destrucción de datos (CPACA) y vistas protegidas por roles.`;
+  } else if (points >= 55) {
+    badge.className = 'pill pill-blue';
+    badge.innerText = `Nivel 3: Definido y Estandarizado (${scoreNum} / 5.0)`;
+    desc.innerHTML = `Tu configuración alcanza un <strong>Nivel 3 de Madurez</strong>: Procesos documentados y catálogo formalizado, pero con automatización parcial en calidad o virtualización.`;
+  } else {
+    badge.className = 'pill pill-amber';
+    badge.innerText = `Nivel 2: Gestionado Básico (${scoreNum} / 5.0)`;
+    desc.innerHTML = `Tu configuración alcanza un <strong>Nivel 2 de Madurez</strong>: Avances en semántica pero alta dependencia aún de procesos manuales en calidad o entrega de datos.`;
+  }
+}
+
+function autofillRoadmap() {
+  document.getElementById('roadmap-prio-1').value = 'CRITICA';
+  document.getElementById('roadmap-prio-2').value = 'CRITICA';
+  document.getElementById('roadmap-prio-3').value = 'CRITICA';
+  document.getElementById('s3-roadmap-notes').value = "Recomendamos iniciar la implementación del Data Fabric en la Aerocivil con un piloto acotado de 90 días sobre el caso SIOA, priorizando la homologación semántica (estándar OACI y huso UTC) y las 5 reglas de calidad automatizadas antes de adquirir cualquier macro-licencia comercial. Esto mitiga riesgos de inversión y entrega valor tangible inmediato.";
+  updateRoadmapMaturity();
+}
+
+// -----------------------------------------------------------------------------
+// 3.6 VEREDICTO DE SALIDA Y SUSTENTACIÓN DIRECTIVA
+// -----------------------------------------------------------------------------
+const VERDICT_S3_QUESTIONS = [
+  {
+    id: "VS3-1",
+    question: "1. ¿Por qué la adopción gradual a 180 días es superior a una licitación de software 'Big Bang' de 2 años?",
+    options: [
+      { text: "Porque permite demostrar Quick Wins en 30 días, mitiga el riesgo de elefantes blancos y alinea primero la cultura y semántica antes de comprar tecnología.", correct: true },
+      { text: "Porque la Aerocivil no tiene presupuesto para comprar licencias en este año fiscal.", correct: false },
+      { text: "Porque las licencias de software son siempre peores que desarrollar todo desde cero en hojas de cálculo.", correct: false }
+    ],
+    feedback: "✅ <strong>Estrategia de Menor Riesgo y Mayor Valor:</strong> Gartner e IBM demuestran que el 70% de los proyectos de datos fracasan por querer comprar la plataforma antes de acordar el glosario de negocio y la calidad en origen."
+  },
+  {
+    id: "VS3-2",
+    question: "2. ¿Cómo sustenta la Oficina de Analítica ante la Contraloría los $13.5M en cuarentena?",
+    options: [
+      { text: "Aceptando el hallazgo fiscal y descontando el valor de la nómina de los analistas.", correct: false },
+      { text: "Mediante el linaje inmutable de DQ-05: demostrando que los vuelos fueron cancelados y emitiendo Nota Crédito sin borrar registros contables (CPACA).", correct: true },
+      { text: "Modificando la fecha del informe para que coincida con el cierre del año siguiente.", correct: false }
+    ],
+    feedback: "✅ <strong>Seguridad Jurídica y Fiscal:</strong> La trazabilidad de linaje certifica que la Aerocivil no cobró derechos de pista indebidos sobre aeronaves que nunca despegaron, salvaguardando la legalidad del recaudo."
+  },
+  {
+    id: "VS3-3",
+    question: "3. ¿Por qué la tokenización de Cultura Justa es innegociable frente a directivos que exijan sancionar pilotos?",
+    options: [
+      { text: "Porque si se utiliza la información de seguridad operacional para castigar al personal, los reportes voluntarios desaparecerán, cegando a la Aerocivil ante riesgos catastróficos.", correct: true },
+      { text: "Porque los pilotos tienen convenios sindicales que impiden cualquier investigación interna.", correct: false },
+      { text: "Porque las bases de datos de seguridad operacional no admiten consultas SQL.", correct: false }
+    ],
+    feedback: "✅ <strong>Mandato de Seguridad Aérea Mundial (Anexo 19 OACI):</strong> La Cultura Justa no protege la negligencia grave, pero blinda el reporte voluntario para aprender de las fallas sistémicas antes de que ocurra un accidente."
+  }
+];
+
+let verdictS3Attempts = 0;
+
+function initExecutiveVerdict() {
+  const container = document.getElementById('verdict-s3-container');
+  if (!container) return;
+  let html = '';
+  VERDICT_S3_QUESTIONS.forEach(q => {
+    html += `
+      <div class="dama-card" id="card-${q.id}" style="padding:1rem;">
+        <h4 style="margin:0 0 0.5rem; color:var(--navy); font-size:0.9rem;">${q.question}</h4>
+        <select id="sel-${q.id}" style="width:100%; font-size:0.83rem;">
+          <option value="">-- Selecciona tu postura directiva --</option>
+          ${q.options.map((opt, oIdx) => `<option value="${oIdx}">${opt.text}</option>`).join('')}
+        </select>
+        <div id="feed-${q.id}" style="margin-top:0.5rem; font-size:0.8rem;"></div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function verifyExecutiveVerdict() {
+  verdictS3Attempts++;
+  let allCorrect = true;
+  VERDICT_S3_QUESTIONS.forEach(q => {
+    const sel = document.getElementById(`sel-${q.id}`);
+    const feed = document.getElementById(`feed-${q.id}`);
+    const card = document.getElementById(`card-${q.id}`);
+    const chosenIdx = parseInt(sel.value, 10);
+    const isCorrect = !isNaN(chosenIdx) && q.options[chosenIdx] && q.options[chosenIdx].correct;
+
+    if (isCorrect) {
+      card.style.borderColor = '#10B981';
+      card.style.background = '#F0FDF4';
+      feed.innerHTML = q.feedback;
+    } else {
+      allCorrect = false;
+      card.style.borderColor = '#EF4444';
+      card.style.background = '#FEF2F2';
+      feed.innerHTML = `<span style="color:#DC2626;">❌ <strong>Postura Inconsistente:</strong> Revisa el fundamento arquitectónico y la normativa OACI.</span>`;
+    }
+  });
+
+  const refBtn = document.getElementById('btn-ref-verdict-s3');
+  if (verdictS3Attempts >= 3 && refBtn) {
+    refBtn.disabled = false;
+    refBtn.classList.remove('disabled-btn');
+  }
+
+  const feedbackBox = document.getElementById('verdict-s3-feedback');
+  if (allCorrect) {
+    if (refBtn) {
+      refBtn.disabled = false;
+      refBtn.classList.remove('disabled-btn');
+    }
+    feedbackBox.innerHTML = `
+      <div class="banner-success">
+        🎖️ <strong>¡Sustentación Aprobada por Unanimidad!</strong> El Comité Directivo de la Aerocivil ha respaldado tu propuesta de Data Fabric. 
+        Has demostrado solvencia técnica, rigor jurídico y visión estratégica para transformar la gestión de datos de la aviación colombiana.
+      </div>
+    `;
+  } else {
+    const attemptsLeft = Math.max(0, 3 - verdictS3Attempts);
+    feedbackBox.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Sustentación con observaciones pendientes (Intento ${verdictS3Attempts}):</strong> 
+        Corrige las respuestas señaladas en rojo para convencer al Comité Directivo.
+        ${attemptsLeft > 0 
+          ? `<br/><span style="font-size:0.83rem; color:#7F1D1D;">(El botón de referencia se desbloqueará tras 3 intentos fallidos - faltan ${attemptsLeft} intento(s)).</span>` 
+          : `<br/><span style="font-size:0.83rem; color:#14532D; font-weight:700;">💡 Se ha desbloqueado el botón 'Cargar Respuestas Canónicas'.</span>`}
+      </div>
+    `;
+  }
+}
+
+function solveExecutiveVerdict() {
+  VERDICT_S3_QUESTIONS.forEach(q => {
+    const correctIdx = q.options.findIndex(o => o.correct);
+    const sel = document.getElementById(`sel-${q.id}`);
+    if (sel && correctIdx !== -1) {
+      sel.value = correctIdx;
+    }
+  });
+  verifyExecutiveVerdict();
 }
 
 // ============================================================================
