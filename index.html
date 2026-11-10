@@ -694,6 +694,86 @@
       color: #991B1B !important;
     }
 
+    /* --- Estilos Ficha Canónica de Metadatos Activos y Bandeja de Cuarentena (Sesión 2) --- */
+    .meta-canvas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+    .meta-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .meta-box h4 {
+      margin: 0 0 0.6rem 0;
+      font-size: 0.95rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 0.4rem;
+    }
+    .meta-field-group {
+      margin-bottom: 0.65rem;
+    }
+    .meta-field-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.2rem;
+    }
+    .meta-field-group input, .meta-field-group select, .meta-field-group textarea {
+      width: 100%;
+      font-size: 0.82rem;
+      box-sizing: border-box;
+    }
+    .meta-catalog-card {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid var(--navy);
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .meta-catalog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .meta-trigger-badge {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #F59E0B;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+    .quarantine-tray-box {
+      background: #FFFBEB;
+      border: 1.5px solid #F59E0B;
+      border-radius: 8px;
+      padding: 1.1rem;
+      margin-top: 0.85rem;
+    }
+    .remediation-ticket {
+      background: #FFFFFF;
+      border: 1px dashed #D97706;
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-top: 0.75rem;
+    }
+
   </style>
 </head>
 <body>
@@ -969,14 +1049,14 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
   <!-- ===================================================================== -->
   <section class="session-panel" id="session-2">
     <div class="banner-info">
-      <strong>🎯 Misión de la Sesión 2 (4 Horas - 1h Conceptual / 3h Taller):</strong>
-      Sin metadatos claros ni reglas de calidad, integrar datos solo produce <em>"basura unificada a mayor velocidad"</em>. Hoy asignarás los <strong>Roles RACI de Gobernanza</strong> (rompiendo el mito de que TI es dueño de todo), resolverás el <strong>Crucigrama de Metadatos</strong>, clasificarás las anomalías en las <strong>6 Dimensiones DAMA</strong>, activarás las <strong>5 Reglas de Calidad</strong> y emitirás el <strong>Veredicto Ejecutivo de Reconciliación</strong> para la plenaria final.
+      <strong>🎯 Misión de la Sesión 2 (4 Horas — 1h Conceptual / 3h Taller Activo y Plenaria):</strong>
+      Sin metadatos claros ni reglas de calidad, integrar datos solo produce <em>"basura unificada a mayor velocidad"</em>. En esta sesión serás el protagonista: como miembro del <strong>Comité de Gobierno de Datos de la Aerocivil</strong>, asignarás los <strong>Roles RACI Institucionales</strong>, diseñarás y publicarás <strong>Fichas Canónicas de Metadatos Activos</strong>, auditarás anomalías bajo las <strong>6 Dimensiones DAMA</strong>, activarás el <strong>Motor de Reglas y Reconciliación</strong>, gestionarás la <strong>Bandeja de Cuarentena</strong> y redactarás el <strong>Veredicto Ejecutivo</strong> para la plenaria final.
     </div>
 
     <!-- Paso 2.1: Matriz Interactiva de Gobernanza RACI -->
     <div class="card">
       <div class="card-header">
-        <h2>2.1. Matriz Interactiva de Gobernanza RACI: Asignación de Roles (Entregable 2A)</h2>
+        <h2>2.1. Matriz Interactiva de Gobernanza RACI: Asignación de Roles Institucionales (Taller 1 — Entregable 2A)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-secondary" onclick="resetGovernanceRoles()" title="Mezclar aleatoriamente el orden de los menús desplegables">🔀 Mezclar / Reordenar</button>
           <button class="btn btn-primary" onclick="verifyGovernanceRoles()">🔍 Validar Asignación RACI</button>
@@ -1003,10 +1083,131 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       <div id="governance-roles-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
-    <!-- Paso 2.2: Minijuego - Crucigrama de Metadatos y Data Fabric -->
+    <!-- Paso 2.2: Ficha Canónica de Catalogación y Metadatos Activos -->
+    <div class="card" style="border-left: 5px solid var(--navy);">
+      <div class="card-header">
+        <h2>2.2. Ficha Canónica de Catalogación y Metadatos Activos: Lienzo Interactivo (Taller 2 — Entregable 2B)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="loadMetadataPreset('pax_decl')" title="Cargar plantilla de Pasajeros Declarados">📋 Cargar Preset: Pasajeros</button>
+          <button class="btn btn-secondary" onclick="loadMetadataPreset('cod_oaci')" title="Cargar plantilla de Código OACI">📋 Cargar Preset: Código OACI</button>
+          <button class="btn btn-secondary" onclick="resetMetadataCanvas()" title="Limpiar todos los campos del lienzo">🔄 Limpiar Lienzo</button>
+          <button class="btn btn-primary" onclick="validateAndPublishMetadata()">🚀 Publicar en Catálogo Activo</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        En una arquitectura Data Fabric, los metadatos no son solo documentación pasiva en una wiki olvidada: son <strong>activos ejecutables</strong>. Como Data Steward de la Aerocivil, perfila el dato técnico, redacta su definición de negocio para zanjar disputas y configura su <strong>Disparador de Metadato Activo (Active Metadata Trigger)</strong> para que la plataforma reaccione automáticamente ante anomalías operativas.
+      </p>
+
+      <div class="meta-canvas-grid">
+        <!-- 1. Metadatos Técnicos -->
+        <div class="meta-box">
+          <h4>⚙️ 1. Metadatos Técnicos (Estructura y Perfil)</h4>
+          <div class="meta-field-group">
+            <label>Campo / Activo a Catalogar:</label>
+            <select id="meta-field-select" onchange="onMetadataSelectChange(this.value)">
+              <option value="custom">-- [Personalizado / Nuevo Término] --</option>
+              <option value="pax_decl" selected>pasajeros_declarados (F1_OPS - Operaciones)</option>
+              <option value="pax_fact">pasajeros_facturados (F4_FIN - Financiera)</option>
+              <option value="cod_oaci">codigo_oaci (M_REF - Maestro Aeródromos)</option>
+              <option value="visib_met">visibilidad_metros (F2_MET - Meteorología)</option>
+              <option value="sev_sms">severidad_sms (F3_SMS - Seguridad Operacional)</option>
+              <option value="tasa_cop">valor_tasa_cop (F4_FIN - Recaudo)</option>
+            </select>
+          </div>
+          <div class="meta-field-group">
+            <label>Nombre Físico en Base de Datos:</label>
+            <input type="text" id="meta-tech-name" value="pasajeros_declarados" placeholder="ej. pasajeros_declarados" />
+          </div>
+          <div class="meta-field-group">
+            <label>Tipo de Dato SQL:</label>
+            <select id="meta-tech-type">
+              <option value="INT" selected>INTEGER (Entero)</option>
+              <option value="VARCHAR(4)">VARCHAR(4) (Texto fijo 4 caracteres)</option>
+              <option value="VARCHAR(100)">VARCHAR(100) (Texto libre)</option>
+              <option value="DECIMAL(12,2)">DECIMAL(12,2) (Moneda / Numérico)</option>
+              <option value="TIMESTAMP">TIMESTAMP (Estampa temporal)</option>
+            </select>
+          </div>
+          <div class="meta-field-group">
+            <label>Nulabilidad y Rango Físico Válido:</label>
+            <input type="text" id="meta-tech-range" value="NOT NULL | Rango permitido: [0 a 500 pax]" placeholder="ej. NOT NULL | [0, 500]" />
+          </div>
+          <div class="meta-field-group">
+            <label>Patrón Regex / Regla Sintáctica:</label>
+            <input type="text" id="meta-tech-regex" value="^[0-9]+$ (Entero no negativo)" placeholder="ej. ^[A-Z]{4}$" />
+          </div>
+        </div>
+
+        <!-- 2. Metadatos de Negocio -->
+        <div class="meta-box">
+          <h4>📖 2. Metadatos de Negocio (Semántica y Ley)</h4>
+          <div class="meta-field-group">
+            <label>Término Canónico en Glosario Institucional:</label>
+            <input type="text" id="meta-biz-term" value="Pasajeros Declarados en Operación" placeholder="ej. Pasajeros Declarados" />
+          </div>
+          <div class="meta-field-group">
+            <label>Definición Unívoca (Resolución de Disputas):</label>
+            <textarea id="meta-biz-def" rows="3" placeholder="Redacta la definición oficial que resuelve el conflicto de interpretación...">Total de almas a bordo manifestadas por la aerolínea en el plan de vuelo ejecutado ante la Dirección de Navegación Aérea. Incluye pasajeros comerciales, infantes de brazos y tripulación técnica/de cabina en comisión.</textarea>
+          </div>
+          <div class="meta-field-group">
+            <label>Clasificación Legal de Confidencialidad:</label>
+            <select id="meta-biz-security">
+              <option value="PUBLICO">Público General (Ley 1712 de 2014 - Transparencia)</option>
+              <option value="INTERNO" selected>Uso Interno Institucional Aerocivil</option>
+              <option value="RESERVADO_SMS">Reserva Legal Seguridad Aérea (Anexo 19 OACI - Cultura Justa)</option>
+              <option value="DATOS_PERSONALES">Datos Personales Protegidos (Ley 1581 de 2012)</option>
+            </select>
+          </div>
+          <div class="meta-field-group">
+            <label>Fórmula de Negocio / Regla Semántica:</label>
+            <input type="text" id="meta-biz-rule" value="Pasajeros Facturables = Pasajeros Declarados - 53 Exentos" placeholder="ej. Pasajeros Facturados = Pax Declarados - Exentos" />
+          </div>
+        </div>
+
+        <!-- 3. Metadatos Operativos y Activos -->
+        <div class="meta-box">
+          <h4>⚡ 3. Metadatos Operativos y Metadatos Activos</h4>
+          <div class="meta-field-group">
+            <label>Frecuencia de Ingesta / Refresco:</label>
+            <select id="meta-ops-freq">
+              <option value="STREAMING">Tiempo Real / Streaming Event-Driven</option>
+              <option value="HOURLY">Horaria (Cada 60 minutos)</option>
+              <option value="DAILY" selected>Lote Diario (Batch 24 horas)</option>
+              <option value="MONTHLY">Cierre Mensual</option>
+            </select>
+          </div>
+          <div class="meta-field-group">
+            <label>SLA de Latencia Máxima Permitida:</label>
+            <select id="meta-ops-sla">
+              <option value="5m">&lt;= 5 Minutos (Misión Crítica)</option>
+              <option value="15m" selected>&lt;= 15 Minutos (Alerta Operativa)</option>
+              <option value="1h">&lt;= 1 Hora</option>
+              <option value="24h">&lt;= 24 Horas (Liquidación Batch)</option>
+            </select>
+          </div>
+          <div class="meta-field-group">
+            <label>Disparador de Metadato Activo (Active Metadata Policy):</label>
+            <textarea id="meta-ops-trigger" rows="3" placeholder="Regla automatizada de acción en la plataforma Data Fabric...">SI tasa_nulos > 2% O pasajeros &lt; 0 ENTONCES: Aislamiento preventivo en Cuarentena DQ-03, imputación segura y notificación P1 automática al Data Steward de Tránsito Aéreo.</textarea>
+          </div>
+          <div style="font-size:0.75rem; color:#64748B; margin-top:0.3rem;">
+            <em>💡 En Data Fabric, el metadato activo escucha telemetría y ejecuta políticas sin intervención humana.</em>
+          </div>
+        </div>
+      </div>
+
+      <div id="meta-canvas-feedback" style="margin-top:0.85rem;"></div>
+
+      <!-- Visor del Catálogo de Metadatos Publicados -->
+      <div style="margin-top:1.25rem;">
+        <h3 style="font-size:0.98rem; color:var(--navy); margin-bottom:0.6rem;">📚 Catálogo Empresarial de Metadatos Activos SIOA (Publicados en Tiempo Real)</h3>
+        <div id="meta-published-catalog-container"></div>
+      </div>
+    </div>
+
+    <!-- Paso 2.3: Minijuego - Crucigrama de Metadatos y Data Fabric -->
     <div class="card">
       <div class="card-header">
-        <h2>2.2. Crucigrama Interactivo de Metadatos y Data Fabric (Minijuego Pedagógico)</h2>
+        <h2>2.3. Crucigrama Interactivo de Metadatos y Data Fabric (Minijuego Pedagógico)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-secondary" onclick="hintCrosswordCell()" title="Revela la letra de la casilla actualmente seleccionada">💡 Pista (Revelar Letra)</button>
           <button class="btn btn-secondary" onclick="clearCrossword()" title="Borrar las letras escritas y comenzar de nuevo">🔄 Limpiar Crucigrama</button>
@@ -1039,10 +1240,10 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       <div id="crossword-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
-    <!-- Paso 2.3: Clasificador Interactivo de Reglas DQ vs. Dimensiones DAMA -->
+    <!-- Paso 2.4: Clasificador Interactivo de Reglas DQ vs. Dimensiones DAMA -->
     <div class="card">
       <div class="card-header">
-        <h2>2.3. Clasificador de Calidad: 5 Reglas DQ vs. 6 Dimensiones DAMA (Entregable 2B - Parte 1)</h2>
+        <h2>2.4. Clasificador de Calidad: 5 Reglas DQ vs. 6 Dimensiones DAMA (Taller 3 — Parte 1)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-secondary" onclick="resetDamaClassifier()" title="Mezclar el orden de las opciones">🔀 Mezclar / Reordenar</button>
           <button class="btn btn-primary" onclick="verifyDamaClassifier()">🔍 Validar Dimensiones DAMA</button>
@@ -1056,10 +1257,10 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       <div id="dama-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
-    <!-- Paso 2.4: Motor Interactivo de Reglas de Calidad y Reconciliación en Vivo -->
+    <!-- Paso 2.5: Motor Interactivo de Reglas de Calidad y Reconciliación en Vivo -->
     <div class="card">
       <div class="card-header">
-        <h2>2.4. Motor Interactivo de Reglas de Calidad y Reconciliación en Tiempo Real (Entregable 2B - Parte 2)</h2>
+        <h2>2.5. Motor Interactivo de Reglas de Calidad y Reconciliación en Tiempo Real (Taller 3 — Parte 2)</h2>
         <div>
           <button class="btn btn-success" onclick="toggleAllRules(true)">⚡ Activar las 5 Reglas del Data Fabric</button>
           <button class="btn btn-outline" style="color:var(--navy); border-color:var(--navy);" onclick="toggleAllRules(false)">🔄 Ver Datos Crudos (Sin Reglas)</button>
@@ -1082,10 +1283,25 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       </div>
     </div>
 
-    <!-- Paso 2.5: Veredicto Ejecutivo de Reconciliación (Quiz de Auditoría para la Plenaria) -->
+    <!-- Paso 2.6: Bandeja de Cuarentena DAMA y Mesa de Remediación -->
+    <div class="card" style="border-left: 5px solid #F59E0B;">
+      <div class="card-header">
+        <h2>2.6. Bandeja de Cuarentena DAMA y Mesa de Remediación (Taller 3 — Parte 3)</h2>
+        <span class="pill pill-amber" id="quarantine-status-pill">Bandeja de Aislamiento Preventivo</span>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        <em>Principio fundamental en el Sector Público y DAMA-DMBOK:</em> <strong>Los datos nunca se eliminan físicamente (DELETE) de una base de datos institucional</strong>. Borrar registros contables genera hallazgos disciplinarios y fiscales ante la Contraloría. Cuando se activa la regla <code>DQ-05</code>, las facturas huérfanas se aíslan en la bandeja de cuarentena y se emite un <strong>Ticket Oficial de Remediación</strong> para que las áreas de negocio resuelvan la no conformidad.
+      </p>
+
+      <div class="quarantine-tray-box" id="quarantine-tray-content">
+        <!-- Contenido dinámico renderizado por JS -->
+      </div>
+    </div>
+
+    <!-- Paso 2.7: Veredicto Ejecutivo de Reconciliación (Quiz de Auditoría para la Plenaria) -->
     <div class="card" style="border-left: 5px solid var(--gold);">
       <div class="card-header">
-        <h2>2.5. Veredicto Ejecutivo de Reconciliación: Decisiones de Auditoría (Entregable 2C)</h2>
+        <h2>2.7. Veredicto Ejecutivo de Reconciliación: Decisiones de Auditoría (Entregable 2C)</h2>
         <button class="btn btn-primary" onclick="verifyVerdictQuiz()">⚖️ Emitir Veredicto de Auditoría</button>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
@@ -1095,41 +1311,48 @@ C) Evaluación crítica: Identifica 2 posibles cuellos de botella o riesgos de l
       <div id="verdict-feedback" style="margin-top:0.85rem;"></div>
     </div>
 
-    <!-- Paso 2.6: Vista del Flujo Combinado y Copiloto de IA Socrático -->
+    <!-- Paso 2.8: Vista del Flujo Combinado y Copiloto de IA Socrático -->
     <div class="card">
       <div class="card-header">
-        <h2>2.6. Vista en Vivo del Flujo Demostrativo de Combinación (Tabla Integrada SIOA)</h2>
+        <h2>2.8. Vista en Vivo del Flujo Demostrativo de Combinación (Tabla Integrada SIOA)</h2>
         <span class="pill pill-green" id="integrated-status-badge">Mostrando resultado del flujo en vivo</span>
       </div>
       <div class="table-wrap" id="integrated-flow-table"></div>
     </div>
 
-    <!-- Copiloto de IA Socrático Sesin 2 -->
+    <!-- Copiloto de IA Socrático Sesión 2 -->
     <div class="card" style="border-left: 5px solid var(--cyan);">
       <div class="card-header">
-        <h2>2.7. Copiloto de IA Socrático - Sesión 2: Reconciliación y Diagrama de Flujo</h2>
-        <button class="btn btn-primary" onclick="copyText('prompt-s2')">📋 Copiar Metaprompt de Reconciliación</button>
+        <h2>2.9. Copiloto de IA Socrático - Sesión 2: Entrevista del Comité de Arquitectura OACI</h2>
+        <button class="btn btn-primary" onclick="copyText('prompt-s2')">📋 Copiar Metaprompt Socrático (Entrevista por Turnos)</button>
       </div>
       <p style="margin-top:0; font-size:0.88rem;">
-        <strong>Tu Desafío de Auditoría con IA:</strong> Como Auditor Principal de Calidad de Datos Aeronáuticos, interactúa con un chatbot de IA (ChatGPT, Gemini o Claude) para generar el <strong>Acta Ejecutiva de Reconciliación</strong> y el <strong>Diagrama de Flujo en sintaxis Mermaid</strong>. Explica con rigor técnico por qué $13.5M COP deben ir a cuarentena sin borrado físico y cómo se justifica la brecha de 53 pasajeros exentos.
+        <strong>Tu Desafío de Arquitectura con IA:</strong> Como Líder del Comité de Datos de la Aerocivil, interactúa con un chatbot de IA (ChatGPT, Gemini o Claude). La IA asumirá el rol del <strong>Arquitecto Evaluador de la OACI</strong> y te entrevistará capa por capa haciéndote preguntas técnicas una a una para poner a prueba tus decisiones (conectores, virtualización vs. ETL, catálogo de metadatos activos, motor de calidad y capa semántica).
       </p>
 
-      <div class="ai-console" id="prompt-s2">Actúa como un Auditor Principal de Calidad y Gobierno de Datos Aeronáuticos de la Aerocivil.
-Acabamos de ejecutar el motor Data Fabric con las 5 reglas de calidad (DQ-01 a DQ-05) sobre los silos sintéticos del caso "Cielo Integrado (SIOA)" y obtuvimos los siguientes hallazgos:
-1. Unicidad: 3 vuelos duplicados eliminados en F1_OPS (VUELO-5002, 5005, 5010), reduciendo de 13 a 10 vuelos reales.
-2. Consistencia MDM: F3_SMS y F4_FIN usaban códigos IATA ("BOG", "MDE", "BAQ") o nombres como "EL DORADO" y "RIONEGRO"; la tabla M_REF los homologó al 100% al estándar OACI (SKBO, SKRG, SKBQ).
-3. Validez de Rango: VUELO-5004 registraba -15 pasajeros (error tipográfico corregido a 150) y MET-04 registraba visibilidad 999999 m (outlier aislado).
-4. Completitud: Imputación de minutos_demora=0 en VUELO-5006 y severidad 'MEDIA' en MOR-2026-03.
-5. Integridad Referencial: Aislamiento en CUARENTENA de 2 facturas ($13.500.000 COP) de vuelos cancelados (VUELO-9991 y 9992).
-6. Conciliación de Pasajeros: 1.532 Pasajeros Declarados vs. 1.479 Pasajeros Facturados. Brecha exacta explicada: 53 pasajeros exentos (infantes de brazos y tripulantes en comisión según RAC).
-7. Conciliación Financiera: Recaudo crudo $87.450.000 COP vs. Recaudo legítimo conciliado $73.950.000 COP.
+      <div class="ai-console" id="prompt-s2">Actúa como el Arquitecto Principal Evaluador del Comité de Tecnologías de Información de la OACI y la Aerocivil.
+Mi equipo y yo acabamos de auditar los 4 silos del caso "Cielo Integrado (SIOA)" y debemos diseñar el flujo técnico a través de las 5 capas del Data Fabric.
 
-ENTREGABLES REQUERIDOS:
-A) Un DIAGRAMA DE FLUJO DE CALIDAD Y RECONCILIACIÓN en formato Mermaid (bloque ```mermaid ... ```) que ilustre cómo entran los datos crudos, qué filtros DQ atraviesan y cómo se separan los datos limpios de los registros en cuarentena.
-B) Redacta el ACTA EJECUTIVA DE CONCILIACIÓN DE DATOS (máximo 300 palabras) para el Director General de la Aerocivil, explicando el riesgo fiscal y reputacional evitado al no cobrar los $13.5M COP a aerolíneas por vuelos que nunca despegaron.</div>
+INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
+1. Tu rol es entrevistarme haciéndome preguntas UNA A UNA por turnos. 
+2. No me des las respuestas ni avances a la siguiente capa hasta que yo te responda y justifique mi decisión técnica.
+3. Si mi respuesta es débil, ingenua (ej. proponer copiar todo a un Excel o borrar datos) o técnicamente inviable, interpélame con una contrapregunta rigurosa.
+4. Las 5 preguntas que debes hacerme secuencialmente son:
+   - Turno 1 (Capa 1 - Fuentes y Conectividad): ¿Qué conectores o mecanismos usarás para conectar PostgreSQL (SIIV), la API horaria (METAR), los Excel de incidentes (MOR) y el ERP de tasas sin saturar los sistemas operacionales?
+   - Turno 2 (Capa 2 - Virtualización vs. ETL): ¿Copiarás físicamente todas las fuentes a un Data Lake o habilitarás un motor SQL federado (tipo Trino/Dremio/Denodo)? Justifica considerando que el clima cambia cada hora y las tasas mensualmente.
+   - Turno 3 (Capa 3 - Catálogo y Metadatos Activos): ¿En qué software o catálogo registrarás el Glosario Canónico para que Financiera y Operaciones dejen de pelear por los 53 pasajeros exentos? ¿Qué regla de metadato activo configurarás para telemetría meteorológica fuera de rango?
+   - Turno 4 (Capa 4 - Motor de Calidad y Cuarentena): ¿Qué motor de reglas usarás (ej. Great Expectations, Soda, dbt)? Explica exactamente qué harás con las 2 facturas de vuelos cancelados por $13.5M COP: ¿por qué no puedes borrarlas con un DELETE en una entidad pública?
+   - Turno 5 (Capa 5 - Capa Semántica y Consumo): ¿Cómo expondrás el producto de datos conciliado para directivos sin revelar las cédulas de pilotos que reportaron incidentes bajo Cultura Justa?
+
+5. Al finalizar las 5 preguntas, entrégame:
+   A) Una calificación de madurez arquitectónica de nuestro diseño (1 a 5 estrellas).
+   B) El Diagrama de Flujo de Calidad en formato Mermaid (bloque ```mermaid ... ```) para proyectarlo en mermaid.live.
+   C) El Acta Ejecutiva de Conciliación de Datos (máximo 300 palabras) dirigida al Director General de la Aerocivil.
+
+¡Inicia la entrevista formulándome únicamente la Pregunta del Turno 1!</div>
 
       <div class="banner-info" style="margin-top:0.85rem;">
-        🌐 <strong>Visualización Interactiva Recomendada:</strong> Copia el código Mermaid generado por tu asistente y pégalo en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar el diagrama de flujo en pantalla completa durante la plenaria.
+        🌐 <strong>Visualización Interactiva Recomendada:</strong> Copia el código Mermaid generado por tu asistente al final de la entrevista y pégalo en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar el diagrama de flujo en pantalla completa durante la plenaria.
       </div>
     </div>
   </section>
@@ -2336,7 +2559,251 @@ function autofillGovernanceRoles() {
 }
 
 // ----------------------------------------------------------------------------
-// 2.2. CRUCIGRAMA INTERACTIVO DE METADATOS Y DATA FABRIC
+// 2.2. FICHA CANÓNICA DE CATALOGACIÓN Y METADATOS ACTIVOS
+// ----------------------------------------------------------------------------
+const METADATA_CATALOG_PRESETS = {
+  pax_decl: {
+    techName: "pasajeros_declarados",
+    techType: "INT",
+    techRange: "NOT NULL | Rango permitido: [0 a 500 pax]",
+    techRegex: "^[0-9]+$ (Entero no negativo)",
+    bizTerm: "Pasajeros Declarados en Operación",
+    bizDef: "Total de almas a bordo manifestadas por la aerolínea en el plan de vuelo ejecutado ante la Dirección de Servicios a la Navegación Aérea. Incluye pasajeros comerciales, infantes de brazos y tripulación técnica/de cabina en comisión.",
+    bizSecurity: "INTERNO",
+    bizRule: "Pasajeros Facturables = Pasajeros Declarados - 53 Exentos",
+    opsFreq: "DAILY",
+    opsSla: "15m",
+    opsTrigger: "SI tasa_nulos > 2% O pasajeros < 0 ENTONCES: Aislamiento preventivo en Cuarentena DQ-03, imputación segura y notificación P1 automática al Data Steward de Tránsito Aéreo."
+  },
+  pax_fact: {
+    techName: "pasajeros_facturados",
+    techType: "INT",
+    techRange: "NOT NULL | Rango permitido: [0 a 500 pax]",
+    techRegex: "^[0-9]+$ (Entero no negativo)",
+    bizTerm: "Pasajeros Facturables Sujetos a Tasa",
+    bizDef: "Número de pasajeros comerciales embarcados que pagan la tarifa de derechos de aeródromo según el RAC. Excluye legalmente infantes de brazos (< 2 años) y tripulantes en ejercicio de funciones.",
+    bizSecurity: "INTERNO",
+    bizRule: "Tasa Liquidada = Pasajeros Facturados * $50.000 COP",
+    opsFreq: "MONTHLY",
+    opsSla: "24h",
+    opsTrigger: "SI Vuelo liquidado NO existe en F1_OPS ENTONCES: Aislamiento inmediato en BANDEJA DE CUARENTENA DQ-05 y generación de ticket de conciliación a Facturación."
+  },
+  cod_oaci: {
+    techName: "codigo_oaci",
+    techType: "VARCHAR(4)",
+    techRange: "NOT NULL | Clave Primaria en M_REF",
+    techRegex: "^[A-Z]{4}$ (4 Letras Mayúsculas OACI)",
+    bizTerm: "Código OACI de Aeródromo Soberano",
+    bizDef: "Identificador geográfico y aeronáutico estándar de 4 letras según Documento 7910 de la OACI. Es la única clave primaria canónica admisible en el Data Fabric de la Aerocivil para cruzar operaciones, meteorología y recaudo.",
+    bizSecurity: "PUBLICO",
+    bizRule: "Homologar automáticamente IATA de 3 letras ('BOG', 'MDE') mediante tabla maestra M_REF",
+    opsFreq: "HOURLY",
+    opsSla: "5m",
+    opsTrigger: "SI código no coincide con regex ^[A-Z]{4}$ ENTONCES: Bloquear cruce analítico, derivar a tabla M_REF de resolución de alias y generar alerta al Data Steward de Información Aeronáutica (AIM)."
+  },
+  visib_met: {
+    techName: "visibilidad_metros",
+    techType: "INT",
+    techRange: "NOT NULL | Rango físico: [0 a 10.000 m]",
+    techRegex: "^[0-9]+$ (Entero positivo)",
+    bizTerm: "Visibilidad Horizontal en Pista (METAR)",
+    bizDef: "Distancia visual horizontal máxima reportada por la estación meteorológica del aeródromo o sensor AWS. Si es menor a 800 m activa protocolos de aproximación instrumental de precisión (ILS CAT II/III).",
+    bizSecurity: "PUBLICO",
+    bizRule: "Valores > 50000 m indican fallo de sensor en ciclo de mantenimiento (código 999999)",
+    opsFreq: "HOURLY",
+    opsSla: "5m",
+    opsTrigger: "SI visibilidad_metros > 50000 ENTONCES: Aislar outlier en telemetría meteorológica, imputar último valor válido horario y notificar al Data Custodian de Infraestructura y Sensores METAR."
+  },
+  sev_sms: {
+    techName: "severidad_sms",
+    techType: "VARCHAR(100)",
+    techRange: "NOT NULL | Valores válidos: [BAJA, MEDIA, ALTA, CRÍTICA]",
+    techRegex: "^(BAJA|MEDIA|ALTA|CRÍTICA)$",
+    bizTerm: "Severidad del Suceso Operacional (MOR)",
+    bizDef: "Clasificación del nivel de riesgo e impacto para la seguridad operacional según la Matriz de Riesgo del Anexo 19 de la OACI. Si el campo está vacío, se viola el principio de vigilancia preventiva.",
+    bizSecurity: "RESERVADO_SMS",
+    bizRule: "Imputación por protocolo: Si es nulo, imputar 'MEDIA' preventivamente hasta inspección técnica",
+    opsFreq: "STREAMING",
+    opsSla: "15m",
+    opsTrigger: "SI severidad_sms IS NULL ENTONCES: Asignar severidad preventiva 'MEDIA' y disparar ticket P1 de inspección al Data Steward de Seguridad Operacional."
+  },
+  tasa_cop: {
+    techName: "valor_tasa_cop",
+    techType: "DECIMAL(12,2)",
+    techRange: "NOT NULL | Moneda legal COP [>= 0]",
+    techRegex: "^[0-9]+(\\.[0-9]{2})?$",
+    bizTerm: "Derecho Aeroportuario y Tasa Liquidada",
+    bizDef: "Tarifa cobrada por la Aerocivil a la empresa aérea por uso de infraestructura aeroportuaria y servicios de navegación, liquidada conforme al RAC y sujeta a estricto control fiscal de la Contraloría General de la República.",
+    bizSecurity: "INTERNO",
+    bizRule: "Tasa = Pasajeros Sujetos a Cobro * Tarifa Unitaria ($50.000 COP)",
+    opsFreq: "MONTHLY",
+    opsSla: "24h",
+    opsTrigger: "SI Vuelo liquidado NO existe en F1_OPS (vuelo cancelado) ENTONCES: Aislamiento inmediato en BANDEJA DE CUARENTENA DQ-05 con emisión de ticket a Facturación para anulación y nota crédito."
+  }
+};
+
+let publishedCatalog = [
+  { ...METADATA_CATALOG_PRESETS.pax_decl, publishedAt: "Catálogo Inicial" },
+  { ...METADATA_CATALOG_PRESETS.cod_oaci, publishedAt: "Catálogo Inicial" }
+];
+
+function initMetadataCanvas() {
+  loadMetadataPreset('pax_decl');
+  renderPublishedCatalog();
+}
+
+function onMetadataSelectChange(val) {
+  if (val === 'custom') {
+    resetMetadataCanvas();
+  } else if (METADATA_CATALOG_PRESETS[val]) {
+    loadMetadataPreset(val);
+  }
+}
+
+function loadMetadataPreset(key) {
+  const p = METADATA_CATALOG_PRESETS[key];
+  if (!p) return;
+  const sel = document.getElementById('meta-field-select');
+  if (sel) sel.value = key;
+
+  document.getElementById('meta-tech-name').value = p.techName;
+  document.getElementById('meta-tech-type').value = p.techType;
+  document.getElementById('meta-tech-range').value = p.techRange;
+  document.getElementById('meta-tech-regex').value = p.techRegex;
+
+  document.getElementById('meta-biz-term').value = p.bizTerm;
+  document.getElementById('meta-biz-def').value = p.bizDef;
+  document.getElementById('meta-biz-security').value = p.bizSecurity;
+  document.getElementById('meta-biz-rule').value = p.bizRule;
+
+  document.getElementById('meta-ops-freq').value = p.opsFreq;
+  document.getElementById('meta-ops-sla').value = p.opsSla;
+  document.getElementById('meta-ops-trigger').value = p.opsTrigger;
+
+  const fb = document.getElementById('meta-canvas-feedback');
+  if (fb) {
+    fb.innerHTML = `
+      <div class="banner-info" style="font-size:0.85rem;">
+        📋 <strong>Plantilla cargada:</strong> Has importado la especificación canónica para <code>${p.techName}</code>. Puedes editar sus definiciones y luego pulsar <em>"Publicar en Catálogo Activo"</em>.
+      </div>
+    `;
+  }
+}
+
+function resetMetadataCanvas() {
+  document.getElementById('meta-field-select').value = 'custom';
+  document.getElementById('meta-tech-name').value = '';
+  document.getElementById('meta-tech-type').value = 'VARCHAR(100)';
+  document.getElementById('meta-tech-range').value = '';
+  document.getElementById('meta-tech-regex').value = '';
+
+  document.getElementById('meta-biz-term').value = '';
+  document.getElementById('meta-biz-def').value = '';
+  document.getElementById('meta-biz-security').value = 'INTERNO';
+  document.getElementById('meta-biz-rule').value = '';
+
+  document.getElementById('meta-ops-freq').value = 'DAILY';
+  document.getElementById('meta-ops-sla').value = '15m';
+  document.getElementById('meta-ops-trigger').value = '';
+
+  const fb = document.getElementById('meta-canvas-feedback');
+  if (fb) fb.innerHTML = '';
+}
+
+function validateAndPublishMetadata() {
+  const techName = document.getElementById('meta-tech-name').value.trim();
+  const techType = document.getElementById('meta-tech-type').value;
+  const techRange = document.getElementById('meta-tech-range').value.trim();
+  const techRegex = document.getElementById('meta-tech-regex').value.trim();
+
+  const bizTerm = document.getElementById('meta-biz-term').value.trim();
+  const bizDef = document.getElementById('meta-biz-def').value.trim();
+  const bizSecurity = document.getElementById('meta-biz-security').value;
+  const bizRule = document.getElementById('meta-biz-rule').value.trim();
+
+  const opsFreq = document.getElementById('meta-ops-freq').value;
+  const opsSla = document.getElementById('meta-ops-sla').value;
+  const opsTrigger = document.getElementById('meta-ops-trigger').value.trim();
+
+  const fb = document.getElementById('meta-canvas-feedback');
+
+  if (!techName || !bizTerm || !bizDef || !opsTrigger) {
+    fb.innerHTML = `
+      <div class="banner-warn" style="font-size:0.85rem;">
+        ⚠️ <strong>Ficha incompleta:</strong> Debes diligenciar al menos el nombre técnico, el término de negocio, la definición oficial y el disparador de metadato activo.
+      </div>
+    `;
+    return;
+  }
+
+  // Agregar o actualizar en publishedCatalog
+  const existingIdx = publishedCatalog.findIndex(c => c.techName.toLowerCase() === techName.toLowerCase());
+  const entry = {
+    techName, techType, techRange, techRegex,
+    bizTerm, bizDef, bizSecurity, bizRule,
+    opsFreq, opsSla, opsTrigger,
+    publishedAt: new Date().toLocaleTimeString('es-CO')
+  };
+
+  if (existingIdx >= 0) {
+    publishedCatalog[existingIdx] = entry;
+  } else {
+    publishedCatalog.unshift(entry);
+  }
+
+  renderPublishedCatalog();
+
+  fb.innerHTML = `
+    <div class="banner-success" style="font-size:0.85rem;">
+      🚀 <strong>¡Activo Publicado en el Catálogo Data Fabric!</strong> El término <strong>"${bizTerm}"</strong> ha sido registrado en el Glosario y su política de metadato activo está escuchando eventos en tiempo real.
+    </div>
+  `;
+}
+
+function renderPublishedCatalog() {
+  const container = document.getElementById('meta-published-catalog-container');
+  if (!container) return;
+
+  if (publishedCatalog.length === 0) {
+    container.innerHTML = `<p style="font-size:0.85rem; color:#64748B;">No hay activos publicados en el catálogo aún.</p>`;
+    return;
+  }
+
+  let html = '';
+  publishedCatalog.forEach((item, idx) => {
+    let secBadge = '<span class="pill pill-blue">INTERNO</span>';
+    if (item.bizSecurity === 'PUBLICO') secBadge = '<span class="pill pill-green">PÚBLICO</span>';
+    if (item.bizSecurity === 'RESERVADO_SMS') secBadge = '<span class="pill pill-red">RESERVA SMS OACI</span>';
+    if (item.bizSecurity === 'DATOS_PERSONALES') secBadge = '<span class="pill pill-amber">DATOS PERSONALES</span>';
+
+    html += `
+      <div class="meta-catalog-card">
+        <div class="meta-catalog-header">
+          <div>
+            <strong style="color:var(--navy); font-size:0.95rem;">${item.bizTerm}</strong>
+            <code style="font-size:0.78rem; background:#E2E8F0; padding:0.15rem 0.35rem; border-radius:3px; margin-left:0.4rem;">${item.techName} (${item.techType})</code>
+          </div>
+          <div>
+            ${secBadge}
+            <span style="font-size:0.75rem; color:#64748B; margin-left:0.5rem;">🕒 ${item.publishedAt}</span>
+          </div>
+        </div>
+        <p style="margin:0.3rem 0; font-size:0.85rem; color:#334155;">${item.bizDef}</p>
+        <div style="font-size:0.8rem; color:#475569; display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.4rem;">
+          <div><strong>Fórmula/Regla:</strong> ${item.bizRule || 'N/A'}</div>
+          <div><strong>Rango/Validación:</strong> ${item.techRange || 'N/A'}</div>
+          <div><strong>Frecuencia / SLA:</strong> ${item.opsFreq} (SLA &lt;= ${item.opsSla})</div>
+        </div>
+        <div class="meta-trigger-badge">⚡ Active Metadata Policy: ${item.opsTrigger}</div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+// ----------------------------------------------------------------------------
+// 2.3. CRUCIGRAMA INTERACTIVO DE METADATOS Y DATA FABRIC
 // ----------------------------------------------------------------------------
 const CW_WORDS = [
   { id: 1, num: 1, word: 'CUARENTENA', r: 3, c: 0, dir: 'H', clue: 'Bandeja de aislamiento auditable donde se depositan registros con errores de integridad sin borrarlos físicamente.' },
@@ -3016,6 +3483,124 @@ function recalculateIntegration() {
 
   tbl += '</tbody></table>';
   document.getElementById('integrated-flow-table').innerHTML = tbl;
+
+  // Actualizar la Bandeja de Cuarentena DAMA
+  renderQuarantineTray(r5);
+}
+
+// ----------------------------------------------------------------------------
+// 2.6. BANDEJA DE CUARENTENA DAMA Y MESA DE REMEDIACIÓN
+// ----------------------------------------------------------------------------
+let quarantineResolutionState = "PENDIENTE";
+
+function renderQuarantineTray(isQuarantineActive) {
+  const container = document.getElementById('quarantine-tray-content');
+  const pill = document.getElementById('quarantine-status-pill');
+  if (!container) return;
+
+  if (!isQuarantineActive) {
+    if (pill) {
+      pill.className = "pill pill-red";
+      pill.innerText = "Cuarentena Inactiva (Riesgo Fiscal Activo)";
+    }
+    container.innerHTML = `
+      <div class="banner-warn" style="margin:0;">
+        ⚠️ <strong>Atención Auditor:</strong> La regla <code>DQ-05</code> está desactivada. Las 2 facturas huérfanas de vuelos cancelados (<code>LIQ-8011</code> y <code>LIQ-8012</code>) por un valor total de <strong>$13.500.000 COP</strong> se están sumando en el recaudo legítimo. Activa la regla <code>DQ-05</code> en el panel superior para aislar estos cobros indebidos en la bandeja de cuarentena.
+      </div>
+    `;
+    return;
+  }
+
+  if (pill) {
+    pill.className = "pill pill-amber";
+    pill.innerText = `Cuarentena Activa (2 Registros Aislados - ${quarantineResolutionState})`;
+  }
+
+  let statusBadge = '<span class="pill pill-amber">EN REVISIÓN AUDITORÍA</span>';
+  let ticketFeedback = '';
+  if (quarantineResolutionState === 'RESUELTO_NOTA_CREDITO') {
+    statusBadge = '<span class="pill pill-green">RESUELTO: NOTA CRÉDITO EMITIDA</span>';
+    ticketFeedback = `
+      <div class="banner-success" style="margin-top:0.75rem; font-size:0.85rem;">
+        ✅ <strong>Dictamen de Remediación Ejecutado:</strong> Se emitió la Resolución de Anulación de Facturación Preliminar y se generaron las Notas Crédito <code>NC-2026-0041</code> y <code>NC-2026-0042</code> por $13.500.000 COP a favor de las aerolíneas. La trazabilidad contable queda 100% blindada sin alterar logs originales.
+      </div>
+    `;
+  } else if (quarantineResolutionState === 'EN_ACLARACION') {
+    statusBadge = '<span class="pill pill-blue">EN ACLARACIÓN CON OPERADOR AÉREO</span>';
+    ticketFeedback = `
+      <div class="banner-info" style="margin-top:0.75rem; font-size:0.85rem;">
+        📨 <strong>Oficio de Aclaración Notificado:</strong> Se concedió plazo perentorio de 24 horas a la aerolínea para presentar el manifiesto operacional sellado en caso de reprogramación de vuelo.
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+      <strong style="color:#92400E; font-size:0.95rem;">📦 Bandeja de Registros en Aislamiento Preventivo (QUARANTINE_FIN_HOLD)</strong>
+      ${statusBadge}
+    </div>
+    
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Liquidación</th>
+            <th>ID Vuelo</th>
+            <th>Aeródromo Cobro</th>
+            <th>Pax Facturados</th>
+            <th>Valor Tasa (COP)</th>
+            <th>Motivo de Cuarentena (DAMA Integrity)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>LIQ-8011</code></td>
+            <td><strong>VUELO-9991</strong></td>
+            <td>BOG (SKBO)</td>
+            <td>150 pax</td>
+            <td>$ 7.500.000</td>
+            <td>Cobro preliminar de vuelo cancelado sin despegue físico reportado en F1_OPS</td>
+          </tr>
+          <tr>
+            <td><code>LIQ-8012</code></td>
+            <td><strong>VUELO-9992</strong></td>
+            <td>CTG (SKCG)</td>
+            <td>120 pax</td>
+            <td>$ 6.000.000</td>
+            <td>Cobro preliminar de vuelo cancelado sin despegue físico reportado en F1_OPS</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="font-weight:700; background:#FEF3C7;">
+            <td colspan="4">Total Aislado Preventivamente (Evita Demanda y Glosa Fiscal):</td>
+            <td colspan="2" style="color:#92400E;">$ 13.500.000 COP (2 Facturas)</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="remediation-ticket">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <strong style="color:var(--navy);">🎫 Ticket de Remediación DAMA: <code>TCK-2026-REM-088</code></strong><br/>
+          <span style="font-size:0.8rem; color:#475569;">
+            <strong>Destinatario RACI:</strong> Coordinación de Facturación (Data Steward Financiero) | 
+            <strong>Copia:</strong> Dirección de Navegación Aérea y Oficina de Analítica
+          </span>
+        </div>
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+          <button class="btn btn-success" style="font-size:0.8rem; padding:0.35rem 0.65rem;" onclick="resolveQuarantineAction('RESUELTO_NOTA_CREDITO')">⚖️ Emitir Nota Crédito (Anular Cobro)</button>
+          <button class="btn btn-secondary" style="font-size:0.8rem; padding:0.35rem 0.65rem;" onclick="resolveQuarantineAction('EN_ACLARACION')">📨 Solicitar Aclaración a Aerolínea</button>
+        </div>
+      </div>
+      ${ticketFeedback}
+    </div>
+  `;
+}
+
+function resolveQuarantineAction(action) {
+  quarantineResolutionState = action;
+  renderQuarantineTray(true);
 }
 
 // ============================================================================
@@ -3394,6 +3979,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initSourceMap();
   renderFabricLayers();
   initGovernanceRoles();
+  initMetadataCanvas();
   initCrossword();
   initDamaClassifier();
   renderDQRules();
