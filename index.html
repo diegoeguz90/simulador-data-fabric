@@ -1490,6 +1490,21 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
 
       <div class="lineage-stage-grid" id="lineage-graph-container"></div>
       <div id="lineage-detail-box" class="banner-info" style="margin-top:1rem; margin-bottom:0;"></div>
+
+      <!-- Desafío Interactivo de Mitigación y Toma de Decisiones en Linaje -->
+      <div id="lineage-decision-panel" style="margin-top:1.25rem; background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; padding:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem;">
+          <h4 style="margin:0; color:var(--navy); font-size:0.92rem; display:flex; align-items:center; gap:0.4rem;">
+            <span>🎯 Desafío Activo: Decisión de Gobernanza ante la Alerta de Linaje</span>
+          </h4>
+          <button class="btn btn-primary" onclick="verifyLineageDecision()">🔍 Aplicar Decisión de Gobernanza</button>
+        </div>
+        <p style="margin:0 0 0.8rem; font-size:0.83rem; color:var(--slate);">
+          El linaje no es una simple animación: es el panel de control para que el arquitecto de datos intervenga antes de que una falla corrompa las estadísticas oficiales de la Aerocivil. Selecciona tu decisión técnica ante el escenario activo:
+        </p>
+        <div id="lineage-decision-content"></div>
+        <div id="lineage-decision-feedback" style="margin-top:0.75rem;"></div>
+      </div>
     </div>
 
     <!-- Paso 3.2: Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual -->
@@ -1594,6 +1609,22 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
       <div id="role-policy-banner" style="margin-bottom:0.85rem;"></div>
       <div id="role-audit-verdict" style="margin-bottom:0.85rem;"></div>
       <div class="table-wrap" id="role-product-table"></div>
+
+      <!-- Desafío Interactivo de Solicitudes de Acceso a Datos (RBAC y Privacidad) -->
+      <div style="margin-top:1.5rem; background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; padding:1.2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+          <h3 style="margin:0; color:var(--navy); font-size:0.95rem;">🎯 Desafío Interactivo: 3 Solicitudes Críticas de Acceso a Datos</h3>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-secondary" onclick="resetRbacDecisionChallenges()">🔄 Reiniciar</button>
+            <button class="btn btn-primary" onclick="verifyRbacDecisionChallenges()">🔍 Validar Decisiones de Acceso</button>
+          </div>
+        </div>
+        <p style="margin:0 0 1rem; font-size:0.83rem; color:var(--slate);">
+          Evalúa estas 3 peticiones formales de información que llegan a la Oficina de Analítica. Decide qué vista entregar y qué política de enmascaramiento aplicar para conciliar el acceso a datos con la <strong>Ley 1581 (Habeas Data)</strong> y el <strong>Anexo 19 OACI / RAC 219 (Cultura Justa)</strong>:
+        </p>
+        <div class="audit-grid" id="rbac-decision-challenges-container"></div>
+        <div id="rbac-decision-feedback" style="margin-top:0.85rem;"></div>
+      </div>
     </div>
 
     <!-- Paso 3.4: Minijuego Pedagógico - Desafío de Auditoría y Trazabilidad Extremo a Extremo -->
@@ -1682,18 +1713,38 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
         </table>
       </div>
 
-      <!-- Medidor de Madurez Data Fabric -->
-      <div class="maturity-meter-box">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h4 style="margin:0; color:var(--navy); font-size:0.92rem;">📈 Medidor de Madurez Institucional Data Fabric (Modelo CMMI para Datos)</h4>
-          <span id="maturity-badge" class="pill pill-green" style="font-size:0.8rem;">Nivel 4: Cuantitativamente Gestionado (4.2 / 5.0)</span>
+      <!-- Diagnóstico de Madurez Multidimensional Data Fabric -->
+      <div style="margin-top:1.5rem; background:#F8FAFC; border:1px solid #CBD5E1; border-radius:6px; padding:1.2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+          <h3 style="margin:0; color:var(--navy); font-size:0.95rem;">🔬 Test Diagnóstico de Madurez Institucional (6 Dimensiones DMBOK / Data Fabric)</h3>
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <button class="btn btn-secondary" style="font-size:0.78rem;" onclick="setMaturityPreset('ACTUAL')">📌 Estado Actual Silos (Nivel 1.8)</button>
+            <button class="btn btn-secondary" style="font-size:0.78rem;" onclick="setMaturityPreset('TARGET')">🎯 Meta a 180 Días (Nivel 4.3)</button>
+            <button class="btn btn-primary" style="font-size:0.78rem;" onclick="calculateMaturityAssessment()">📊 Evaluar Madurez de mi Área</button>
+          </div>
         </div>
-        <div class="maturity-bar-wrap">
-          <div id="maturity-bar-fill" class="maturity-bar-fill" style="width:84%;"></div>
-        </div>
-        <p id="maturity-desc" style="margin:0.5rem 0 0; font-size:0.82rem; color:var(--text);">
-          Tu configuración actual alcanza un <strong>Nivel 4 de Madurez</strong>: La Aerocivil gobierna los metadatos de forma activa, cuenta con reconciliación automatizada, cuarentena formal sin destrucción de datos (CPACA) y vistas protegidas por roles.
+        <p style="margin:0 0 1rem; font-size:0.83rem; color:var(--slate);">
+          Evalúa el estado real de tu dependencia en las 6 capacidades esenciales de Data Fabric para identificar brechas críticas y fundamentar la hoja de ruta ante la Dirección General:
         </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:0.75rem; margin-bottom:1rem;" id="maturity-dimensions-grid">
+          <!-- Renderizado dinámico vía JS -->
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1rem; align-items:center;">
+          <div>
+            <canvas id="canvas-maturity-chart" width="450" height="220" style="width:100%; max-width:450px; background:#FFFFFF; border:1px solid #E2E8F0; border-radius:6px;"></canvas>
+          </div>
+          <div id="maturity-assessment-results" style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:6px; padding:0.9rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--navy); font-size:0.88rem;">Puntualización Global:</strong>
+              <span id="maturity-eval-badge" class="pill pill-blue">Nivel 2: Consciente (2.2 / 5.0)</span>
+            </div>
+            <div id="maturity-eval-details" style="margin-top:0.6rem; font-size:0.82rem; color:var(--slate);">
+              Selecciona los niveles en cada dimensión para ver el diagnóstico de brechas institucionales.
+            </div>
+          </div>
+        </div>
       </div>
 
       <div style="margin-top:0.9rem;">
@@ -1735,6 +1786,66 @@ Realiza dos tareas:
 2. Genera un DIAGRAMA DE HOJA DE RUTA en formato Mermaid (bloque ```mermaid ... ```) que visualice cronológicamente las 3 fases, sus hitos clave y la matriz RACI de responsables.</div>
       <div class="banner-info" style="margin-top:0.75rem;">
         💡 <strong>Proyección en Pantalla Completa para la Plenaria:</strong> Pega el bloque de código Mermaid generado por la IA en <a href="https://mermaid.live" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">https://mermaid.live</a> para proyectar la Hoja de Ruta ante el Comité Directivo y la Plenaria de cierre.
+      </div>
+    </div>
+
+    <!-- Paso 3.8: Módulo Bonus: Tablero BI Interactivo "SIOA-360" & Mega-Prompt de IA -->
+    <div class="card" style="border: 2px solid var(--gold); background: #FCFDFE;">
+      <div class="card-header">
+        <h2 style="color:var(--navy);">⭐ 3.8. Módulo Bonus: Tablero BI Interactivo "SIOA-360" & Mega-Prompt de IA (Automatización Analítica)</h2>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="tablero_bi_interactivo.html" target="_blank" class="btn btn-gold" style="text-decoration:none;">🚀 Abrir Tablero BI Interactivo en Pantalla Completa</a>
+          <button class="btn btn-primary" onclick="copyText('bonus-master-prompt')">📋 Copiar Mega-Prompt de IA</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem;">
+        <strong>Propósito Pedagógico del Bonus:</strong> Demostrar a los participantes de la Aerocivil cómo un <strong>Data-Driven Mega-Prompt</strong> bien estructurado permite a cualquier analista o directivo generar un <strong>Tablero BI Interactivo en vivo</strong> que ingesta los datos de los silos, valida reglas DQ, aísla registros en cuarentena fiscal y realiza cruces multidimensionales entre vuelos, meteorología y recaudo:
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:0.75rem; margin-bottom:1rem;">
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; padding:0.75rem;">
+          <strong style="color:var(--navy); font-size:0.84rem;">1. Rol y Contexto Especializado</strong>
+          <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#475569;">Arquitecto Data Fabric y analista aeronáutico sobre los 5 datasets de SIOA (F1, F2, F3, F4 y M_REF).</p>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; padding:0.75rem;">
+          <strong style="color:#D97706; font-size:0.84rem;">2. Validación y Cuarentena Previa</strong>
+          <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#475569;">Declarar población sana (10 vuelos) y aislar en cuarentena visible los $13.5M COP de vuelos cancelados.</p>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; padding:0.75rem;">
+          <strong style="color:#0284C7; font-size:0.84rem;">3. Cruces Multidimensionales</strong>
+          <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#475569;">Correlación demoras vs. clima METAR (cuello en SKBO) y conciliación de pasajeros declarados vs facturados.</p>
+        </div>
+        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; padding:0.75rem;">
+          <strong style="color:#15803D; font-size:0.84rem;">4. Entregable Web y Perfiles RBAC</strong>
+          <p style="margin:0.2rem 0 0; font-size:0.78rem; color:#475569;">Website interactivo con carga de CSVs, gráficos Canvas, perfiles RBAC (enmascarando PII) y cero datos inventados.</p>
+        </div>
+      </div>
+
+      <div class="ai-console" id="bonus-master-prompt">Actúa como arquitecto de soluciones Data Fabric y analista de datos aeronáuticos (rol). Te paso los archivos CSV del Sistema Integrado de Operaciones Aéreas (SIOA) de la Aerocivil: operaciones de vuelo con horas y pasajeros (f1_operaciones_vuelos.csv), reportes meteorológicos METAR (f2_meteorologia_aerodromos.csv), incidentes de seguridad operacional MOR (f3_seguridad_incidentes.csv), liquidaciones de tasas aeroportuarias (f4_recaudo_tasas.csv) y el catálogo maestro de aeródromos OACI (m_maestro_aerodromos.csv) (datos). El flujo del negocio va desde la radicación del plan de vuelo, monitoreo meteorológico e incidentes en ruta, hasta el aterrizaje y la conciliación fiscal de la tasa por pasajero (contexto).
+
+Antes de calcular, valida los datos, transforma y declara la población:
+(a) Cruza y homologa todos los códigos de aeropuerto al estándar OACI de 4 letras usando el maestro (convierte BOG/EL DORADO a SKBO, MDE a SKRG, etc.);
+(b) Detecta y elimina vuelos duplicados exactos (mismo vuelo, fecha y hora);
+(c) Valida rangos de dominio: pasajeros positivos (>0) y visibilidad meteorológica válida (&le;10.000 m);
+(d) Concilia recaudos contra vuelos reales: identifica facturas huérfanas correspondientes a vuelos cancelados;
+(e) Envía todos los registros corruptos o huérfanos a una bandeja de CUARENTENA visible indicando el motivo y el monto retenido ($13.5M COP);
+(f) REGLA DE ORO: Si un vuelo se excluye por calidad, se excluye de TODAS las métricas operacionales, no solo de algunas. Muestra la bitácora de validación de calidad antes de emitir cualquier cálculo (verificación).
+
+Tarea:
+(1) Con la población ya declarada y saneada (10 vuelos oficiales), calcula los KPIs ejecutivos: vuelos operados, puntualidad operacional (OTP &le; 15 min), espera/demora media por aeródromo, total de pasajeros declarados vs facturados, y recaudo fiscal conciliado en COP;
+(2) Cruces Multidimensionales: Correlaciona las demoras operacionales con los reportes meteorológicos METAR (F2) y declara cuál aeródromo es el cuello de botella de la red (SKBO por niebla matinal y cizalladura);
+(3) Reconciliación Fiscal y Pasajeros: Reconcilia la brecha entre los 1.532 pasajeros declarados en operaciones y los 1.479 facturados en recaudo (explicando los 53 exentos por RAC). Demuestra cómo los $87.45M COP de recaudo bruto se depuran aislando $13.5M COP en cuarentena (vuelos cancelados), certificando un recaudo oficial de $73.95M COP legítimos (tarea).
+
+Formato: genera un aplicativo web interactivo autocontenido en un solo archivo (HTML/CSS/JS puro, sin librerías externas ni instalación) que funcione con solo abrirlo en el navegador y permita cargar o arrastrar los CSVs de la Aerocivil para procesarlos en vivo. El aplicativo debe estructurarse en 4 secciones:
+1. Ingesta y Tubería: carga de los CSVs del curso, homologación al estándar OACI y bandeja de cuarentena visible con los registros aislados ($13.5M COP).
+2. Tablero BI Ejecutivo: tarjetas reactivas de KPIs, gráfico de barras de demoras por aeródromo, gráfico de impacto del clima en la puntualidad, y selector de perfiles RBAC (Analista, Inspector SMS enmascarando cédulas bajo Cultura Justa, Auditor Financiero y Portal Ciudadano).
+3. Cruces y Reconciliación: tabla interactiva de reconciliación fiscal de recaudo y pasajeros exentos, con gráfica de auditoría.
+4. Supuestos y Verificación: resumen de población oficial (10 vuelos), casos en cuarentena y justificación ante entes de control.
+
+Restricciones: no inventes datos; todo número sale de los CSVs cargados o de las fórmulas escritas. Si falta un dato, dilo en vez de suponerlo. Cierra con "Supuestos y verificación": población usada, casos en cuarentena y su motivo, y qué es dato auditado y qué es estimación (restricciones).</div>
+      
+      <div class="banner-info" style="margin-top:0.75rem;">
+        👉 <strong>Acceso al Tablero BI Interactivo:</strong> Haz clic en el botón dorado superior o abre directamente el archivo <a href="tablero_bi_interactivo.html" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">tablero_bi_interactivo.html</a> para explorar los filtros interactivos, la bandeja de cuarentena y los cruces de reconciliación fiscal.
       </div>
     </div>
   </section>
@@ -1810,6 +1921,15 @@ function switchSession(num) {
   document.querySelectorAll('.session-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('session-' + num).classList.add('active');
   document.getElementById('tab-btn-' + num).classList.add('active');
+  if (num === 3) {
+    if (typeof renderLineageGraph === 'function') renderLineageGraph(document.getElementById('lineage-output-select') ? document.getElementById('lineage-output-select').value : 'OUT_RIESGO');
+    if (typeof renderRoleView === 'function') renderRoleView(typeof currentActiveRole !== 'undefined' ? currentActiveRole : 'ANALISTA');
+    if (typeof initAuditChallenge === 'function') initAuditChallenge();
+    if (typeof initLineageDecisionChallenge === 'function') initLineageDecisionChallenge();
+    if (typeof initRbacDecisionChallenges === 'function') initRbacDecisionChallenges();
+    if (typeof initMaturityAssessment === 'function') initMaturityAssessment();
+    if (typeof initExecutiveVerdict === 'function') initExecutiveVerdict();
+  }
 }
 
 // ============================================================================
@@ -3938,6 +4058,97 @@ function simulateLineageImpact(scenarioKey) {
 
   document.getElementById('lineage-graph-container').innerHTML = html;
   document.getElementById('lineage-detail-box').innerHTML = explanation;
+  renderLineageDecisionForm(scenarioKey);
+}
+
+// -----------------------------------------------------------------------------
+// 3.1 DESAFÍO DE TOMA DE DECISIONES DE GOBERNANZA DE LINAJE
+// -----------------------------------------------------------------------------
+const LINEAGE_DECISION_CASES = {
+  ESC_OPS_SCHEMA: {
+    title: "⚡ Incidente de Linaje A: SIIV altera reloj UTC a hora local (-05:00)",
+    desc: "El área de Navegación Aérea cambió el formato de fecha/hora en SIIV sin previo aviso al Catálogo. La Capa Semántica (TIME_UTC) colapsa y las demoras frente a METAR presentan 5 horas de desalineación.",
+    question: "¿Qué acción de gobernanza y mitigación debe ejecutar el Arquitecto de Datos?",
+    options: [
+      { text: "-- Selecciona tu decisión de gobernanza --", correct: false },
+      { text: "1. Forzar a los operadores de SIIV a reescribir manualmente los timestamps en la base de datos de producción.", correct: false, reason: "Inviable e invasivo: alterar datos en caliente en el motor transaccional de despacho de vuelos arriesga la operación en vivo." },
+      { text: "2. Activar la regla de normalización en la Capa Semántica (TIME_UTC) de Data Fabric para reconvertir a UTC en vuelo sin tocar el transaccional.", correct: true, reason: "¡Decisión Óptima! Data Fabric desacopla la fuente de los consumidores: corrige la semántica en la capa de metadatos activos sin interrumpir SIIV." },
+      { text: "3. Cambiar el huso del sistema meteorológico METAR a hora local de Bogotá para forzar la coincidencia.", correct: false, reason: "Infracción internacional: OACI Doc 10039 exige que toda información meteorológica aeronáutica se registre en tiempo universal Zulu (UTC)." }
+    ]
+  },
+  ESC_SMS_LEAK: {
+    title: "⚡ Incidente de Linaje B: SIGSO transmite cédulas y nombres de reportantes MOR",
+    desc: "El área SMS exportó una versión preliminar de F3_SMS donde las cédulas y nombres de quienes reportaron fallas técnicas aparecen en texto plano en la tubería.",
+    question: "¿Qué decisión de gobernanza ineludible debe adoptarse en el linaje?",
+    options: [
+      { text: "-- Selecciona tu decisión de gobernanza --", correct: false },
+      { text: "1. Desactivar la política GOV_MASK_SMS y compartir el archivo solo por correo interno a directivos.", correct: false, reason: "Violación grave: expone a la Aerocivil a sanciones de la SIC (Ley 1581) y viola la Cultura Justa (Anexo 19 OACI / RAC 219)." },
+      { text: "2. Aplicar la política GOV_MASK_SMS en la Capa 4 de Gobierno (tokenización dinámica en RAM) protegiendo la identidad del informante.", correct: true, reason: "¡Decisión Óptima! Preserva la Cultura Justa: el incidente se analiza técnicamente pero la identidad queda tokenizada inmutablemente." },
+      { text: "3. Borrar los reportes MOR que contengan cédula para evitar problemas legales.", correct: false, reason: "Inaceptable: borrar incidentes de seguridad operacional ciega a la autoridad aeronáutica y viola el Código de Comercio y CPACA." }
+    ]
+  },
+  ESC_FIN_QUARANTINE: {
+    title: "⚡ Incidente de Linaje C: ERP Financiero desactiva cuarentena DQ-05 ($13.5M)",
+    desc: "Un operador contable desmarcó las facturas huérfanas LIQ-8011 y LIQ-8012 ($13.5M COP) para intentar 'cuadrar caja' en el informe mensual de recaudos.",
+    question: "¿Qué acción de linaje y control fiscal debe prevalecer?",
+    options: [
+      { text: "-- Selecciona tu decisión de gobernanza --", correct: false },
+      { text: "1. Aceptar el cobro forzado para incrementar el recaudo fiscal oficial de la Aerocivil.", correct: false, reason: "Detrimento y riesgo jurídico: cobrar tasas de uso de pista sobre vuelos cancelados genera demandas inmediatas y hallazgos de Contraloría." },
+      { text: "2. Bloquear la desclasificación en el linaje inmutable y ordenar emisión formal de Nota Crédito conforme al CPACA sin borrar la traza contable.", correct: true, reason: "¡Decisión Óptima! Protege el principio de legalidad: los $13.5M quedan auditables en cuarentena y se sanean contablemente con Nota Crédito." },
+      { text: "3. Eliminar físicamente los registros LIQ-8011 y LIQ-8012 del ERP SAP para que nadie los descubra.", correct: false, reason: "Destrucción ilegal de documentos públicos: viola el CPACA y las normas del Archivo General de la Nación." }
+    ]
+  }
+};
+
+let activeLineageCaseKey = 'ESC_OPS_SCHEMA';
+
+function renderLineageDecisionForm(scenarioKey) {
+  activeLineageCaseKey = scenarioKey || activeLineageCaseKey || 'ESC_OPS_SCHEMA';
+  const c = LINEAGE_DECISION_CASES[activeLineageCaseKey];
+  const container = document.getElementById('lineage-decision-content');
+  if (!container || !c) return;
+
+  container.innerHTML = `
+    <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:6px; padding:0.85rem;">
+      <strong style="color:var(--navy); font-size:0.88rem;">${c.title}</strong>
+      <p style="margin:0.25rem 0 0.6rem; font-size:0.81rem; color:var(--text);">${c.desc}</p>
+      <label style="font-weight:700; font-size:0.82rem; color:var(--slate);">${c.question}</label>
+      <select id="sel-lineage-decision" style="width:100%; font-size:0.83rem; margin-top:0.35rem;">
+        ${c.options.map((opt, idx) => `<option value="${idx}">${opt.text}</option>`).join('')}
+      </select>
+    </div>
+  `;
+  document.getElementById('lineage-decision-feedback').innerHTML = '';
+}
+
+function verifyLineageDecision() {
+  const sel = document.getElementById('sel-lineage-decision');
+  const feed = document.getElementById('lineage-decision-feedback');
+  if (!sel || !feed) return;
+  const c = LINEAGE_DECISION_CASES[activeLineageCaseKey];
+  const chosenIdx = parseInt(sel.value, 10);
+  const opt = c.options[chosenIdx];
+
+  if (!opt || chosenIdx === 0) {
+    feed.innerHTML = `<div class="banner-warn" style="margin:0;">⚠️ Selecciona una opción para evaluar tu postura de gobernanza.</div>`;
+    return;
+  }
+
+  if (opt.correct) {
+    feed.innerHTML = `
+      <div class="banner-success" style="margin:0;">
+        ✅ <strong>¡Decisión de Linaje Acertada!</strong> ${opt.reason}
+        <br/><span style="font-size:0.8rem; color:#14532D;">El linaje inmutable de Data Fabric registró tu acción correctiva, protegiendo la auditoría institucional.</span>
+      </div>
+    `;
+  } else {
+    feed.innerHTML = `
+      <div class="banner-danger" style="margin:0;">
+        ❌ <strong>Decisión Inadecuada:</strong> ${opt.reason}
+        <br/><span style="font-size:0.8rem; color:#7F1D1D;">Reflexiona: En Data Fabric las fallas no se resuelven alterando bases transaccionales ni violando la reserva legal.</span>
+      </div>
+    `;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -4197,6 +4408,114 @@ function resetRoleGovernance() {
 }
 
 // -----------------------------------------------------------------------------
+// 3.3 DESAFÍOS DE TOMA DE DECISIONES DE ACCESO Y PRIVACIDAD (RBAC)
+// -----------------------------------------------------------------------------
+const RBAC_DECISION_CHALLENGES = [
+  {
+    id: "RBAC-1",
+    requester: "⚖️ Fiscalía General de la Nación (Investigación Penal)",
+    title: "Exigencia de Cédula de Reportante de Incidente Crítico MOR-2026-04",
+    desc: "Un fiscal solicita el nombre y número de cédula del tripulante que reportó el incidente crítico MOR-2026-04 (desvío de pista por tormenta) para una investigación preliminar de responsabilidades penales.",
+    options: [
+      { text: "-- Selecciona tu decisión de acceso y enmascaramiento --", correct: false },
+      { text: "1. Entregar el archivo Excel completo con nombres y cédulas aduciendo que la Fiscalía es autoridad judicial.", correct: false, reason: "Violación del RAC 219 y Anexo 19 OACI: La información de seguridad operacional voluntaria tiene reserva legal y no puede ser usada con fines punitivos ni penales." },
+      { text: "2. Negar la entrega de datos personales amparado en la reserva legal de Cultura Justa y remitir únicamente el informe técnico desidentificado custodiado por SMS.", correct: true, reason: "¡Decisión Impecable! Protege la Cultura Justa. Solo la Secretaría de Seguridad Operacional puede responder con peritajes técnicos despersonalizados." },
+      { text: "3. Borrar el registro del incidente de la base de datos para que la Fiscalía no encuentre nada.", correct: false, reason: "Delito contra la administración pública: destruir evidencia en archivos institucionales acarrea sanciones penales graves." }
+    ]
+  },
+  {
+    id: "RBAC-2",
+    requester: "📰 Medio Periodístico (Derecho de Petición Ley 1712 de Transparencia)",
+    title: "Solicitud de Base de Datos de Recaudos y Nombres de Pilotos",
+    desc: "Un periodista exige en formato abierto la tabla completa de cobros de tasas aeroportuarias de los últimos 3 años, incluyendo los nombres y licencias de los pilotos al mando de cada vuelo.",
+    options: [
+      { text: "-- Selecciona tu decisión de acceso y enmascaramiento --", correct: false },
+      { text: "1. Entregar la base de datos cruda en CSV argumentando que todos los recursos públicos son de libre consulta.", correct: false, reason: "Vulneración de la Ley 1581 de 2012: Los nombres y licencias de tripulaciones son datos personales que no tienen relación con la fiscalización de las tasas." },
+      { text: "2. Habilitar la vista agregada por aeródromo en Datos Abiertos (Rol 4), con enmascaramiento total de PII de tripulaciones y reporte por pista.", correct: true, reason: "¡Decisión Impecable! Aplica el principio de armonización: entrega la información de recaudo público pero enmascara dinámicamente los datos personales sensibles." },
+      { text: "3. Negar por completo el acceso argumentando secreto militar o de seguridad de Estado.", correct: false, reason: "Falta disciplinaria: El recaudo de tasas públicas aeroportuarias es de interés general y no goza de reserva absoluta." }
+    ]
+  },
+  {
+    id: "RBAC-3",
+    requester: "✈️ Aerolínea Comercial Privada",
+    title: "Petición de Demoras y Tiempos de Rodaje de Aerolíneas Competidoras",
+    desc: "Una aerolínea solicita acceso a la API del producto SIOA-360 para ver las demoras minuto a minuto, pistas asignadas y tripulaciones de sus empresas competidoras en Bogotá (SKBO).",
+    options: [
+      { text: "-- Selecciona tu decisión de acceso y enmascaramiento --", correct: false },
+      { text: "1. Otorgarle acceso con rol de Analista General para que consulte todas las tablas transaccionales.", correct: false, reason: "Práctica desleal y fuga de información comercial confidencial: las aerolíneas no pueden espiar la operación interna de sus competidores." },
+      { text: "2. Aplicar política RBAC Multi-Inquilino: entregar únicamente las métricas detalladas de su propia flota y acceso a indicadores consolidados y anonimizados del aeropuerto.", correct: true, reason: "¡Decisión Impecable! Arquitectura soberana multi-inquilino en Data Fabric: cada operador ve sus propios datos y accede a métricas de red sin invadir la soberanía ajena." },
+      { text: "3. Bloquearle todo tipo de acceso y obligarla a operar a ciegas sin datos de demoras.", correct: false, reason: "Inadecuado: la eficiencia de la red exige que las aerolíneas conozcan el estado meteorológico y las demoras promedio del aeródromo." }
+    ]
+  }
+];
+
+function initRbacDecisionChallenges() {
+  const container = document.getElementById('rbac-decision-challenges-container');
+  if (!container) return;
+  let html = '';
+  RBAC_DECISION_CHALLENGES.forEach(c => {
+    html += `
+      <div class="audit-card" id="card-${c.id}">
+        <div>
+          <span class="pill pill-blue" style="font-size:0.75rem;">${c.requester}</span>
+          <h4 style="margin:0.5rem 0 0.3rem; color:var(--navy); font-size:0.92rem;">${c.title}</h4>
+          <p style="margin:0 0 0.7rem; font-size:0.83rem; color:var(--text);">${c.desc}</p>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; color:var(--slate);">Decisión de Gobernanza y Privacidad:</label>
+          <select id="sel-${c.id}" style="width:100%; font-size:0.82rem; margin-top:0.3rem;">
+            ${c.options.map((opt, idx) => `<option value="${idx}">${opt.text}</option>`).join('')}
+          </select>
+          <div id="feed-${c.id}" style="margin-top:0.5rem; font-size:0.8rem;"></div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function verifyRbacDecisionChallenges() {
+  let score = 0;
+  RBAC_DECISION_CHALLENGES.forEach(c => {
+    const sel = document.getElementById(`sel-${c.id}`);
+    const feed = document.getElementById(`feed-${c.id}`);
+    const card = document.getElementById(`card-${c.id}`);
+    const chosenIdx = parseInt(sel.value, 10);
+    const opt = c.options[chosenIdx];
+
+    if (opt && opt.correct) {
+      score++;
+      card.className = 'audit-card correct';
+      feed.innerHTML = `✅ <strong>${opt.reason}</strong>`;
+    } else {
+      card.className = 'audit-card incorrect';
+      feed.innerHTML = `<span style="color:#DC2626;">❌ <strong>${opt ? opt.reason : 'Selecciona una decisión.'}</strong></span>`;
+    }
+  });
+
+  const feedbackBox = document.getElementById('rbac-decision-feedback');
+  if (score === 3) {
+    feedbackBox.innerHTML = `
+      <div class="banner-success">
+        🏆 <strong>¡3 de 3 Decisiones de Acceso Acertadas!</strong> Has protegido cabalmente la confidencialidad de la información aeronáutica, garantizando la Cultura Justa (RAC 219) y el cumplimiento de la Ley 1581 sin bloquear el valor analítico de los datos.
+      </div>
+    `;
+  } else {
+    feedbackBox.innerHTML = `
+      <div class="banner-danger">
+        ⚠️ <strong>Obtuviste ${score} de 3 decisiones óptimas.</strong> Revisa las tarjetas en rojo. Recuerda: En Data Fabric no se entrega todo a ciegas ni se bloquea todo por miedo; se entregan vistas contextuales gobernadas por rol.
+      </div>
+    `;
+  }
+}
+
+function resetRbacDecisionChallenges() {
+  initRbacDecisionChallenges();
+  const fb = document.getElementById('rbac-decision-feedback');
+  if (fb) fb.innerHTML = '';
+}
+
+// -----------------------------------------------------------------------------
 // 3.4 MINIJUEGO PEDAGÓGICO: DESAFÍO DE AUDITORÍA Y TRAZABILIDAD
 // -----------------------------------------------------------------------------
 const AUDIT_CHALLENGES = [
@@ -4350,8 +4669,236 @@ function solveAuditChallenge() {
 }
 
 // -----------------------------------------------------------------------------
-// 3.5 CONSTRUCTOR DE HOJA DE RUTA Y MEDIDOR DE MADUREZ
+// 3.5 CONSTRUCTOR DE HOJA DE RUTA Y DIAGNÓSTICO DE MADUREZ MULTIDIMENSIONAL
 // -----------------------------------------------------------------------------
+const MATURITY_DIMENSIONS = [
+  {
+    id: "DIM_ARCH",
+    name: "1. Arquitectura e Integración de Silos",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): Datos dispersos en archivos planos, hojas de cálculo locales y correos." },
+      { level: 2, text: "Nivel 2 (Consciente): Extracciones manuales periódicas a carpetas de red compartidas." },
+      { level: 3, text: "Nivel 3 (Definido): Pipelines ETL en lote programados hacia un repositorio central." },
+      { level: 4, text: "Nivel 4 (Gobernado): Data Fabric híbrido: ETL para históricos y virtualización federada en tiempo real." },
+      { level: 5, text: "Nivel 5 (Optimizado): Malla de datos activa y servicios SWIM abiertos con sincronización continua." }
+    ]
+  },
+  {
+    id: "DIM_META",
+    name: "2. Catálogo y Metadatos Activos",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): Sin diccionario de datos ni catálogo; nombres de columnas crípticos." },
+      { level: 2, text: "Nivel 2 (Consciente): Diccionarios estáticos en archivos PDF o Word desactualizados." },
+      { level: 3, text: "Nivel 3 (Definido): Glosario de negocio formalizado y catálogo pasivo documentado." },
+      { level: 4, text: "Nivel 4 (Gobernado): Catálogo activo con linaje automatizado, M_REF y ontología OACI." },
+      { level: 5, text: "Nivel 5 (Optimizado): Grafos de conocimiento semánticos con autodescubrimiento y enriquecimiento por IA." }
+    ]
+  },
+  {
+    id: "DIM_DQ",
+    name: "3. Calidad de Datos y Cuarentena",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): Calidad reactiva: los errores se descubren cuando los reportes fallan en directiva." },
+      { level: 2, text: "Nivel 2 (Consciente): Limpieza manual en Excel cada fin de mes por analistas sacrificados." },
+      { level: 3, text: "Nivel 3 (Definido): Reglas de calidad documentadas pero ejecutadas de forma discontinua." },
+      { level: 4, text: "Nivel 4 (Gobernado): Motor automatizado de reglas DQ (DQ-01 a 05) con bandeja de cuarentena inmutable." },
+      { level: 5, text: "Nivel 5 (Optimizado): Remediación predictiva continua y observabilidad de datos con SLA garantizados." }
+    ]
+  },
+  {
+    id: "DIM_SEC",
+    name: "4. Seguridad, Privacidad y Cultura Justa",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): Permisos arbitrarios; archivos con datos personales circulando sin control." },
+      { level: 2, text: "Nivel 2 (Consciente): Acuerdos de confidencialidad en papel pero sin controles técnicos de acceso." },
+      { level: 3, text: "Nivel 3 (Definido): Políticas RBAC básicas a nivel de base de datos o carpetas de red." },
+      { level: 4, text: "Nivel 4 (Gobernado): Enmascaramiento dinámico (DDM) en la capa semántica y tokenización MOR (RAC 219)." },
+      { level: 5, text: "Nivel 5 (Optimizado): Gobernanza de confianza cero (Zero Trust) con auditoría inmutable de accesos." }
+    ]
+  },
+  {
+    id: "DIM_BI",
+    name: "5. Autoservicio y Productos de Datos",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): Peticiones por memorando que tardan de 8 a 15 días hábiles en responderse." },
+      { level: 2, text: "Nivel 2 (Consciente): Reportes periódicos prefabricados en hojas de cálculo estáticas." },
+      { level: 3, text: "Nivel 3 (Definido): Tableros de BI tradicionales conectados a bodegas con refresco nocturno." },
+      { level: 4, text: "Nivel 4 (Gobernado): Producto de datos certificado SIOA-360 con vistas por rol y tableros interactivos." },
+      { level: 5, text: "Nivel 5 (Optimizado): Generación de tableros interactivos bajo demanda con IA, cruces en vivo y carga CSV." }
+    ]
+  },
+  {
+    id: "DIM_GOV",
+    name: "6. Co-responsabilidad Institucional (RACI)",
+    options: [
+      { level: 1, text: "Nivel 1 (Inicial): La dirección de TI es vista como la única responsable de los errores de datos." },
+      { level: 2, text: "Nivel 2 (Consciente): Reuniones informales entre dependencias para coordinar cierres de mes." },
+      { level: 3, text: "Nivel 3 (Definido): Matriz RACI aprobada formalmente pero con adopción parcial en áreas misionales." },
+      { level: 4, text: "Nivel 4 (Gobernado): Comité de Datos activo con Data Owners y Data Stewards operando en 4 dependencias." },
+      { level: 5, text: "Nivel 5 (Optimizado): Cultura institucional de datos embebida en la toma de decisiones estratégicas del país." }
+    ]
+  }
+];
+
+function initMaturityAssessment() {
+  const container = document.getElementById('maturity-dimensions-grid');
+  if (!container) return;
+  let html = '';
+  MATURITY_DIMENSIONS.forEach(dim => {
+    html += `
+      <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:6px; padding:0.8rem;">
+        <label style="display:block; font-weight:700; font-size:0.82rem; color:var(--navy); margin-bottom:0.35rem;">${dim.name}</label>
+        <select id="sel-mat-${dim.id}" onchange="calculateMaturityAssessment()" style="width:100%; font-size:0.79rem;">
+          ${dim.options.map(opt => `<option value="${opt.level}" ${opt.level === 2 ? 'selected' : ''}>${opt.text}</option>`).join('')}
+        </select>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+  calculateMaturityAssessment();
+}
+
+function setMaturityPreset(presetKey) {
+  const presets = {
+    ACTUAL: { DIM_ARCH: 1, DIM_META: 2, DIM_DQ: 2, DIM_SEC: 2, DIM_BI: 1, DIM_GOV: 2 },
+    TARGET: { DIM_ARCH: 4, DIM_META: 4, DIM_DQ: 4, DIM_SEC: 5, DIM_BI: 4, DIM_GOV: 4 }
+  };
+  const vals = presets[presetKey] || presets.ACTUAL;
+  MATURITY_DIMENSIONS.forEach(dim => {
+    const el = document.getElementById(`sel-mat-${dim.id}`);
+    if (el && vals[dim.id]) el.value = vals[dim.id];
+  });
+  calculateMaturityAssessment();
+}
+
+function calculateMaturityAssessment() {
+  const scores = [];
+  const labels = ["Integración", "Metadatos", "Calidad", "Seguridad", "Autoservicio", "RACI"];
+  let sum = 0;
+
+  MATURITY_DIMENSIONS.forEach(dim => {
+    const el = document.getElementById(`sel-mat-${dim.id}`);
+    const val = el ? parseInt(el.value, 10) : 2;
+    scores.push(val);
+    sum += val;
+  });
+
+  const avg = (sum / MATURITY_DIMENSIONS.length).toFixed(1);
+  const badge = document.getElementById('maturity-eval-badge');
+  const details = document.getElementById('maturity-eval-details');
+
+  let levelName = "Nivel 1: Inicial / Silos";
+  let badgeClass = "pill pill-red";
+  let diagnosis = "Tu área opera principalmente en <strong>silos fragmentados</strong> con alto riesgo operativo y fiscal. Prioridad inmediata: Acordar glosario de términos y tabla maestra M_REF (Fase 1: Días 1-30).";
+
+  if (avg >= 4.0) {
+    levelName = `Nivel 4: Cuantitativamente Gobernado (${avg} / 5.0)`;
+    badgeClass = "pill pill-green";
+    diagnosis = "¡Madurez Avanzada de Data Fabric! La entidad cuenta con metadatos activos, reglas DQ automáticas, cuarentena con Nota Crédito y vistas protegidas por roles con Cultura Justa.";
+  } else if (avg >= 3.0) {
+    levelName = `Nivel 3: Definido y Estandarizado (${avg} / 5.0)`;
+    badgeClass = "pill pill-blue";
+    diagnosis = "Buen nivel de estandarización procesal. Brecha crítica: Automatizar el motor de calidad para reducir el cruce manual de 8 días a menos de 2 horas (Fase 2: Días 31-90).";
+  } else if (avg >= 2.0) {
+    levelName = `Nivel 2: Consciente / Repetible (${avg} / 5.0)`;
+    badgeClass = "pill pill-amber";
+    diagnosis = "Existe conciencia del dolor de los datos y esfuerzos aislados en dependencias. Brecha crítica: Superar la dependencia de TI formalizando Data Owners en áreas misionales.";
+  }
+
+  if (badge) {
+    badge.className = badgeClass;
+    badge.innerText = levelName;
+  }
+  if (details) {
+    details.innerHTML = `
+      <p style="margin:0 0 0.4rem;"><strong>Diagnóstico de Madurez Institucional:</strong> ${diagnosis}</p>
+      <div style="font-size:0.78rem; color:#475569; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:4px; padding:0.4rem 0.6rem;">
+        • <strong>Puntuación Media:</strong> ${avg} / 5.0 | • <strong>Dimensión más fuerte:</strong> ${labels[scores.indexOf(Math.max(...scores))]} (${Math.max(...scores)}/5) | • <strong>Mayor brecha:</strong> ${labels[scores.indexOf(Math.min(...scores))]} (${Math.min(...scores)}/5)
+      </div>
+    `;
+  }
+
+  drawMaturityChart(scores, labels, avg);
+}
+
+function drawMaturityChart(scores, labels, avg) {
+  const canvas = document.getElementById('canvas-maturity-chart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const padLeft = 45;
+  const padBottom = 35;
+  const chartW = w - padLeft - 20;
+  const chartH = h - padBottom - 25;
+
+  // Ejes y líneas de fondo
+  ctx.strokeStyle = '#E2E8F0';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padLeft, 15);
+  ctx.lineTo(padLeft, h - padBottom);
+  ctx.lineTo(w - 10, h - padBottom);
+  ctx.stroke();
+
+  // Guías de niveles 1 a 5
+  ctx.fillStyle = '#94A3B8';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  for (let lvl = 1; lvl <= 5; lvl++) {
+    const y = h - padBottom - (lvl / 5) * chartH;
+    ctx.fillText('N' + lvl, padLeft - 6, y + 3);
+    ctx.strokeStyle = '#F1F5F9';
+    ctx.beginPath();
+    ctx.moveTo(padLeft, y);
+    ctx.lineTo(w - 10, y);
+    ctx.stroke();
+  }
+
+  // Barras
+  const barW = chartW / scores.length - 14;
+  scores.forEach((sc, idx) => {
+    const x = padLeft + 8 + idx * (chartW / scores.length);
+    const barH = (sc / 5) * chartH;
+    const y = h - padBottom - barH;
+
+    // Color según nivel
+    let col = '#EF4444';
+    if (sc >= 4) col = '#10B981';
+    else if (sc === 3) col = '#0284C7';
+    else if (sc === 2) col = '#F59E0B';
+
+    ctx.fillStyle = col;
+    ctx.fillRect(x, y, barW, barH);
+
+    // Etiqueta X
+    ctx.fillStyle = '#1E293B';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[idx], x + barW / 2, h - padBottom + 14);
+
+    // Valor arriba
+    ctx.fillStyle = '#002060';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillText(sc + '.0', x + barW / 2, y - 4);
+  });
+
+  // Línea de promedio global
+  const avgY = h - padBottom - (parseFloat(avg) / 5) * chartH;
+  ctx.strokeStyle = '#002060';
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(padLeft, avgY);
+  ctx.lineTo(w - 10, avgY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#002060';
+  ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Media: ' + avg, padLeft + 6, avgY - 4);
+}
 function updateRoadmapMaturity() {
   const p1 = document.getElementById('roadmap-prio-1').value;
   const p2 = document.getElementById('roadmap-prio-2').value;
@@ -4648,6 +5195,10 @@ window.addEventListener('DOMContentLoaded', () => {
   initVerdictQuiz();
   renderLineageGraph('OUT_RIESGO');
   renderRoleView('ANALISTA');
+  initLineageDecisionChallenge();
+  initRbacDecisionChallenges();
+  initMaturityAssessment();
+  initExecutiveVerdict();
 });
 </script>
 </body>

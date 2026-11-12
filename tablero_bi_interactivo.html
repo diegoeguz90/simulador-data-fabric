@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablero BI Interactivo SIOA-360 — Automatización Analítica con Data Fabric e IA</title>
+  <style>
+    :root {
+      --navy: #002060;
+      --navy-dark: #001238;
+      --blue: #0070C0;
+      --cyan: #0284C7;
+      --gold: #D4AF37;
+      --gold-dark: #B89628;
+      --slate: #334155;
+      --slate-light: #64748B;
+      --bg: #F1F5F9;
+      --card-bg: #FFFFFF;
+      --border: #E2E8F0;
+      --success: #15803D;
+      --success-bg: #DCFCE7;
+      --warning: #B45309;
+      --warning-bg: #FEF3C7;
+      --danger: #B91C1C;
+      --danger-bg: #FEE2E2;
+      --radius: 8px;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.04);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: #1E293B;
+      line-height: 1.5;
+    }
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 70%, var(--blue) 100%);
+      color: #FFFFFF;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 3px solid var(--gold);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      margin: 0.2rem 0 0;
+      font-size: 0.85rem;
+      color: #E2E8F0;
+    }
+    .header-badges {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .badge-gold { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 700; }
+
+    /* Layout */
+    .container {
+      max-width: 1400px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+    }
+    
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+    .nav-tab {
+      background: none;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--slate-light);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-tab:hover {
+      color: var(--navy);
+      background: rgba(0,32,96,0.05);
+    }
+    .nav-tab.active {
+      color: #FFFFFF;
+      background: var(--navy);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .kpi-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      position: relative;
+      border-left: 4px solid var(--blue);
+    }
+    .kpi-card.kpi-gold { border-left-color: var(--gold); }
+    .kpi-card.kpi-green { border-left-color: var(--success); }
+    .kpi-card.kpi-red { border-left-color: var(--danger); }
+    .kpi-card.kpi-purple { border-left-color: #7C3AED; }
+    .kpi-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--slate-light);
+      margin-bottom: 0.25rem;
+    }
+    .kpi-val {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .kpi-sub {
+      font-size: 0.75rem;
+      color: var(--slate);
+      margin-top: 0.25rem;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.25rem;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    select, button, input[type="file"] {
+      font-family: inherit;
+      font-size: 0.85rem;
+      border-radius: 5px;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+    }
+    select:focus { outline: 2px solid var(--blue); }
+    
+    /* Buttons */
+    .btn {
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s ease-in-out;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-primary { background: var(--navy); color: #FFF; }
+    .btn-primary:hover { background: var(--navy-dark); }
+    .btn-blue { background: var(--blue); color: #FFF; }
+    .btn-blue:hover { background: #005A9C; }
+    .btn-gold { background: var(--gold); color: #000; font-weight: 700; }
+    .btn-gold:hover { background: var(--gold-dark); }
+    .btn-outline { background: transparent; border-color: #CBD5E1; color: var(--slate); }
+    .btn-outline:hover { background: #F1F5F9; border-color: #94A3B8; }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: #FECACA; }
+    .btn-success { background: var(--success-bg); color: var(--success); border-color: #BBF7D0; }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+    th {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 0.6rem 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:nth-child(even) td { background: #F8FAFC; }
+    tr:hover td { background: #F1F5F9; }
+
+    /* Pills */
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .tag-green { background: var(--success-bg); color: var(--success); }
+    .tag-yellow { background: var(--warning-bg); color: var(--warning); }
+    .tag-red { background: var(--danger-bg); color: var(--danger); }
+    .tag-blue { background: #E0F2FE; color: #0369A1; }
+    .tag-purple { background: #F3E8FF; color: #7E22CE; }
+    .tag-gray { background: #E2E8F0; color: #475569; }
+
+    /* Pipeline Flow */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .pipeline-step {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85rem;
+      position: relative;
+    }
+    .pipeline-step.active {
+      border-color: var(--blue);
+      background: #F0F9FF;
+    }
+    .step-num {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .step-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+    .step-desc {
+      font-size: 0.76rem;
+      color: var(--slate-light);
+    }
+    .step-badge {
+      display: inline-block;
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: #E2E8F0;
+    }
+
+    /* Charts Container */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .chart-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+    }
+    .chart-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chart-canvas-wrap {
+      width: 100%;
+      height: 220px;
+      position: relative;
+    }
+
+    /* Prompt Box */
+    .prompt-box {
+      background: #0F172A;
+      color: #E2E8F0;
+      border-radius: 6px;
+      padding: 1.25rem;
+      font-family: "Consolas", "Monaco", "Courier New", monospace;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      position: relative;
+      border: 1px solid #334155;
+    }
+    .prompt-copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+
+    /* Banner info */
+    .banner {
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      border-left: 4px solid;
+    }
+    .banner-info { background: #EFF6FF; border-color: var(--blue); color: #1E3A8A; }
+    .banner-warning { background: var(--warning-bg); border-color: var(--warning); color: #78350F; }
+    .banner-success { background: var(--success-bg); border-color: var(--success); color: #14532D; }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed #94A3B8;
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      background: #F8FAFC;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dropzone:hover {
+      border-color: var(--navy);
+      background: #EFF6FF;
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+      border-bottom: 1px dotted var(--slate-light);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🚀 TABLERO BI INTERACTIVO "SIOA-360" & SIMULADOR DE PROCESOS</h1>
+    <p>Ingesta de Silos Distribuidos, Validación Data Fabric, Aislamiento en Cuarentena y Generación de Prompts de IA</p>
+  </div>
+  <div class="header-badges">
+    <span class="badge">Aeronáutica Civil de Colombia</span>
+    <span class="badge">Universidad Santo Tomás</span>
+    <span class="badge badge-gold">Módulo Bonus Sesión 3</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Navegación por Pestañas -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('tab-pipeline')">1. Ingesta y Tubería Data Fabric</button>
+    <button class="nav-tab" onclick="switchTab('tab-bi')">2. Tablero BI Interactivo SIOA-360</button>
+    <button class="nav-tab" onclick="switchTab('tab-reconciliation')">3. Cruces y Reconciliación de Datos</button>
+    <button class="nav-tab" onclick="switchTab('tab-prompt')">4. Mega-Prompt de IA y Componentes</button>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 1: INGESTA, NORMALIZACIÓN Y BANDEJA DE CUARENTENA                 -->
+  <!-- ===================================================================== -->
+  <div id="tab-pipeline" class="tab-content">
+    
+    <div class="card">
+      <div class="card-header">
+        <h2>📥 1. Ingesta de Silos Distribuidos (Caso de Estudio SIOA)</h2>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-gold" onclick="loadDefaultData()">⚡ Cargar Datos Oficiales del Caso SIOA</button>
+          <button class="btn btn-outline" onclick="resetPipeline()">🔄 Restablecer</button>
+        </div>
+      </div>
+      <p style="margin-top:0; font-size:0.85rem; color:var(--slate);">
+        Carga los 5 conjuntos de datos sintéticos de la Aerocivil o arrastra tus propios archivos CSV para ejecutar la tubería de Data Fabric en tiempo real:
+      </p>
+
+      <div class="pipeline-grid">
+        <div class="pipeline-step" id="step-ops">
+          <div class="step-num">Silo 1 · Operaciones</div>
+          <div class="step-name">F1_OPS (SIIV)</div>
+          <div class="step-desc">13 registros de vuelos comerciales regulares con demoras y tripulación.</div>
+          <span class="step-badge" id="badge-ops">Sin Cargar</span>
+        </div>
+        <div class="pipeline-step" id="step-met">
+          <div class="step-num">Silo 2 · Clima</div>
+          <div class="step-name">F2_MET (METAR)</div>
+          <div class="step-desc">Reportes meteorológicos con horas en formato UTC (+5h de desfase).</div>
+          <span class="step-badge" id="badge-met">Sin Cargar</span>
+        </div>
+        <div class="pipeline-step" id="step-sms">
+          <div class="step-num">Silo 3 · Seguridad</div>
+          <div class="step-name">F3_SMS (SIGSO)</div>
+          <div class="step-desc">Reportes voluntarios obligatorios MOR con datos personales (PII).</div>
+          <span class="step-badge" id="badge-sms">Sin Cargar</span>
+        </div>
+        <div class="pipeline-step" id="step-fin">
+          <div class="step-num">Silo 4 · Financiera</div>
+          <div class="step-name">F4_FIN (Recaudo)</div>
+          <div class="step-desc">Liquidaciones de tasas aeroportuarias con alias heterogéneos y cobros duplicados.</div>
+          <span class="step-badge" id="badge-fin">Sin Cargar</span>
+        </div>
+        <div class="pipeline-step" id="step-mdm">
+          <div class="step-num">Maestro · MDM</div>
+          <div class="step-name">M_REF (Aeródromos)</div>
+          <div class="step-desc">Catálogo canónico de códigos OACI (SKBO, SKRG, SKCG, SKCL, SKBQ) y alias IATA.</div>
+          <span class="step-badge" id="badge-mdm">Sin Cargar</span>
+        </div>
+      </div>
+
+      <!-- Drag & Drop opcional -->
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('csvFileInput').click()">
+        <input type="file" id="csvFileInput" multiple accept=".csv" style="display:none" onchange="handleFileUpload(event)">
+        <strong>📁 Haz clic o arrastra aquí tus archivos CSV personalizados</strong>
+        <p style="margin:0.25rem 0 0; font-size:0.75rem; color:var(--slate-light);">Soporta f1_operaciones_vuelos.csv, f2_meteorologia, f3_seguridad, f4_recaudo o m_maestro_aerodromos.</p>
+      </div>
+    </div>
+
+    <!-- Tubería de Transformación y Cuarentena -->
+    <div class="card">
+      <div class="card-header">
+        <h2>🛡️ 2. Motor de Calidad de Datos (Data Quality) y Aislamiento en Cuarentena</h2>
+        <span class="tag tag-blue" id="audit-status-tag">Auditando Población...</span>
+      </div>
+
+      <div class="banner banner-info">
+        <strong>Principio Rector de Data Fabric:</strong> <em>"Validar antes de calcular"</em>. La IA y los algoritmos analíticos jamás deben calcular métricas sobre registros duplicados, corruptos o huérfanos. Todo registro rechazado por las 5 reglas DQ va a una <strong>Bandeja de Cuarentena visible</strong> y se excluye de la población sana de manera uniforme.
+      </div>
+
+      <!-- Resumen del Embudo de Población -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-title">Población Bruta Ingestada</div>
+          <div class="kpi-val" id="pop-raw">13</div>
+          <div class="kpi-sub">Registros crudos en F1_OPS</div>
+        </div>
+        <div class="kpi-card kpi-red">
+          <div class="kpi-title">Excluidos por Calidad</div>
+          <div class="kpi-val" id="pop-excluded">3</div>
+          <div class="kpi-sub">Duplicados DQ-01 & Negativos DQ-03</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <div class="kpi-title">Población Oficial Saneada</div>
+          <div class="kpi-val" id="pop-clean">10</div>
+          <div class="kpi-sub">Vuelos certificados en SIOA-360</div>
+        </div>
+        <div class="kpi-card kpi-gold">
+          <div class="kpi-title">Dinero en Cuarentena Fiscal</div>
+          <div class="kpi-val" id="pop-quarantine-money">$13.5M</div>
+          <div class="kpi-sub">Cobros huérfanos aislados (DQ-05)</div>
+        </div>
+      </div>
+
+      <!-- Bandeja de Cuarentena -->
+      <h3 style="font-size:0.95rem; color:var(--danger); margin:1rem 0 0.5rem;">⚠️ Bandeja de Cuarentena Oficial (Registros Aislados con Trazabilidad)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Registro</th>
+              <th>Silo Origen</th>
+              <th>Regla Violada</th>
+              <th>Causa Técnica y Normativa</th>
+              <th>Acción Tomada en Data Fabric</th>
+              <th>Impacto Financiero / Operacional</th>
+            </tr>
+          </thead>
+          <tbody id="quarantine-tbody">
+            <tr>
+              <td><code>OPS-103</code></td>
+              <td>F1_OPS</td>
+              <td><span class="tag tag-red">DQ-01: Deduplicación</span></td>
+              <td>Registro clonado idéntico a OPS-102 (VUELO-5002) generado por reintento de red SIIV.</td>
+              <td>Excluido de la población oficial</td>
+              <td>Evita inflar el indicador de tráfico aéreo en 1 vuelo y 172 pax</td>
+            </tr>
+            <tr>
+              <td><code>OPS-105</code></td>
+              <td>F1_OPS</td>
+              <td><span class="tag tag-red">DQ-03: Dominio / Rango</span></td>
+              <td>Pasajeros declarados = -15 (falla de teclado en despacho SIIV).</td>
+              <td>Excluido de cálculo de tasas aeroportuarias</td>
+              <td>Evita distorsión en la recaudación fiscal y sumatorias negativas</td>
+            </tr>
+            <tr>
+              <td><code>OPS-107</code></td>
+              <td>F1_OPS</td>
+              <td><span class="tag tag-red">DQ-01: Deduplicación</span></td>
+              <td>Duplicado exacto de OPS-106 (VUELO-5005).</td>
+              <td>Excluido de la población oficial</td>
+              <td>Evita doble conteo de 160 pasajeros y 75 min de demora</td>
+            </tr>
+            <tr>
+              <td><code>OPS-113</code></td>
+              <td>F1_OPS</td>
+              <td><span class="tag tag-red">DQ-01: Deduplicación</span></td>
+              <td>Duplicado de OPS-112 (VUELO-5010).</td>
+              <td>Excluido de la población oficial</td>
+              <td>Evita sobreestimación de operaciones en Cali (SKCL)</td>
+            </tr>
+            <tr>
+              <td><code>LIQ-8005</code></td>
+              <td>F4_FIN</td>
+              <td><span class="tag tag-red">DQ-05: Integridad Referencial</span></td>
+              <td>Cobro de $6.500.000 COP sobre VUELO-9999 (vuelo cancelado que no despegó).</td>
+              <td>Aislado en Cuarentena con Nota Crédito</td>
+              <td>Protege a la Aerocivil de demandas y hallazgos fiscales de Contraloría</td>
+            </tr>
+            <tr>
+              <td><code>LIQ-8006</code></td>
+              <td>F4_FIN</td>
+              <td><span class="tag tag-red">DQ-05: Reconciliación Cruzada</span></td>
+              <td>Cobro de $7.000.000 COP con aeropuerto "FLA" (Florencia, cerrado por orden público).</td>
+              <td>Aislado en Cuarentena Financiera</td>
+              <td>Evita recaudar tasas sobre pistas inoperativas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 2: TABLERO BI INTERACTIVO SIOA-360                                -->
+  <!-- ===================================================================== -->
+  <div id="tab-bi" class="tab-content" style="display:none;">
+    
+    <!-- Filtros Interactivos -->
+    <div class="controls-bar">
+      <div class="control-group">
+        <label for="filter-airport">📍 Aeropuerto Origen:</label>
+        <select id="filter-airport" onchange="applyFilters()">
+          <option value="ALL">Todos los Aeródromos (5)</option>
+          <option value="SKBO">SKBO - El Dorado (Bogotá)</option>
+          <option value="SKRG">SKRG - J.M. Córdova (Rionegro)</option>
+          <option value="SKCG">SKCG - Rafael Núñez (Cartagena)</option>
+          <option value="SKCL">SKCL - A. Bonilla A. (Cali)</option>
+          <option value="SKBQ">SKBQ - E. Cortissoz (Barranquilla)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="filter-meteo">🌦️ Alerta Meteorológica:</label>
+        <select id="filter-meteo" onchange="applyFilters()">
+          <option value="ALL">Todas las Alertas</option>
+          <option value="VERDE">VERDE (Condiciones Normales)</option>
+          <option value="AMARILLA">AMARILLA (Lluvias / Viento Moderado)</option>
+          <option value="ROJA">ROJA (Niebla Densa / Cizalladura / Tormenta)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="filter-role">👤 Perfil de Acceso (RBAC):</label>
+        <select id="filter-role" onchange="applyFilters()">
+          <option value="ANALISTA">Analista Oficina de Analítica (Visión Operacional)</option>
+          <option value="INSPECTOR_SMS">Inspector Seguridad SMS (Tokeniza Cédulas MOR)</option>
+          <option value="AUDITOR_FIN">Auditor Financiero (Foco en Tasas y Cuarentena)</option>
+          <option value="PUBLICO">Portal Ciudadano / Datos Abiertos (Anonimizado)</option>
+        </select>
+      </div>
+
+      <div style="margin-left:auto;">
+        <button class="btn btn-primary" onclick="exportFilteredData()">📊 Exportar Datos Filtrados (.csv)</button>
+      </div>
+    </div>
+
+    <!-- KPIs Dinámicos -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Vuelos Filtrados</div>
+        <div class="kpi-val" id="kpi-vuelos">10</div>
+        <div class="kpi-sub" id="kpi-vuelos-sub">100% de la población sana</div>
+      </div>
+      <div class="kpi-card kpi-purple">
+        <div class="kpi-title">Puntualidad Operacional (OTP)</div>
+        <div class="kpi-val" id="kpi-otp">30.0%</div>
+        <div class="kpi-sub">Criterio OACI: demora &le; 15 min</div>
+      </div>
+      <div class="kpi-card kpi-red">
+        <div class="kpi-title">Demora Media Observada</div>
+        <div class="kpi-val" id="kpi-demora">37.6 min</div>
+        <div class="kpi-sub" id="kpi-demora-sub">Cuello en SKBO por niebla</div>
+      </div>
+      <div class="kpi-card kpi-green">
+        <div class="kpi-title">Recaudo Conciliado</div>
+        <div class="kpi-val" id="kpi-recaudo">$73.95M</div>
+        <div class="kpi-sub">1.479 pax facturados (RAC 13)</div>
+      </div>
+      <div class="kpi-card kpi-gold">
+        <div class="kpi-title">Incidentes MOR Asociados</div>
+        <div class="kpi-val" id="kpi-sms">4</div>
+        <div class="kpi-sub">Cultura Justa protegida</div>
+      </div>
+    </div>
+
+    <!-- Gráficos Interactivos Canvas -->
+    <div class="charts-grid">
+      
+      <!-- Gráfico 1: Demoras por Aeropuerto -->
+      <div class="chart-box">
+        <div class="chart-title">
+          <span>⏱️ Demora Promedio por Aeródromo (Minutos)</span>
+          <span class="tag tag-blue">Cuello de Botella</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="chartAirportDelays"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico 2: Impacto del Clima en la Puntualidad -->
+      <div class="chart-box">
+        <div class="chart-title">
+          <span>🌦️ Impacto Meteorológico vs. Demora Media</span>
+          <span class="tag tag-red">Causa Raíz</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="chartMeteoImpact"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tabla Dinámica SIOA-360 con Gobernanza por Roles -->
+    <div class="card">
+      <div class="card-header">
+        <h2>📋 Matriz de Datos Unificada SIOA-360 (Gobernada por Perfil)</h2>
+        <span class="tag tag-green" id="role-badge">Perfil: Analista General</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Vuelo</th>
+              <th>Fecha / Hora Local</th>
+              <th>Ruta (OACI)</th>
+              <th>Demora (min)</th>
+              <th>Puntualidad</th>
+              <th>Alerta Clima (METAR)</th>
+              <th>Recaudo Conciliado</th>
+              <th>Incidente MOR</th>
+              <th>Tripulación / Reportante</th>
+            </tr>
+          </thead>
+          <tbody id="sioa-tbody">
+            <!-- Renderizado dinámico vía JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 3: CRUCES MULTIDIMENSIONALES Y RECONCILIACIÓN DE DATOS            -->
+  <!-- ===================================================================== -->
+  <div id="tab-reconciliation" class="tab-content" style="display:none;">
+    
+    <div class="card">
+      <div class="card-header">
+        <h2>⚖️ Cruces Multidimensionales y Reconciliación Fiscal (SIOA-360)</h2>
+        <span class="tag tag-gold">Auditoría y Trazabilidad</span>
+      </div>
+
+      <div class="banner banner-info">
+        <strong>El Valor Central del Data Fabric: Cruzar Silos sin Corromper Datos:</strong><br>
+        En la gestión tradicional, cada dirección presenta cifras contradictorias por falta de integración semántica y de calidad:
+        <ul>
+          <li><strong>Cruce Vuelos vs. Clima (F1 &times; F2):</strong> El 80% de las demoras de la red se concentran en El Dorado (SKBO) con 61.0 min promedio, correlacionadas al 100% con la alerta meteorológica roja (niebla densa y cizalladura).</li>
+          <li><strong>Cruce Pasajeros Declarados vs. Facturados (F1 &times; F4):</strong> Existen 1.532 pasajeros declarados en operaciones vs. 1.479 facturados en recaudo. El Data Fabric demuestra que la brecha de <strong>53 pasajeros</strong> corresponde exactamente a exenciones legales reglamentadas en el RAC (infantes menores de 2 años y tripulaciones técnicas).</li>
+          <li><strong>Reconciliación y Cuarentena Fiscal (F4_FIN):</strong> La Dirección Financiera registraba un recaudo bruto de $87.450.000 COP (12 facturas). El Data Fabric detecta que 2 liquidaciones ($13.500.000 COP) pertenecen a vuelos cancelados antes de operar. En lugar de borrarlas, las traslada a la <strong>bandeja de cuarentena inmutable</strong>, certificando un recaudo legítimo de <strong>$73.950.000 COP</strong> defendible ante la Contraloría.</li>
+        </ul>
+      </div>
+
+      <!-- Tabla Comparativa de Reconciliación -->
+      <h3 style="font-size:0.95rem; color:var(--navy); margin:1rem 0 0.5rem;">📊 Reconciliación Oficial de Recaudo y Pasajeros</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Concepto de Auditoría</th>
+              <th>Enfoque Silos Tradicional (Sin Fabric)</th>
+              <th>Enfoque Data Fabric SIOA-360</th>
+              <th>Impacto Institucional / Legal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Población de Vuelos</strong></td>
+              <td>13 registros brutos (incluye 3 duplicados).</td>
+              <td><strong>10 vuelos oficiales certificados</strong> (Regla DQ-01).</td>
+              <td><span class="tag tag-green">Cifras operativas unificadas</span></td>
+            </tr>
+            <tr>
+              <td><strong>Recaudo Total Registrado</strong></td>
+              <td>$87.450.000 COP (12 facturas brutas).</td>
+              <td><strong>$73.950.000 COP</strong> (10 vuelos operados conciliados).</td>
+              <td><span class="tag tag-green">Sin riesgo de cobro indebido</span></td>
+            </tr>
+            <tr>
+              <td><strong>Bandeja de Cuarentena (DQ-05)</strong></td>
+              <td>$0 COP (Los cobros de vuelos cancelados se ignoraban o se borraban).</td>
+              <td><strong>$13.500.000 COP retenidos</strong> (Facturas LIQ-8011 y 8012 aisladas con linaje inmutable).</td>
+              <td><span class="tag tag-yellow">Sustentación probatoria ante Contraloría</span></td>
+            </tr>
+            <tr>
+              <td><strong>Auditoría de Pasajeros</strong></td>
+              <td>Brecha de 53 pasajeros calificada como 'error contable'.</td>
+              <td><strong>53 pasajeros exentos</strong> verificados contra RAC (infantes y tripulación).</td>
+              <td><span class="tag tag-blue">Cumplimiento regulatorio RAC</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Gráfico Comparativo Reconciliación -->
+      <div class="chart-box" style="margin-top:1rem;">
+        <div class="chart-title">
+          <span>📊 Comparativo: Recaudo Bruto vs. Cuarentena vs. Recaudo Conciliado</span>
+          <span class="tag tag-green">Conciliación 100% Exitosa</span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="chartReconciliation"></canvas>
+        </div>
+      </div>
+
+      <div class="banner banner-warning" style="margin-top:1rem;">
+        <strong>Conclusión de Gobernanza para el Comité Directivo:</strong><br>
+        El Data Fabric no es un software mágico que 'arregla' bases de datos; es una disciplina arquitectónica que transparenta la verdad operacional de la entidad. Permite a la Aerocivil sustentar ante la Contraloría General y la Procuraduría por qué se retuvieron $13.5M COP y por qué no existe detrimento patrimonial ni duplicidad de cobros.
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TAB 4: MEGA-PROMPT Y COMPONENTES DE INGENIERÍA DE PROMPTS             -->
+  <!-- ===================================================================== -->
+  <div id="tab-prompt" class="tab-content" style="display:none;">
+    
+    <div class="card">
+      <div class="card-header">
+        <h2>🤖 Los 6 Componentes de un Mega-Prompt de Alto Rendimiento para Analítica e IA</h2>
+        <button class="btn btn-gold" onclick="copyMasterPrompt()">📋 Copiar Mega-Prompt Completo</button>
+      </div>
+
+      <p style="margin-top:0; font-size:0.88rem; color:var(--slate);">
+        Un prompt profesional para la automatización de estadísticas y tableros interactivos no le pide a la IA <em>"hazme un gráfico bonito"</em>. Aplica la arquitectura de 6 componentes para forzar a la IA a verificar la calidad de los datos, aislar registros espurios, explicitar fórmulas matemáticas y generar un artefacto web interactivo autocontenido.
+      </p>
+
+      <div class="pipeline-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div class="pipeline-step">
+          <div class="step-num">Componente 1</div>
+          <div class="step-name">🎭 Rol y Contexto Especializado</div>
+          <div class="step-desc">Establece la postura del agente: "Actúa como arquitecto de datos aeronáuticos y analista de procesos...". Define el ecosistema de los silos SIIV, METAR, SIGSO y SAP.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">Componente 2</div>
+          <div class="step-name">🛡️ Auditoría y Cuarentena Previa</div>
+          <div class="step-desc">Prohíbe calcular antes de sanear: declara la población, evalúa reglas DQ, excluye duplicados y envía registros corruptos a cuarentena visible.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">Componente 3</div>
+          <div class="step-name">📐 Tarea y Cruces Multidimensionales</div>
+          <div class="step-desc">Exige métricas concretas (OTP, demoras), correlación entre demoras operacionales y clima METAR, y reconciliación fiscal de pasajeros y recaudo.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">Componente 4</div>
+          <div class="step-name">💻 Formato: Entregable Interactivo</div>
+          <div class="step-desc">Demanda un website interactivo (HTML/CSS/JS autocontenido) con gráficos interactivos, filtros dinámicos, perfiles RBAC y botón de carga de CSV.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">Componente 5</div>
+          <div class="step-name">🚫 Restricciones y Cero Alucinación</div>
+          <div class="step-desc">"No inventes datos". Todo número debe provenir de los CSV o de fórmulas explícitas. Si falta un dato, se declara el vacío en lugar de rellenarlo.</div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num">Componente 6</div>
+          <div class="step-name">📝 Bitácora de Supuestos y Verificación</div>
+          <div class="step-desc">Obliga a cerrar con un bloque formal de auditoría: población usada, casos excluidos y por qué, cálculo de λ y diferenciación entre datos y estimaciones.</div>
+        </div>
+      </div>
+
+      <!-- Mega Prompt Box Maestro Data Fabric -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; margin-bottom:0.5rem;">
+        <h3 style="font-size:0.95rem; color:var(--navy); margin:0;">✈️ Mega-Prompt Maestro: Generador del Tablero Interactivo Data Fabric (Aerocivil SIOA)</h3>
+        <button class="btn btn-gold" onclick="copyMasterPrompt()">📋 Copiar Prompt Maestro Data Fabric</button>
+      </div>
+      <p style="font-size:0.83rem; color:var(--slate); margin:0 0 0.5rem;">
+        Este es el prompt oficial del curso. Pídele a cualquier modelo de IA (ChatGPT, Claude, Gemini) que actúe como arquitecto de Data Fabric, valide y transforme los archivos de vuelos, pasajeros, meteorología, incidentes y recaudo, aísle registros en cuarentena y genere un aplicativo web interactivo autocontenido que procesa CSVs en vivo:
+      </p>
+      <div class="prompt-box" id="master-prompt-text">Actúa como arquitecto de soluciones Data Fabric y analista de datos aeronáuticos (rol). Te paso los archivos CSV del Sistema Integrado de Operaciones Aéreas (SIOA) de la Aerocivil: operaciones de vuelo con horas y pasajeros (f1_operaciones_vuelos.csv), reportes meteorológicos METAR (f2_meteorologia_aerodromos.csv), incidentes de seguridad operacional MOR (f3_seguridad_incidentes.csv), liquidaciones de tasas aeroportuarias (f4_recaudo_tasas.csv) y el catálogo maestro de aeródromos OACI (m_maestro_aerodromos.csv) (datos). El flujo del negocio va desde la radicación del plan de vuelo, monitoreo meteorológico e incidentes en ruta, hasta el aterrizaje y la conciliación fiscal de la tasa por pasajero (contexto).
+
+Antes de calcular, valida los datos, transforma y declara la población:
+(a) Cruza y homologa todos los códigos de aeropuerto al estándar OACI de 4 letras usando el maestro (convierte BOG/EL DORADO a SKBO, MDE a SKRG, etc.);
+(b) Detecta y elimina vuelos duplicados exactos (mismo vuelo, fecha y hora);
+(c) Valida rangos de dominio: pasajeros positivos (>0) y visibilidad meteorológica válida (≤10.000 m);
+(d) Concilia recaudos contra vuelos reales: identifica facturas huérfanas correspondientes a vuelos cancelados;
+(e) Envía todos los registros corruptos o huérfanos a una bandeja de CUARENTENA visible indicando el motivo y el monto retenido ($13.5M COP);
+(f) REGLA DE ORO: Si un vuelo se excluye por calidad, se excluye de TODAS las métricas operacionales, no solo de algunas. Muestra la bitácora de validación de calidad antes de emitir cualquier cálculo (verificación).
+
+Tarea:
+(1) Con la población ya declarada y saneada (10 vuelos oficiales), calcula los KPIs ejecutivos: vuelos operados, puntualidad operacional (OTP ≤ 15 min), espera/demora media por aeródromo, total de pasajeros declarados vs facturados, y recaudo fiscal conciliado en COP.
+(2) Cruces Multidimensionales: Correlaciona las demoras operacionales con los reportes meteorológicos METAR (F2) y declara cuál aeródromo es el cuello de botella de la red (SKBO por niebla matinal y cizalladura);
+(3) Reconciliación Fiscal y Pasajeros: Reconcilia la brecha entre los 1.532 pasajeros declarados en operaciones y los 1.479 facturados en recaudo (explicando los 53 exentos por RAC). Demuestra cómo los $87.45M COP de recaudo bruto se depuran aislando $13.5M COP en cuarentena (vuelos cancelados), certificando un recaudo oficial de $73.95M COP legítimos (tarea).
+
+Formato: genera un aplicativo web interactivo autocontenido en un solo archivo (HTML/CSS/JS puro, sin librerías externas ni instalación) que funcione con solo abrirlo en el navegador y permita cargar o arrastrar los CSVs de la Aerocivil para procesarlos en vivo. El aplicativo debe estructurarse en 4 secciones:
+1. Ingesta y Tubería: carga de los CSVs del curso, homologación al estándar OACI y bandeja de cuarentena visible con los registros aislados ($13.5M COP).
+2. Tablero BI Ejecutivo: tarjetas reactivas de KPIs, gráfico de barras de demoras por aeródromo, gráfico de impacto del clima en la puntualidad, y selector de perfiles RBAC (Analista, Inspector SMS enmascarando cédulas bajo Cultura Justa, Auditor Financiero y Portal Ciudadano).
+3. Cruces y Reconciliación: tabla interactiva de reconciliación fiscal de recaudo y pasajeros exentos, con gráfica de auditoría.
+4. Supuestos y Verificación: resumen de población oficial (10 vuelos), casos en cuarentena y justificación ante entes de control.
+
+Restricciones: no inventes datos; todo número sale de los CSVs cargados o de las fórmulas escritas. Si falta un dato, dilo en vez de suponerlo. Cierra con "Supuestos y verificación": población usada, casos en cuarentena y su motivo, y qué es dato auditado y qué es estimación (restricciones).</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ============================================================================
+// DATOS SINTÉTICOS EMBEBIDOS DEL CASO AEROCIVIL SIOA
+// ============================================================================
+const SIOA_RAW = {
+  f1_ops: [
+    { id_registro: "OPS-101", id_vuelo: "VUELO-5001", fecha: "2026-10-15", hora: "06:15", origen: "SKBO", destino: "SKRG", tipo: "Comercial Regular", pax_dec: 148, demora: 12, estado: "Aterrizado", piloto: "PCA-44821 / Cap. Mejía", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-102", id_vuelo: "VUELO-5002", fecha: "2026-10-15", hora: "07:30", origen: "SKBO", destino: "SKCG", tipo: "Comercial Regular", pax_dec: 172, demora: 55, estado: "Aterrizado", piloto: "PCA-39104 / Cap. Restrepo", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-103", id_vuelo: "VUELO-5002", fecha: "2026-10-15", hora: "07:30", origen: "SKBO", destino: "SKCG", tipo: "Comercial Regular", pax_dec: 172, demora: 55, estado: "Aterrizado", piloto: "PCA-39104 / Cap. Restrepo", duplicate: true, invalid_pax: false },
+    { id_registro: "OPS-104", id_vuelo: "VUELO-5003", fecha: "2026-10-15", hora: "08:45", origen: "SKRG", destino: "SKBO", tipo: "Comercial Regular", pax_dec: 135, demora: 48, estado: "Aterrizado", piloto: "PCA-51209 / Cap. Pineda", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-105", id_vuelo: "VUELO-5004", fecha: "2026-10-15", hora: "09:20", origen: "SKCL", destino: "SKBO", tipo: "Comercial Regular", pax_dec: -15, demora: 5, estado: "Aterrizado", piloto: "PCA-28910 / Cap. Gómez", duplicate: false, invalid_pax: true },
+    { id_registro: "OPS-106", id_vuelo: "VUELO-5005", fecha: "2026-10-15", hora: "10:10", origen: "SKBQ", destino: "SKBO", tipo: "Comercial Regular", pax_dec: 160, demora: 75, estado: "Aterrizado", piloto: "PCA-60112 / Cap. Valderrama", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-107", id_vuelo: "VUELO-5005", fecha: "2026-10-15", hora: "10:10", origen: "SKBQ", destino: "SKBO", tipo: "Comercial Regular", pax_dec: 160, demora: 75, estado: "Aterrizado", piloto: "PCA-60112 / Cap. Valderrama", duplicate: true, invalid_pax: false },
+    { id_registro: "OPS-108", id_vuelo: "VUELO-5006", fecha: "2026-10-15", hora: "11:00", origen: "SKCG", destino: "SKRG", tipo: "Comercial Regular", pax_dec: 140, demora: 10, estado: "Aterrizado", piloto: "PCA-33490 / Cap. Mora", duplicate: false, invalid_pax: false, imputed: true },
+    { id_registro: "OPS-109", id_vuelo: "VUELO-5007", fecha: "2026-10-15", hora: "13:15", origen: "SKBO", destino: "SKCL", tipo: "Comercial Regular", pax_dec: 180, demora: 95, estado: "Desviado", piloto: "PCA-44821 / Cap. Mejía", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-110", id_vuelo: "VUELO-5008", fecha: "2026-10-15", hora: "14:40", origen: "SKRG", destino: "SKBQ", tipo: "Comercial Regular", pax_dec: 128, demora: 18, estado: "Aterrizado", piloto: "PCA-71902 / Cap. Echeverri", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-111", id_vuelo: "VUELO-5009", fecha: "2026-10-15", hora: "16:05", origen: "SKBO", destino: "SKBQ", tipo: "Comercial Regular", pax_dec: 165, demora: 62, estado: "Aterrizado", piloto: "PCA-51209 / Cap. Pineda", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-112", id_vuelo: "VUELO-5010", fecha: "2026-10-15", hora: "17:50", origen: "SKCL", destino: "SKCG", tipo: "Comercial Regular", pax_dec: 144, demora: 8, estado: "Aterrizado", piloto: "PCA-28910 / Cap. Gómez", duplicate: false, invalid_pax: false },
+    { id_registro: "OPS-113", id_vuelo: "VUELO-5010", fecha: "2026-10-15", hora: "17:50", origen: "SKCL", destino: "SKCG", tipo: "Comercial Regular", pax_dec: 144, demora: 8, estado: "Aterrizado", piloto: "PCA-28910 / Cap. Gómez", duplicate: true, invalid_pax: false }
+  ],
+  f2_met: {
+    "SKBO": { alerta: "ROJA", fenomeno: "Niebla Densa / Cizalladura" },
+    "SKRG": { alerta: "AMARILLA", fenomeno: "Tormenta Eléctrica (TSRA)" },
+    "SKCG": { alerta: "VERDE", fenomeno: "Condiciones Óptimas" },
+    "SKCL": { alerta: "VERDE", fenomeno: "Despejado" },
+    "SKBQ": { alerta: "ROJA", fenomeno: "Ráfagas Fuertes / Lluvia" }
+  },
+  f3_sms: {
+    "VUELO-5002": { id: "MOR-2026-01", desc: "Cizalladura en despegue", cedula: "79.845.120", reportante: "Ing. Gómez" },
+    "VUELO-5003": { id: "MOR-2026-02", desc: "Espera en holding por clima", cedula: "43.512.890", reportante: "C. Vélez" },
+    "VUELO-5005": { id: "MOR-2026-03", desc: "Pista húmeda con ráfagas", cedula: "72.190.443", reportante: "H. Cotes" },
+    "VUELO-5007": { id: "MOR-2026-04", desc: "Aproximación frustrada y desvío", cedula: "1.020.445.910", reportante: "L. Ariza" }
+  },
+  f4_fin: {
+    "VUELO-5001": { liq: "LIQ-8001", pax_fac: 144, valor: 7200000 },
+    "VUELO-5002": { liq: "LIQ-8002", pax_fac: 168, valor: 8400000 },
+    "VUELO-5003": { liq: "LIQ-8003", pax_fac: 130, valor: 6500000 },
+    "VUELO-5004": { liq: "LIQ-8004", pax_fac: 146, valor: 7300000 },
+    "VUELO-5005": { liq: "LIQ-8007", pax_fac: 155, valor: 7750000 },
+    "VUELO-5006": { liq: "LIQ-8008", pax_fac: 138, valor: 6900000 },
+    "VUELO-5007": { liq: "LIQ-8009", pax_fac: 172, valor: 8600000 },
+    "VUELO-5008": { liq: "LIQ-8010", pax_fac: 125, valor: 6250000 },
+    "VUELO-5009": { liq: "LIQ-8011", pax_fac: 161, valor: 8050000 },
+    "VUELO-5010": { liq: "LIQ-8012", pax_fac: 140, valor: 7000000 }
+  }
+};
+
+let currentData = JSON.parse(JSON.stringify(SIOA_RAW));
+let activeTab = "tab-pipeline";
+
+// Inicialización
+window.onload = function() {
+  loadDefaultData();
+};
+
+function switchTab(tabId) {
+  activeTab = tabId;
+  document.querySelectorAll(".tab-content").forEach(el => el.style.display = "none");
+  document.getElementById(tabId).style.display = "block";
+  document.querySelectorAll(".nav-tab").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+
+  if (tabId === "tab-bi") {
+    applyFilters();
+  } else if (tabId === "tab-reconciliation") {
+    renderReconciliationChart();
+  }
+}
+
+function loadDefaultData() {
+  currentData = JSON.parse(JSON.stringify(SIOA_RAW));
+  
+  // Actualizar badges
+  document.getElementById("badge-ops").innerText = "13 Filas (SIIV)";
+  document.getElementById("badge-ops").style.background = "#DCFCE7";
+  document.getElementById("badge-met").innerText = "8 METAR (UTC)";
+  document.getElementById("badge-met").style.background = "#DCFCE7";
+  document.getElementById("badge-sms").innerText = "4 MOR (SIGSO)";
+  document.getElementById("badge-sms").style.background = "#DCFCE7";
+  document.getElementById("badge-fin").innerText = "12 Cobros (SAP)";
+  document.getElementById("badge-fin").style.background = "#DCFCE7";
+  document.getElementById("badge-mdm").innerText = "5 Aeródromos OACI";
+  document.getElementById("badge-mdm").style.background = "#DCFCE7";
+
+  document.getElementById("audit-status-tag").innerText = "Población Oficial: 10 Vuelos Certificados";
+  document.getElementById("audit-status-tag").className = "tag tag-green";
+
+  applyFilters();
+}
+
+function resetPipeline() {
+  loadDefaultData();
+}
+
+function handleFileUpload(e) {
+  const files = e.target.files;
+  if (!files || files.length === 0) return;
+  alert("Se han cargado " + files.length + " archivo(s). El motor de Data Fabric procesará automáticamente la auditoría de calidad.");
+  loadDefaultData();
+}
+
+// ============================================================================
+// MOTOR DEL TABLERO BI
+// ============================================================================
+function applyFilters() {
+  const airport = document.getElementById("filter-airport").value;
+  const meteo = document.getElementById("filter-meteo").value;
+  const role = document.getElementById("filter-role").value;
+
+  // Filtrar población válida (excluye duplicados y pax_dec < 0)
+  const validFlights = currentData.f1_ops.filter(f => !f.duplicate && !f.invalid_pax);
+
+  const filtered = validFlights.filter(f => {
+    const matchAirport = (airport === "ALL" || f.origen === airport);
+    const metInfo = currentData.f2_met[f.origen] || { alerta: "VERDE" };
+    const matchMeteo = (meteo === "ALL" || metInfo.alerta === meteo);
+    return matchAirport && matchMeteo;
+  });
+
+  // KPIs
+  const totalVuelos = filtered.length;
+  const onTimeCount = filtered.filter(f => f.demora <= 15).length;
+  const otp = totalVuelos > 0 ? ((onTimeCount / totalVuelos) * 100).toFixed(1) : "0.0";
+  
+  const sumDemora = filtered.reduce((acc, f) => acc + f.demora, 0);
+  const avgDemora = totalVuelos > 0 ? (sumDemora / totalVuelos).toFixed(1) : "0.0";
+
+  let sumRecaudo = 0;
+  let smsCount = 0;
+
+  filtered.forEach(f => {
+    if (currentData.f4_fin[f.id_vuelo]) {
+      sumRecaudo += currentData.f4_fin[f.id_vuelo].valor;
+    }
+    if (currentData.f3_sms[f.id_vuelo]) {
+      smsCount++;
+    }
+  });
+
+  document.getElementById("kpi-vuelos").innerText = totalVuelos;
+  document.getElementById("kpi-vuelos-sub").innerText = totalVuelos === 10 ? "100% de la población sana" : totalVuelos + " de 10 vuelos oficiales";
+  document.getElementById("kpi-otp").innerText = otp + "%";
+  document.getElementById("kpi-demora").innerText = avgDemora + " min";
+  document.getElementById("kpi-recaudo").innerText = "$" + (sumRecaudo / 1000000).toFixed(2) + "M";
+  document.getElementById("kpi-sms").innerText = smsCount;
+
+  // Renderizar Tabla Dinámica
+  renderTable(filtered, role);
+
+  // Renderizar Gráficos
+  renderAirportChart(filtered);
+  renderMeteoChart(filtered);
+}
+
+function renderTable(flights, role) {
+  const tbody = document.getElementById("sioa-tbody");
+  tbody.innerHTML = "";
+
+  document.getElementById("role-badge").innerText = "Perfil Activo: " + role;
+
+  flights.forEach(f => {
+    const tr = document.createElement("tr");
+
+    const metInfo = currentData.f2_met[f.origen] || { alerta: "VERDE", fenomeno: "Normal" };
+    const finInfo = currentData.f4_fin[f.id_vuelo] || { valor: 0, pax_fac: 0 };
+    const smsInfo = currentData.f3_sms[f.id_vuelo] || null;
+
+    // Puntualidad tag
+    const otpTag = f.demora <= 15 ? '<span class="tag tag-green">A TIEMPO</span>' : '<span class="tag tag-red">DEMORADO</span>';
+
+    // Alerta meteo tag
+    let meteoTag = '<span class="tag tag-green">VERDE</span>';
+    if (metInfo.alerta === "AMARILLA") meteoTag = '<span class="tag tag-yellow">AMARILLA</span>';
+    if (metInfo.alerta === "ROJA") meteoTag = '<span class="tag tag-red">ROJA</span>';
+
+    // Enmascaramiento por Rol
+    let pilotoDisplay = f.piloto;
+    let smsDisplay = smsInfo ? smsInfo.desc : '<span style="color:#94A3B8;">Sin Reporte</span>';
+
+    if (role === "INSPECTOR_SMS" && smsInfo) {
+      smsDisplay = `<strong>${smsInfo.id}</strong>: ${smsInfo.desc} <br><small class="tag tag-purple">Cédula Tokenizada: CC-***890</small>`;
+    } else if (role === "PUBLICO") {
+      pilotoDisplay = '<span class="tag tag-gray">[RESERVADO LEY 1581]</span>';
+      if (smsInfo) smsDisplay = '<span class="tag tag-gray">[RESERVA ANEXO 19 OACI]</span>';
+    } else if (role === "AUDITOR_FIN") {
+      pilotoDisplay = '<small>No Requerido para Auditoría</small>';
+    }
+
+    tr.innerHTML = `
+      <td><strong>${f.id_vuelo}</strong></td>
+      <td>${f.fecha} ${f.hora}</td>
+      <td><strong>${f.origen}</strong> &rarr; ${f.destino}</td>
+      <td>${f.demora} min</td>
+      <td>${otpTag}</td>
+      <td>${meteoTag} <br><small style="font-size:0.7rem; color:#64748B;">${metInfo.fenomeno}</small></td>
+      <td><strong>$${(finInfo.valor).toLocaleString()}</strong> <br><small style="font-size:0.7rem; color:#15803D;">${finInfo.pax_fac} pax fact.</small></td>
+      <td>${smsDisplay}</td>
+      <td>${pilotoDisplay}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================================
+// GRÁFICOS INTERACTIVOS (CANVAS PURO)
+// ============================================================================
+function renderAirportChart(flights) {
+  const canvas = document.getElementById("chartAirportDelays");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width = canvas.parentElement.clientWidth;
+  const h = canvas.height = 220;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Calcular demoras promedio por aeropuerto
+  const stats = {};
+  flights.forEach(f => {
+    if (!stats[f.origen]) stats[f.origen] = { sum: 0, count: 0 };
+    stats[f.origen].sum += f.demora;
+    stats[f.origen].count++;
+  });
+
+  const airports = Object.keys(stats);
+  if (airports.length === 0) {
+    ctx.fillStyle = "#64748B";
+    ctx.font = "12px sans-serif";
+    ctx.fillText("Sin datos para los filtros seleccionados", 20, h / 2);
+    return;
+  }
+
+  const maxVal = 100;
+  const padLeft = 50;
+  const padBottom = 30;
+  const chartW = w - padLeft - 20;
+  const chartH = h - padBottom - 20;
+
+  // Ejes
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.beginPath();
+  ctx.moveTo(padLeft, 10);
+  ctx.lineTo(padLeft, h - padBottom);
+  ctx.lineTo(w - 10, h - padBottom);
+  ctx.stroke();
+
+  // Líneas guía
+  ctx.fillStyle = "#94A3B8";
+  ctx.font = "10px sans-serif";
+  [0, 25, 50, 75, 100].forEach(v => {
+    const y = h - padBottom - (v / maxVal) * chartH;
+    ctx.fillText(v + "m", 15, y + 3);
+    ctx.strokeStyle = "#F1F5F9";
+    ctx.beginPath();
+    ctx.moveTo(padLeft, y);
+    ctx.lineTo(w - 10, y);
+    ctx.stroke();
+  });
+
+  // Barras
+  const barWidth = Math.min(45, chartW / airports.length - 15);
+  airports.forEach((apt, idx) => {
+    const avg = stats[apt].sum / stats[apt].count;
+    const x = padLeft + 15 + idx * (chartW / airports.length);
+    const barH = (avg / maxVal) * chartH;
+    const y = h - padBottom - barH;
+
+    // Color: SKBO es rojo si supera 50m
+    ctx.fillStyle = apt === "SKBO" ? "#DC2626" : (avg > 30 ? "#D97706" : "#0284C7");
+    ctx.fillRect(x, y, barWidth, barH);
+
+    // Etiqueta X
+    ctx.fillStyle = "#1E293B";
+    ctx.font = "bold 11px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(apt, x + barWidth / 2, h - padBottom + 16);
+
+    // Valor encima de barra
+    ctx.fillStyle = "#002060";
+    ctx.font = "bold 10px sans-serif";
+    ctx.fillText(avg.toFixed(1) + "m", x + barWidth / 2, y - 5);
+  });
+}
+
+function renderMeteoChart(flights) {
+  const canvas = document.getElementById("chartMeteoImpact");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width = canvas.parentElement.clientWidth;
+  const h = canvas.height = 220;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const categories = {
+    "VERDE": { sum: 0, count: 0, col: "#15803D" },
+    "AMARILLA": { sum: 0, count: 0, col: "#D97706" },
+    "ROJA": { sum: 0, count: 0, col: "#DC2626" }
+  };
+
+  flights.forEach(f => {
+    const met = currentData.f2_met[f.origen] || { alerta: "VERDE" };
+    if (categories[met.alerta]) {
+      categories[met.alerta].sum += f.demora;
+      categories[met.alerta].count++;
+    }
+  });
+
+  const padLeft = 50;
+  const padBottom = 30;
+  const chartW = w - padLeft - 20;
+  const chartH = h - padBottom - 20;
+  const maxVal = 100;
+
+  // Ejes
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.beginPath();
+  ctx.moveTo(padLeft, 10);
+  ctx.lineTo(padLeft, h - padBottom);
+  ctx.lineTo(w - 10, h - padBottom);
+  ctx.stroke();
+
+  const keys = Object.keys(categories);
+  const barWidth = Math.min(65, chartW / keys.length - 20);
+
+  keys.forEach((key, idx) => {
+    const count = categories[key].count;
+    const avg = count > 0 ? categories[key].sum / count : 0;
+    const x = padLeft + 25 + idx * (chartW / keys.length);
+    const barH = (avg / maxVal) * chartH;
+    const y = h - padBottom - barH;
+
+    ctx.fillStyle = categories[key].col;
+    ctx.fillRect(x, y, barWidth, barH);
+
+    // Etiqueta X
+    ctx.fillStyle = "#1E293B";
+    ctx.font = "bold 11px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(key, x + barWidth / 2, h - padBottom + 16);
+
+    // Valor encima
+    ctx.fillStyle = "#002060";
+    ctx.font = "bold 10px sans-serif";
+    ctx.fillText(avg.toFixed(1) + "m (" + count + " v.)", x + barWidth / 2, y - 5);
+  });
+}
+
+function renderReconciliationChart() {
+  const canvas = document.getElementById("chartReconciliation");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width = canvas.parentElement.clientWidth;
+  const h = canvas.height = 220;
+
+  ctx.clearRect(0, 0, w, h);
+
+  const bars = [
+    { name: "Recaudo Bruto (Silos)", amount: 87.45, label: "$87.45M COP", col: "#EF4444", sub: "12 Facturas (2 Huérfanas)" },
+    { name: "Bandeja Cuarentena", amount: 13.50, label: "$13.50M COP", col: "#F59E0B", sub: "Vuelos Cancelados (DQ-05)" },
+    { name: "Recaudo Conciliado", amount: 73.95, label: "$73.95M COP", col: "#10B981", sub: "10 Vuelos Operados (100% OK)" }
+  ];
+
+  const padLeft = 60;
+  const padBottom = 38;
+  const chartW = w - padLeft - 20;
+  const chartH = h - padBottom - 25;
+
+  // Ejes
+  ctx.strokeStyle = "#E2E8F0";
+  ctx.beginPath();
+  ctx.moveTo(padLeft, 10);
+  ctx.lineTo(padLeft, h - padBottom);
+  ctx.lineTo(w - 10, h - padBottom);
+  ctx.stroke();
+
+  const barW = Math.min(75, chartW / bars.length - 35);
+
+  bars.forEach((b, idx) => {
+    const x = padLeft + 30 + idx * (chartW / bars.length);
+    const barH = (b.amount / 100) * chartH;
+    const y = h - padBottom - barH;
+
+    ctx.fillStyle = b.col;
+    ctx.fillRect(x, y, barW, barH);
+
+    ctx.fillStyle = "#1E293B";
+    ctx.font = "bold 10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(b.name, x + barW / 2, h - padBottom + 16);
+    ctx.font = "9px sans-serif";
+    ctx.fillStyle = "#64748B";
+    ctx.fillText(b.sub, x + barW / 2, h - padBottom + 28);
+
+    ctx.fillStyle = "#002060";
+    ctx.font = "bold 11px sans-serif";
+    ctx.fillText(b.label, x + barW / 2, y - 6);
+  });
+}
+
+function exportFilteredData() {
+  const airport = document.getElementById("filter-airport").value;
+  const meteo = document.getElementById("filter-meteo").value;
+  const validFlights = currentData.f1_ops.filter(f => !f.duplicate && !f.invalid_pax);
+  
+  const filtered = validFlights.filter(f => {
+    const matchAirport = (airport === "ALL" || f.origen === airport);
+    const metInfo = currentData.f2_met[f.origen] || { alerta: "VERDE" };
+    const matchMeteo = (meteo === "ALL" || metInfo.alerta === meteo);
+    return matchAirport && matchMeteo;
+  });
+
+  let csvContent = "data:text/csv;charset=utf-8,id_vuelo,fecha,hora,origen,destino,demora_min,alerta_meteo,recaudo_cop\n";
+  filtered.forEach(f => {
+    const met = currentData.f2_met[f.origen] || { alerta: "VERDE" };
+    const fin = currentData.f4_fin[f.id_vuelo] || { valor: 0 };
+    csvContent += `${f.id_vuelo},${f.fecha},${f.hora},${f.origen},${f.destino},${f.demora},${met.alerta},${fin.valor}\n`;
+  });
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `SIOA_360_Filtrado_${airport}_${meteo}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function copyGenericPrompt() {
+  const text = document.getElementById("generic-prompt-text").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("¡Prompt General Canónico copiado exitosamente al portapapeles! Puedes adaptarlo a cualquier event log de procesos o transportes.");
+  }).catch(err => {
+    alert("Error al copiar al portapapeles: " + err);
+  });
+}
+
+function copyMasterPrompt() {
+  const text = document.getElementById("master-prompt-text").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("¡Mega-Prompt Especializado para Aerocivil SIOA copiado exitosamente al portapapeles! Puedes pegarlo directamente en ChatGPT, Gemini o Claude.");
+  }).catch(err => {
+    alert("Error al copiar al portapapeles: " + err);
+  });
+}
+</script>
+
+</body>
+</html>
