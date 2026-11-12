@@ -1467,7 +1467,7 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
     <!-- Paso 3.1: Grafo Interactivo de Linaje y Análisis de Impacto -->
     <div class="card">
       <div class="card-header">
-        <h2>3.1. Explorador Interactivo de Linaje Extremo a Extremo y Análisis de Impacto (Entregable 3B)</h2>
+        <h2>3.1. Explorador Interactivo de Linaje Extremo a Extremo y Análisis de Impacto (Entregable 3A)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-secondary" onclick="setLineageMode('DIRECT')" id="btn-lineage-direct">🔍 Trazabilidad Directa (KPIs)</button>
           <button class="btn btn-secondary" onclick="setLineageMode('IMPACT')" id="btn-lineage-impact">⚡ Simular Falla en Origen (Análisis de Impacto)</button>
@@ -1510,7 +1510,7 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
     <!-- Paso 3.2: Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual -->
     <div class="card">
       <div class="card-header">
-        <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual (Entregable 3A)</h2>
+        <h2>3.2. Decisión Arquitectónica: Integración Física (ETL) vs. Acceso Virtual (Entregable 3B - Parte 1)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-primary" onclick="evaluateVirtualization()">🔍 Validar Decisiones</button>
           <button id="btn-ref-virt" class="btn btn-success disabled-btn" onclick="recommendVirtualization()" disabled>🔒 Ver Recomendación de Referencia (Tras 3 intentos)</button>
@@ -1588,7 +1588,7 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
     <!-- Paso 3.3: Simulador de Consumo por Roles (RBAC) y Auditor de Privacidad en Vivo -->
     <div class="card" style="border-left: 5px solid var(--navy);">
       <div class="card-header">
-        <h2>3.3. Consumo Gobernado: Control por Roles (RBAC) y Dynamic Data Masking (Entregable 3C)</h2>
+        <h2>3.3. Consumo Gobernado: Control por Roles (RBAC) y Dynamic Data Masking (Entregable 3B - Parte 2)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-primary" onclick="auditPrivacyCompliance()">🛡️ Auditar Privacidad y Fuga de PII (Ley 1581 / RAC 219)</button>
           <button class="btn btn-secondary" onclick="simulateDataLeak()" style="background:#FEF2F2; color:#991B1B; border-color:#EF4444;">⚠️ Simular Fuga (Sin Data Fabric)</button>
@@ -1648,7 +1648,7 @@ INSTRUCCIONES DE LA DINÁMICA SOCRÁTICA:
     <!-- Paso 3.5: Constructor Interactivo de Hoja de Ruta Gradual con Medidor de Madurez -->
     <div class="card">
       <div class="card-header">
-        <h2>3.5. Constructor Interactivo de Hoja de Ruta Gradual (Roadmap 30-90-180 Días)</h2>
+        <h2>3.5. Constructor Interactivo de Hoja de Ruta Gradual (Roadmap 30-90-180 Días) (Entregable 3C)</h2>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn btn-secondary" onclick="autofillRoadmap()">📋 Cargar Plantilla Recomendada</button>
           <button class="btn btn-primary" onclick="updateRoadmapMaturity()">📊 Calcular Índice de Madurez Data Fabric</button>
@@ -1846,6 +1846,38 @@ Restricciones: no inventes datos; todo número sale de los CSVs cargados o de la
       
       <div class="banner-info" style="margin-top:0.75rem;">
         👉 <strong>Acceso al Tablero BI Interactivo:</strong> Haz clic en el botón dorado superior o abre directamente el archivo <a href="tablero_bi_interactivo.html" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:underline;">tablero_bi_interactivo.html</a> para explorar los filtros interactivos, la bandeja de cuarentena y los cruces de reconciliación fiscal.
+      </div>
+    </div>
+
+    <!-- Paso 3.9: Cuestionario Final de Aprendizaje y Certificación -->
+    <div class="card" style="border-left: 5px solid #10B981; background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);">
+      <div class="card-header">
+        <h2 style="color:#065F46;">3.9. Cuestionario Final de Aprendizaje (Instrumento Formativo de Salida en Google Forms)</h2>
+        <a href="https://forms.gle/PrCZwmoTQQ28itZr5" target="_blank" class="btn btn-primary" style="background:#059669; border-color:#059669; text-decoration:none;">
+          📝 Abrir Cuestionario Final en Google Forms
+        </a>
+      </div>
+      <p style="margin-top:0; font-size:0.88rem; color:#1F2937;">
+        ¡Felicitaciones por culminar el programa! Como actividad final y formativa de cierre (no calificable), cada funcionario diligenciará de forma individual el cuestionario de salida oficial para contrastar el avance frente al sondeo inicial de la Sesión 1.
+      </p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:1.25rem; align-items:center; background:#FFFFFF; border:1px solid #D1FAE5; border-radius:8px; padding:1rem; margin-top:0.75rem;">
+        <div style="flex:0 0 auto; text-align:center;">
+          <img src="../sesion_3/img_epub/qr_cuestionario_final.png" alt="QR Google Forms" style="width:130px; height:130px; border-radius:6px; border:1px solid #A7F3D0; padding:4px; background:#fff;" />
+          <div style="font-size:0.75rem; color:#065F46; font-weight:700; margin-top:0.3rem;">Escanear en Móvil</div>
+        </div>
+        <div style="flex:1; min-width:260px;">
+          <h4 style="margin:0 0 0.4rem; color:#065F46; font-size:0.95rem;">Instrucciones para el Cierre Oficial:</h4>
+          <ul style="margin:0 0 0.75rem; padding-left:1.2rem; font-size:0.84rem; color:#374151; line-height:1.45;">
+            <li><strong>Enlace directo:</strong> <a href="https://forms.gle/PrCZwmoTQQ28itZr5" target="_blank" style="color:#059669; font-weight:700; text-decoration:underline;">https://forms.gle/PrCZwmoTQQ28itZr5</a></li>
+            <li><strong>Estructura:</strong> 8 preguntas de caso y conceptos (80 puntos) + 1 pregunta de reflexión cualitativa institucional.</li>
+            <li><strong>Retroalimentación:</strong> Al enviar el formulario, recibirás la retroalimentación técnica oficial para cada una de tus respuestas.</li>
+            <li><strong>Memoria del Taller:</strong> No olvides hacer clic en el botón inferior flotante <em>'Exportar Memoria del Taller'</em> para guardar en Markdown tu reporte con las evidencias del simulador.</li>
+          </ul>
+          <a href="https://forms.gle/PrCZwmoTQQ28itZr5" target="_blank" class="btn btn-primary" style="background:#059669; border-color:#059669; font-size:0.85rem; padding:0.45rem 1rem;">
+            🚀 Ir al Cuestionario de Salida Ahora
+          </a>
+        </div>
       </div>
     </div>
   </section>
